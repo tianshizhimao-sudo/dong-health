@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#1a1a2e">
+  <title>💪 Dong 健身计划</title>
+  <style>
+    :root {
+      --bg: #1a1a2e;
+      --card: #16213e;
+      --accent: #e94560;
+      --accent-light: #ff6b6b;
+      --text: #eaeaea;
+      --muted: #a0a0a0;
+      --success: #4ecca3;
+      --border: #0f3460;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 16px;
+      padding-bottom: 100px;
+    }
+    .container { max-width: 600px; margin: 0 auto; }
+    
+    header { text-align: center; padding: 20px 0 30px; }
+    .logo { width: 100px; height: auto; margin-bottom: 12px; }
+    h1 { font-size: 28px; margin-bottom: 8px; }
+    .subtitle { color: var(--muted); font-size: 14px; }
+    
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+    .tab {
+      padding: 12px 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .tab.active {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .tab:hover { border-color: var(--accent); }
+    
+    .day-content { display: none; }
+    .day-content.active { display: block; }
+    
+    .section {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+      border: 1px solid var(--border);
+    }
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--accent-light);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .exercise {
+      background: rgba(255,255,255,0.03);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .exercise:last-child { margin-bottom: 0; }
+    
+    .exercise-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+    .exercise-name {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .exercise-name-en {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .exercise-sets {
+      background: var(--accent);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    
+    .exercise-details {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .detail-tag {
+      padding: 4px 10px;
+      background: rgba(78, 204, 163, 0.15);
+      border-radius: 6px;
+      font-size: 11px;
+      color: var(--success);
+    }
+    
+    .exercise-tips {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+      padding: 10px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+    .exercise-tips strong {
+      color: var(--success);
+    }
+    
+    .video-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      background: #ff0000;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .video-link:hover { opacity: 0.9; transform: scale(1.02); }
+    
+    .warmup-list {
+      list-style: none;
+    }
+    .warmup-list li {
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      justify-content: space-between;
+    }
+    .warmup-list li:last-child { border-bottom: none; }
+    
+    .schedule {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .schedule th, .schedule td {
+      padding: 12px 8px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .schedule th {
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .schedule .highlight {
+      color: var(--accent-light);
+      font-weight: 600;
+    }
+    
+    .progress-note {
+      background: linear-gradient(135deg, rgba(233,69,96,0.1), rgba(78,204,163,0.1));
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 16px;
+    }
+    .progress-note h4 {
+      color: var(--accent-light);
+      margin-bottom: 8px;
+    }
+    .progress-note p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .emoji { font-size: 20px; }
+    
+    @media (max-width: 400px) {
+      .exercise-header { flex-direction: column; gap: 8px; }
+      .exercise-sets { align-self: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <!-- Oney & Co Logo -->
+      <svg class="logo" viewBox="0 0 190 90" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#D4A853"/>
+            <stop offset="100%" style="stop-color:#B8860B"/>
+          </linearGradient>
+        </defs>
+        <g transform="translate(38, 45)">
+          <path d="M 0 -32 A 32 32 0 1 0 0 -31.99" fill="none" stroke="url(#goldGrad)" stroke-width="7" stroke-linecap="round" stroke-dasharray="191 10"/>
+          <path d="M0 -38 L0 -44" stroke="url(#goldGrad)" stroke-width="5" stroke-linecap="round"/>
+        </g>
+        <text x="32" y="50" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="600" fill="#eaeaea">ney</text>
+        <text x="77" y="50" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="url(#goldGrad)">&amp;</text>
+        <text x="94" y="50" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="600" fill="#eaeaea">co</text>
+      </svg>
+      <h1>💪 健身计划</h1>
+      <p class="subtitle">2026年2月-3月 · 器械版 · 点击查看动作演示</p>
+    </header>
+
+    <div class="tabs">
+      <button class="tab active" onclick="showDay('schedule')">📅 周计划</button>
+      <button class="tab" onclick="showDay('upper')">🏋️ 上肢日</button>
+      <button class="tab" onclick="showDay('lower')">🦵 下肢日</button>
+      <button class="tab" onclick="showDay('core')">🔥 核心日</button>
+    </div>
+
+    <!-- 周计划 -->
+    <div id="schedule" class="day-content active">
+      <div class="section">
+        <div class="section-title"><span class="emoji">📅</span> 每周安排</div>
+        <table class="schedule">
+          <tr><th>日</th><th>5:30-7:00 AM</th><th>下午/晚上</th></tr>
+          <tr><td>周一</td><td class="highlight">核心+有氧</td><td>短跑 (可选)</td></tr>
+          <tr><td>周二</td><td class="highlight">PT Levi / 下肢日</td><td>—</td></tr>
+          <tr><td>周三</td><td>短跑 3-5km</td><td>—</td></tr>
+          <tr><td>周四</td><td>—</td><td class="highlight">PT Andy 5pm</td></tr>
+          <tr><td>周五</td><td class="highlight">下肢日 / 休息</td><td>—</td></tr>
+          <tr><td>周六</td><td class="highlight">上肢日</td><td>LSD / 足球</td></tr>
+          <tr><td>周日</td><td>休息</td><td>—</td></tr>
+        </table>
+        
+        <div class="progress-note">
+          <h4>📊 渐进增重</h4>
+          <p>
+            第1-2周：找合适重量 (RPE 7，还能做3次)<br>
+            第3-4周：复合动作 +2.5kg<br>
+            第5-6周：再 +2.5kg<br>
+            第7-8周：减量周 (减20%)
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 上肢日 -->
+    <div id="upper" class="day-content">
+      <div class="section">
+        <div class="section-title"><span class="emoji">🔥</span> 热身 (10分钟)</div>
+        <ul class="warmup-list">
+          <li><span>跑步机/划船机 轻度</span><span>5min</span></li>
+          <li><span>肩部绕环 + 弹力带拉伸</span><span>3min</span></li>
+          <li><span>空杆卧推热身</span><span>2min</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><span class="emoji">💪</span> A. 胸部 (20分钟)</div>
+        
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">杠铃卧推</div>
+              <div class="exercise-name-en">Barbell Bench Press</div>
+            </div>
+            <span class="exercise-sets">4组 × 8-10次</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 90秒</span>
+            <span class="detail-tag">Eleiko Barbell</span>
+            <span class="detail-tag">⭐ 主力动作</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>肩胛骨收紧下沉，双脚踩实地面，杠铃下放到胸口，手肘约45度角，推起时呼气。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=rT7DgCr-3pg" target="_blank">▶️ 看动作示范</a>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">上斜哑铃卧推</div>
+              <div class="exercise-name-en">Incline Dumbbell Press</div>
+            </div>
+            <span class="exercise-sets">3组 × 10-12次</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 75秒</span>
+            <span class="detail-tag">30度角</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>凳子调到30度，哑铃与肩同宽，下放时手肘不要低于肩膀太多，感受上胸发力。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=8iPEnn-ltC8" target="_blank">▶️ 看动作示范</a>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">夹胸机</div>
+              <div class="exercise-name-en">Pec Fly Machine</div>
+            </div>
+            <span class="exercise-sets">3组 × 12-15次</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 60秒</span>
+            <span class="detail-tag">TechnoGym</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>座椅高度让手柄与胸口平齐，夹紧时在顶峰停顿1秒，慢慢打开，全程保持胸部张力。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=Z57CtFmRMxA" target="_blank">▶️ 看动作示范</a>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">绳索夹胸 (下斜)</div>
+              <div class="exercise-name-en">Cable Crossover (Low to High)</div>
+            </div>
+            <span class="exercise-sets">3组 × 12-15次</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 60秒</span>
+            <span class="detail-tag">练下胸线条</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>滑轮调到最高位，身体微微前倾，从上往下夹，在胸前交叉，感受下胸收缩。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=taI4XduLpTk" target="_blank">▶️ 看动作示范</a>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><span class="emoji">🔙</span> B. 背部 (20分钟)</div>
+        
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">引体向上</div>
+              <div class="exercise-name-en">Pull-up</div>
+            </div>
+            <span class="exercise-sets">4组 × 6-10次</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 90秒</span>
+            <span class="detail-tag">做不了用辅助机</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>双手略宽于肩，肩胛骨下沉后引体，下巴过杆，慢慢下放。做不了标准的可以用辅助引体机。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=eGo4IYlbE5g" target="_blank">▶️ 看动作示范</a>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">杠铃划船</div>
+              <div class="exercise-name-en">Barbell Row</div>
+            </div>
+            <span class="exercise-sets">4组 × 8-10次</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 90秒</span>
+            <span class="detail-tag">Eleiko Barbell</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>膝盖微屈，背部挺直约45度前倾，拉杠铃到下腹，手肘贴近身体，挤压背部。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=FWJR5Ve8bnQ" target="_blank">▶️ 看动作示范</a>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">坐姿划船</div>
+              <div class="exercise-name-en">Seated Cable Row</div>
+            </div>
+            <span class="exercise-sets">3组 × 10-12次</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 75秒</span>
+            <span class="detail-tag">TechnoGym</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>坐直，拉手柄到腹部，肩胛骨后收挤压，慢慢伸直手臂，不要用身体晃动借力。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=GZbfZ033f74" target="_blank">▶️ 看动作示范</a>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">高位下拉</div>
+              <div class="exercise-name-en">Lat Pulldown</div>
+            </div>
+            <span class="exercise-sets">3组 × 10-12次</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 60秒</span>
+            <span class="detail-tag">宽握</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>宽握杆，挺胸，下拉到锁骨位置，感受背阔肌收缩，慢慢还原。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=CAwf7n6Luuc" target="_blank">▶️ 看动作示范</a>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">直臂下压</div>
+              <div class="exercise-name-en">Straight Arm Pulldown</div>
+            </div>
+            <span class="exercise-sets">3组 × 12-15次</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 60秒</span>
+            <span class="detail-tag">练背阔肌</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>面对高位滑轮，手臂伸直微屈，下压到大腿前侧，全程保持手臂微屈不变。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=lueEJGjTuPQ" target="_blank">▶️ 看动作示范</a>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><span class="emoji">🎯</span> C. 肩部 (15分钟)</div>
+        
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">坐姿肩推</div>
+              <div class="exercise-name-en">Seated Shoulder Press</div>
+            </div>
+            <span class="exercise-sets">4组 × 10-12次</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 75秒</span>
+            <span class="detail-tag">哑铃或器械</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>背靠凳子，核心收紧，哑铃从耳朵两侧推起到头顶，不要完全锁死手肘。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=qEwKCR5JCog" target="_blank">▶️ 看动作示范</a>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">哑铃侧平举</div>
+              <div class="exercise-name-en">Dumbbell Lateral Raise</div>
+            </div>
+            <span class="exercise-sets">3组 × 12-15次</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 60秒</span>
+            <span class="detail-tag">轻重量控制</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>用轻重量！手肘微屈，侧平举到与肩平齐，小拇指略高于大拇指，慢慢下放。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=3VcKaXpzqRo" target="_blank">▶️ 看动作示范</a>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">绳索面拉</div>
+              <div class="exercise-name-en">Face Pull</div>
+            </div>
+            <span class="exercise-sets">3组 × 15次</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 60秒</span>
+            <span class="detail-tag">练后肩+上背</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>滑轮调到面部高度，用绳索拉向脸部两侧，手肘高于手腕，挤压后肩和上背。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=rep-qVOkqgk" target="_blank">▶️ 看动作示范</a>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">哑铃耸肩</div>
+              <div class="exercise-name-en">Dumbbell Shrug</div>
+            </div>
+            <span class="exercise-sets">3组 × 12-15次</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 60秒</span>
+            <span class="detail-tag">斜方肌</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>双手持哑铃垂于身侧，耸肩向上（像要碰耳朵），顶峰停顿1秒，慢慢下放。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=cJRVVxmytaM" target="_blank">▶️ 看动作示范</a>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><span class="emoji">💪</span> D. 手臂 (15分钟)</div>
+        
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">杠铃弯举</div>
+              <div class="exercise-name-en">Barbell Curl</div>
+            </div>
+            <span class="exercise-sets">3组 × 10-12次</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 60秒</span>
+            <span class="detail-tag">EZ Bar</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>手肘贴近身体不动，只用二头肌发力弯举，不要晃动身体借力。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=kwG2ipFRgfo" target="_blank">▶️ 看动作示范</a>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">绳索三头下压</div>
+              <div class="exercise-name-en">Tricep Pushdown</div>
+            </div>
+            <span class="exercise-sets">3组 × 12-15次</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 60秒</span>
+            <span class="detail-tag">绳索</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>手肘贴近身体，只移动前臂下压，在底部向外翻转绳索挤压三头肌。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=2-LAMcpzODU" target="_blank">▶️ 看动作示范</a>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">哑铃锤式弯举</div>
+              <div class="exercise-name-en">Hammer Curl</div>
+            </div>
+            <span class="exercise-sets">3组 × 10-12次</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 60秒</span>
+            <span class="detail-tag">肱肌</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>哑铃竖直握（像拿锤子），交替或同时弯举，练二头肌和肱肌。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=zC3nLlEvin4" target="_blank">▶️ 看动作示范</a>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">绳索过头臂屈伸</div>
+              <div class="exercise-name-en">Overhead Tricep Extension</div>
+            </div>
+            <span class="exercise-sets">3组 × 12-15次</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 60秒</span>
+            <span class="detail-tag">三头长头</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>背对低位滑轮，双手握绳索举过头顶，手肘固定，只伸展前臂。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=kiuVA0gs3EI" target="_blank">▶️ 看动作示范</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 下肢日 -->
+    <div id="lower" class="day-content">
+      <div class="section">
+        <div class="section-title"><span class="emoji">🔥</span> 热身 (10分钟)</div>
+        <ul class="warmup-list">
+          <li><span>单车/椭圆机</span><span>5min</span></li>
+          <li><span>臀部激活 (弹力带走路)</span><span>3min</span></li>
+          <li><span>空杆深蹲热身</span><span>2min</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><span class="emoji">🦵</span> A. 复合动作 (30分钟)</div>
+        
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">杠铃深蹲</div>
+              <div class="exercise-name-en">Barbell Back Squat</div>
+            </div>
+            <span class="exercise-sets">5组 × 6-8次</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 2min</span>
+            <span class="detail-tag">Eleiko Barbell</span>
+            <span class="detail-tag">⭐ 主力动作</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>杠铃放在上背斜方肌上，双脚与肩同宽或略宽，脚尖微外八，蹲到大腿平行地面，膝盖跟脚尖方向一致，核心收紧，站起时臀部夹紧。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=bEv6CCg2BC8" target="_blank">▶️ 看动作示范</a>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">罗马尼亚硬拉</div>
+              <div class="exercise-name-en">Romanian Deadlift (RDL)</div>
+            </div>
+            <span class="exercise-sets">4组 × 8-10次</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 90秒</span>
+            <span class="detail-tag">练腘绳肌+臀</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>膝盖微屈保持不动，臀部后推，背部挺直，杠铃沿大腿下滑到膝盖下方，感受腘绳肌拉伸，然后臀部夹紧站起。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=7AaaYhMqTws" target="_blank">▶️ 看动作示范</a>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">保加利亚分腿蹲</div>
+              <div class="exercise-name-en">Bulgarian Split Squat</div>
+            </div>
+            <span class="exercise-sets">3组 × 10次/腿</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 75秒</span>
+            <span class="detail-tag">单腿稳定</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>后脚放在凳子上，前脚向前一大步，下蹲时前膝盖不要超过脚尖太多，躯干保持直立。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=2C-uNgKwPLE" target="_blank">▶️ 看动作示范</a>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">杠铃臀推</div>
+              <div class="exercise-name-en">Barbell Hip Thrust</div>
+            </div>
+            <span class="exercise-sets">4组 × 10-12次</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 90秒</span>
+            <span class="detail-tag">臀部主力</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>上背靠在凳子上，杠铃放在髋部（用垫子），双脚踩实，臀部发力向上顶，顶峰时身体呈一条直线，挤压臀部。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=SEdqd1n0cvg" target="_blank">▶️ 看动作示范</a>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><span class="emoji">🎯</span> B. 器械孤立 (25分钟)</div>
+        
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">腿举</div>
+              <div class="exercise-name-en">Leg Press</div>
+            </div>
+            <span class="exercise-sets">4组 × 10-12次</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 75秒</span>
+            <span class="detail-tag">TechnoGym</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>脚放高位练臀和腘绳肌，脚放低位练股四头肌。下放时膝盖不要内扣，不要让臀部离开座椅。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=IZxyjW7MPJQ" target="_blank">▶️ 看动作示范</a>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">腿屈伸</div>
+              <div class="exercise-name-en">Leg Extension</div>
+            </div>
+            <span class="exercise-sets">3组 × 12-15次</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 60秒</span>
+            <span class="detail-tag">股四头孤立</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>调整垫子位置在脚踝上方，伸直腿时在顶峰挤压股四头肌，慢慢下放。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=YyvSfVjQeL0" target="_blank">▶️ 看动作示范</a>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">腿弯举</div>
+              <div class="exercise-name-en">Leg Curl</div>
+            </div>
+            <span class="exercise-sets">3组 × 12-15次</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 60秒</span>
+            <span class="detail-tag">腘绳肌孤立</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>趴着或坐着，弯曲膝盖带动垫子，挤压腘绳肌，慢慢还原。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=1Tq3QdYUuHs" target="_blank">▶️ 看动作示范</a>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">臀部外展机</div>
+              <div class="exercise-name-en">Hip Abductor</div>
+            </div>
+            <span class="exercise-sets">3组 × 15次</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 60秒</span>
+            <span class="detail-tag">臀中肌</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>坐直，双腿向外打开对抗阻力，在最外侧停顿挤压，慢慢合拢。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=FwLRgMXAtIE" target="_blank">▶️ 看动作示范</a>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">臀部内收机</div>
+              <div class="exercise-name-en">Hip Adductor</div>
+            </div>
+            <span class="exercise-sets">3组 × 15次</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 60秒</span>
+            <span class="detail-tag">内收肌</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>双腿从外向内合拢对抗阻力，挤压大腿内侧，慢慢打开。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=1aLv3BGPV4I" target="_blank">▶️ 看动作示范</a>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><span class="emoji">🦶</span> C. 小腿 (10分钟)</div>
+        
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">站姿提踵</div>
+              <div class="exercise-name-en">Standing Calf Raise</div>
+            </div>
+            <span class="exercise-sets">4组 × 15-20次</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 60秒</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>前脚掌踩在台阶上，脚跟悬空，尽量踮高，在顶峰停顿，再慢慢下放让脚跟低于台阶拉伸小腿。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=-M4-G8p8fmc" target="_blank">▶️ 看动作示范</a>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">坐姿提踵</div>
+              <div class="exercise-name-en">Seated Calf Raise</div>
+            </div>
+            <span class="exercise-sets">3组 × 15-20次</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 60秒</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>膝盖放在垫子下，脚掌踩在踏板上，踮起脚跟，挤压小腿，慢慢下放。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=JbyjNymZOt0" target="_blank">▶️ 看动作示范</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 核心日 -->
+    <div id="core" class="day-content">
+      <div class="section">
+        <div class="section-title"><span class="emoji">🔥</span> 热身 (5分钟)</div>
+        <ul class="warmup-list">
+          <li><span>跑步机慢跑</span><span>5min</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><span class="emoji">🎯</span> A. Cable 核心动作 (15分钟)</div>
+        
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">Cable Woodchop (高到低)</div>
+              <div class="exercise-name-en">High to Low Woodchop</div>
+            </div>
+            <span class="exercise-sets">3组 × 12次/侧</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 60秒</span>
+            <span class="detail-tag">旋转力量</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>滑轮调到最高，侧身站立，双手握把手从高处斜向下拉到对侧髋部，核心发力旋转，控制回位。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=pAplQXk3dkU" target="_blank">▶️ 看动作示范</a>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">Cable Woodchop (低到高)</div>
+              <div class="exercise-name-en">Low to High Woodchop</div>
+            </div>
+            <span class="exercise-sets">3组 × 12次/侧</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 60秒</span>
+            <span class="detail-tag">反向旋转</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>滑轮调到最低，从低处斜向上拉到对侧肩膀上方，核心和斜方肌发力。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=pAplQXk3dkU" target="_blank">▶️ 看动作示范</a>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">Cable Pallof Press</div>
+              <div class="exercise-name-en">Pallof Press</div>
+            </div>
+            <span class="exercise-sets">3组 × 12次/侧</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 60秒</span>
+            <span class="detail-tag">抗旋转稳定</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>侧身站立，双手握把手在胸前，向前推出手臂伸直，抵抗绳索的旋转力，保持身体稳定不转动。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=AH_QZLm_0-s" target="_blank">▶️ 看动作示范</a>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">Cable Crunch</div>
+              <div class="exercise-name-en">Kneeling Cable Crunch</div>
+            </div>
+            <span class="exercise-sets">3组 × 15次</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 60秒</span>
+            <span class="detail-tag">腹直肌</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>跪在高位滑轮下，双手握绳索放在头部两侧，卷腹向下收缩，手肘碰膝盖，挤压腹肌。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=AV5PmrIVuNY" target="_blank">▶️ 看动作示范</a>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><span class="emoji">💪</span> B. 器械+自重核心 (20分钟)</div>
+        
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">悬垂举腿</div>
+              <div class="exercise-name-en">Hanging Leg Raise</div>
+            </div>
+            <span class="exercise-sets">4组 × 10-15次</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 75秒</span>
+            <span class="detail-tag">下腹</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>悬挂在单杠上，双腿伸直向上抬起到与地面平行（进阶：抬到杠），控制下放不要晃动。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=hdng3Nm1x_E" target="_blank">▶️ 看动作示范</a>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">健腹轮</div>
+              <div class="exercise-name-en">Ab Roller</div>
+            </div>
+            <span class="exercise-sets">3组 × 10-12次</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 60秒</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>跪姿开始，双手握轮向前滚动，身体尽量伸展但腰部不要塌陷，用腹肌发力拉回。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=rqiTPVz6gis" target="_blank">▶️ 看动作示范</a>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">平板支撑</div>
+              <div class="exercise-name-en">Plank</div>
+            </div>
+            <span class="exercise-sets">3组 × 60秒</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 45秒</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>手肘撑地，身体呈一条直线，臀部不要翘起或下塌，核心持续收紧。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=ASdvN_XEl_c" target="_blank">▶️ 看动作示范</a>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">侧平板支撑</div>
+              <div class="exercise-name-en">Side Plank</div>
+            </div>
+            <span class="exercise-sets">3组 × 45秒/侧</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 45秒</span>
+            <span class="detail-tag">侧腹</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>侧身单手肘撑地，身体呈一条直线，髋部不要下沉，可以另一手叉腰或举起。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=K2VljzCC16g" target="_blank">▶️ 看动作示范</a>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">Dead Bug</div>
+              <div class="exercise-name-en">死虫式</div>
+            </div>
+            <span class="exercise-sets">3组 × 12次/侧</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 45秒</span>
+            <span class="detail-tag">核心稳定</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>仰卧，双手举起，双腿抬起膝盖弯曲90度，对侧手脚同时伸直放下（不碰地），保持下背贴地。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=I5xbsA71v1A" target="_blank">▶️ 看动作示范</a>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">俄罗斯转体</div>
+              <div class="exercise-name-en">Russian Twist</div>
+            </div>
+            <span class="exercise-sets">3组 × 20次</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">休息 45秒</span>
+            <span class="detail-tag">药球</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>要点：</strong>坐姿，身体后倾45度，双脚离地（进阶），手持药球左右转动触碰地面。
+          </div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=wkD8rjkodUI" target="_blank">▶️ 看动作示范</a>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><span class="emoji">🔥</span> C. 有氧 HIIT (35分钟)</div>
+        
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">器械循环</div>
+              <div class="exercise-name-en">Cardio Circuit × 3轮</div>
+            </div>
+            <span class="exercise-sets">每轮 10min</span>
+          </div>
+          <div class="exercise-details">
+            <span class="detail-tag">轮间休息 2min</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>每轮：</strong><br>
+            • 划船机 3min (中高强度)<br>
+            • Assault Bike 2min (高强度)<br>
+            • 跑步机冲刺 1min (全力)<br>
+            • 跑步机走路 1min (恢复)<br>
+            • 椭圆机 3min (中强度)
+          </div>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-header">
+            <div>
+              <div class="exercise-name">备选：跑步机 HIIT</div>
+              <div class="exercise-name-en">Treadmill HIIT</div>
+            </div>
+            <span class="exercise-sets">25min</span>
+          </div>
+          <div class="exercise-tips">
+            <strong>方案：</strong><br>
+            • 热身 3min @ 6km/h<br>
+            • 冲刺 1min @ 12-14km/h<br>
+            • 恢复 1min @ 6km/h<br>
+            • 重复 8 轮<br>
+            • 冷却 3min @ 5km/h
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showDay(day) {
+      // Hide all content
+      document.querySelectorAll('.day-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+      
+      // Show selected
+      document.getElementById(day).classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+  </script>
+</body>
+</html>

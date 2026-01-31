@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#1a1a2e">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📅</text></svg>">
+  <title>📅 今日训练</title>
+  <style>
+    :root {
+      --bg: #1a1a2e;
+      --card: #16213e;
+      --accent: #e94560;
+      --accent-light: #ff6b6b;
+      --text: #eaeaea;
+      --muted: #a0a0a0;
+      --success: #4ecca3;
+      --warning: #ffd93d;
+      --border: #0f3460;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 16px;
+      padding-bottom: 100px;
+    }
+    .container { max-width: 500px; margin: 0 auto; }
+    
+    header {
+      text-align: center;
+      padding: 20px 0 30px;
+    }
+    .date-display {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+    .day-type {
+      display: inline-block;
+      padding: 8px 20px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      border-radius: 30px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .day-type.rest {
+      background: linear-gradient(135deg, var(--success), #2ecc71);
+    }
+    .day-type.cardio {
+      background: linear-gradient(135deg, var(--warning), #f39c12);
+      color: #1a1a2e;
+    }
+    
+    .section {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+      border: 1px solid var(--border);
+    }
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--accent-light);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .schedule-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+    .schedule-day {
+      text-align: center;
+      padding: 10px 4px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 10px;
+      font-size: 11px;
+      border: 2px solid transparent;
+      transition: all 0.2s;
+    }
+    .schedule-day.today {
+      border-color: var(--accent);
+      background: rgba(233, 69, 96, 0.15);
+    }
+    .schedule-day .day-name {
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .schedule-day .day-icon {
+      font-size: 18px;
+    }
+    
+    .workout-summary {
+      background: rgba(255,255,255,0.03);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .summary-row:last-child {
+      border-bottom: none;
+    }
+    .summary-label {
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .summary-value {
+      font-weight: 600;
+      font-size: 14px;
+    }
+    
+    .video-card {
+      background: rgba(255,255,255,0.03);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+      border: 1px solid rgba(255,255,255,0.05);
+      transition: all 0.2s;
+    }
+    .video-card:hover {
+      border-color: var(--accent);
+    }
+    .video-card a {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .video-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .video-icon {
+      width: 48px;
+      height: 48px;
+      background: #FF0000;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+    .video-info {
+      flex: 1;
+    }
+    .video-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .video-channel {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .video-duration {
+      font-size: 12px;
+      color: var(--success);
+      margin-top: 8px;
+    }
+    
+    .tip-box {
+      background: linear-gradient(135deg, rgba(78,204,163,0.1), rgba(46,204,113,0.1));
+      border: 1px solid rgba(78,204,163,0.3);
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 16px;
+    }
+    .tip-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--success);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tip-text {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .btn {
+      flex: 1;
+      padding: 16px;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+    .btn-primary:hover {
+      background: var(--accent-light);
+    }
+    .btn-secondary {
+      background: var(--border);
+      color: var(--text);
+    }
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    
+    .nav-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+    .nav-back:hover {
+      color: var(--text);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="nav-back">← 返回健身中心</a>
+    
+    <header>
+      <p class="date-display" id="dateDisplay"></p>
+      <h1>📅 今日训练</h1>
+      <span class="day-type" id="dayType"></span>
+    </header>
+
+    <!-- 周计划概览 -->
+    <div class="section">
+      <div class="section-title">📆 本周计划</div>
+      <div class="schedule-grid" id="scheduleGrid">
+        <!-- JS 生成 -->
+      </div>
+    </div>
+
+    <!-- 今日训练详情 -->
+    <div class="section" id="workoutSection">
+      <div class="section-title" id="workoutTitle">💪 训练内容</div>
+      <div class="workout-summary" id="workoutSummary">
+        <!-- JS 生成 -->
+      </div>
+    </div>
+
+    <!-- 视频推荐 -->
+    <div class="section" id="videoSection">
+      <div class="section-title">📺 推荐视频</div>
+      <div id="videoList">
+        <!-- JS 生成 -->
+      </div>
+    </div>
+
+    <!-- 小贴士 -->
+    <div class="tip-box" id="tipBox">
+      <div class="tip-title">💡 训练提示</div>
+      <p class="tip-text" id="tipText"></p>
+    </div>
+
+    <!-- 操作按钮 -->
+    <div class="action-buttons">
+      <a href="fitness-tracker.html" class="btn btn-primary">✅ 开始打卡</a>
+      <a href="fitness-plan-illustrated.html" class="btn btn-secondary">📖 动作详解</a>
+    </div>
+  </div>
+
+  <script>
+    // 训练计划数据
+    const weekPlan = {
+      1: { // 周一
+        type: '核心+有氧',
+        icon: '🔥',
+        class: '',
+        duration: '90分钟',
+        focus: ['核心力量', 'Cable训练', 'HIIT有氧'],
+        exercises: ['Woodchop', 'Pallof Press', '悬垂举腿', '划船机HIIT'],
+        videos: [
+          { title: '10 Min Core Workout', channel: 'Chris Heria', duration: '10分钟', url: 'https://www.youtube.com/watch?v=tVdgwbKeclA' },
+          { title: 'Cable Core Exercises', channel: 'ATHLEAN-X', duration: '8分钟', url: 'https://www.youtube.com/watch?v=6u0RxFH9p78' },
+          { title: '20 Min HIIT Workout', channel: 'THENX', duration: '20分钟', url: 'https://www.youtube.com/watch?v=ml6cT4AZdqI' }
+        ],
+        tip: '核心训练前确保热身充分，注意呼吸节奏。HIIT部分根据体能调整强度，保持心率在目标区间。'
+      },
+      2: { // 周二
+        type: '下肢日 / PT',
+        icon: '🦵',
+        class: '',
+        duration: '90分钟',
+        focus: ['股四头肌', '臀部', '腘绳肌'],
+        exercises: ['杠铃深蹲', '罗马尼亚硬拉', '保加利亚分腿蹲', '腿举'],
+        videos: [
+          { title: 'Perfect Squat Form', channel: 'Jeff Nippard', duration: '12分钟', url: 'https://www.youtube.com/watch?v=bEv6CCg2BC8' },
+          { title: 'Complete Leg Workout', channel: 'Chris Heria', duration: '30分钟', url: 'https://www.youtube.com/watch?v=ixkQaZXVQjs' },
+          { title: 'Romanian Deadlift Guide', channel: 'ATHLEAN-X', duration: '8分钟', url: 'https://www.youtube.com/watch?v=JCXUYuzwNrM' }
+        ],
+        tip: '深蹲注意膝盖不要内扣，保持核心收紧。如果有PT课，听从教练指导调整重量。'
+      },
+      3: { // 周三
+        type: '短跑',
+        icon: '🏃',
+        class: 'cardio',
+        duration: '30-45分钟',
+        focus: ['有氧耐力', '心肺功能'],
+        exercises: ['3-5公里跑步'],
+        videos: [
+          { title: 'Running Form Tips', channel: 'The Run Experience', duration: '10分钟', url: 'https://www.youtube.com/watch?v=brFHyOtTwH4' },
+          { title: 'How to Run Properly', channel: 'Global Triathlon Network', duration: '8分钟', url: 'https://www.youtube.com/watch?v=wRkeBVMQSgg' }
+        ],
+        tip: '跑前动态热身，跑后静态拉伸。配速根据身体状态调整，不必每次都追求速度。'
+      },
+      4: { // 周四
+        type: 'PT Andy',
+        icon: '🎯',
+        class: '',
+        duration: '60分钟',
+        focus: ['私教课程', 'Bligh St'],
+        exercises: ['根据PT安排'],
+        videos: [
+          { title: 'Pre-Workout Mobility', channel: 'Tom Merrick', duration: '10分钟', url: 'https://www.youtube.com/watch?v=SsT_go-oCcQ' }
+        ],
+        tip: '下午5点 PT Andy @ Bligh St。提前准备好训练服和水，课前可以做些轻度热身。'
+      },
+      5: { // 周五
+        type: '下肢日 / 休息',
+        icon: '🦵',
+        class: '',
+        duration: '90分钟',
+        focus: ['股四头肌', '臀部', '小腿'],
+        exercises: ['腿举', '腿屈伸', '腿弯举', '提踵'],
+        videos: [
+          { title: 'Leg Press Mistakes', channel: 'ATHLEAN-X', duration: '8分钟', url: 'https://www.youtube.com/watch?v=IZxyjW7MPJQ' },
+          { title: 'Calf Training Science', channel: 'Jeff Nippard', duration: '15分钟', url: 'https://www.youtube.com/watch?v=BvLiRfb6WLA' }
+        ],
+        tip: '如果本周有PT课，今天可以休息或做轻度有氧。没有PT的周，今天练下肢。'
+      },
+      6: { // 周六
+        type: '上肢日',
+        icon: '💪',
+        class: '',
+        duration: '90分钟',
+        focus: ['胸', '背', '肩', '手臂'],
+        exercises: ['杠铃卧推', '引体向上', '杠铃划船', '肩推', '弯举'],
+        videos: [
+          { title: 'Push Day Workout', channel: 'Chris Heria', duration: '30分钟', url: 'https://www.youtube.com/watch?v=BkS1-El_WlE' },
+          { title: 'Pull Day Workout', channel: 'Chris Heria', duration: '30分钟', url: 'https://www.youtube.com/watch?v=vwMPfccvQXc' },
+          { title: 'Perfect Push Up Form', channel: 'ATHLEAN-X', duration: '10分钟', url: 'https://www.youtube.com/watch?v=IODxDxX7oi4' }
+        ],
+        tip: '上肢日动作多，注意控制组间休息时间。卧推和划船是重点，确保动作标准再加重量。'
+      },
+      0: { // 周日
+        type: '休息日',
+        icon: '😴',
+        class: 'rest',
+        duration: '15-20分钟',
+        focus: ['恢复', '拉伸', '放松'],
+        exercises: ['泡沫轴放松', '全身拉伸', '轻度瑜伽'],
+        videos: [
+          { title: '15 Min Full Body Stretch', channel: 'Tom Merrick', duration: '15分钟', url: 'https://www.youtube.com/watch?v=g_tea8ZNk5A' },
+          { title: 'Yoga for Athletes', channel: 'Yoga With Adriene', duration: '20分钟', url: 'https://www.youtube.com/watch?v=COp7BR_Dvps' },
+          { title: 'Foam Rolling Routine', channel: 'ATHLEAN-X', duration: '12分钟', url: 'https://www.youtube.com/watch?v=SxQtcbqHSMA' }
+        ],
+        tip: '休息日同样重要！充分的恢复才能让下周训练更有效。可以做些轻度活动促进血液循环。'
+      }
+    };
+
+    const dayNames = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+    const dayIcons = ['😴', '🔥', '🦵', '🏃', '🎯', '🦵', '💪'];
+
+    // 初始化
+    function init() {
+      const now = new Date();
+      const today = now.getDay();
+      const plan = weekPlan[today];
+
+      // 显示日期
+      const dateStr = now.toLocaleDateString('zh-CN', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric',
+        weekday: 'long'
+      });
+      document.getElementById('dateDisplay').textContent = dateStr;
+
+      // 显示训练类型
+      const dayTypeEl = document.getElementById('dayType');
+      dayTypeEl.textContent = `${plan.icon} ${plan.type}`;
+      if (plan.class) dayTypeEl.classList.add(plan.class);
+
+      // 生成周计划
+      const scheduleGrid = document.getElementById('scheduleGrid');
+      scheduleGrid.innerHTML = '';
+      for (let i = 1; i <= 7; i++) {
+        const dayIndex = i % 7; // 周一到周日
+        const isToday = dayIndex === today;
+        scheduleGrid.innerHTML += `
+          <div class="schedule-day ${isToday ? 'today' : ''}">
+            <div class="day-name">${dayNames[dayIndex]}</div>
+            <div class="day-icon">${dayIcons[dayIndex]}</div>
+          </div>
+        `;
+      }
+
+      // 生成训练摘要
+      document.getElementById('workoutTitle').innerHTML = `${plan.icon} ${plan.type}`;
+      const summaryHtml = `
+        <div class="summary-row">
+          <span class="summary-label">时长</span>
+          <span class="summary-value">${plan.duration}</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">重点</span>
+          <span class="summary-value">${plan.focus.join(' · ')}</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">动作</span>
+          <span class="summary-value">${plan.exercises.join(' · ')}</span>
+        </div>
+      `;
+      document.getElementById('workoutSummary').innerHTML = summaryHtml;
+
+      // 生成视频列表
+      const videoList = document.getElementById('videoList');
+      videoList.innerHTML = '';
+      plan.videos.forEach(video => {
+        videoList.innerHTML += `
+          <div class="video-card">
+            <a href="${video.url}" target="_blank">
+              <div class="video-header">
+                <div class="video-icon">▶️</div>
+                <div class="video-info">
+                  <div class="video-title">${video.title}</div>
+                  <div class="video-channel">${video.channel}</div>
+                </div>
+              </div>
+              <div class="video-duration">⏱️ ${video.duration}</div>
+            </a>
+          </div>
+        `;
+      });
+
+      // 显示提示
+      document.getElementById('tipText').textContent = plan.tip;
+    }
+
+    init();
+  </script>
+</body>
+</html>

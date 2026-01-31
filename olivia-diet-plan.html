@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Olivia 的康复食谱 💕</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap');
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .page {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    h1 {
+      font-size: 32px;
+      color: #e17055;
+      margin-bottom: 8px;
+    }
+    
+    .subtitle {
+      color: #636e72;
+      font-size: 14px;
+    }
+    
+    .heart {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+    
+    .principles {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+    
+    .principle-box {
+      padding: 16px;
+      border-radius: 16px;
+      font-size: 13px;
+    }
+    
+    .principle-box.good {
+      background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
+    }
+    
+    .principle-box.avoid {
+      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    }
+    
+    .principle-box h3 {
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+    
+    .principle-box ul {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .principle-box li {
+      padding: 2px 0;
+    }
+    
+    .week-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    
+    .day-card {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 12px 8px;
+      text-align: center;
+      font-size: 11px;
+    }
+    
+    .day-card h4 {
+      font-size: 12px;
+      color: #e17055;
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid #ffeaa7;
+    }
+    
+    .meal-section {
+      margin-bottom: 8px;
+    }
+    
+    .meal-section strong {
+      display: block;
+      font-size: 10px;
+      color: #636e72;
+      margin-bottom: 4px;
+    }
+    
+    .meal-section p {
+      font-size: 10px;
+      line-height: 1.4;
+      color: #2d3436;
+    }
+    
+    .tips {
+      background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    .tips h3 {
+      font-size: 16px;
+      margin-bottom: 12px;
+      color: #e17055;
+    }
+    
+    .tips-grid {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    
+    .tip-item {
+      font-size: 12px;
+    }
+    
+    .tip-item span {
+      font-size: 24px;
+      display: block;
+      margin-bottom: 4px;
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 24px;
+      color: #b2bec3;
+      font-size: 12px;
+    }
+    
+    @media print {
+      body { background: white; padding: 0; }
+      .page { box-shadow: none; padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="heart">💕</div>
+      <h1>Olivia 的康复食谱</h1>
+      <p class="subtitle">亚甲炎 (甲亢期) · 抗炎 · 易消化 · 低碘</p>
+    </header>
+    
+    <div class="principles">
+      <div class="principle-box good">
+        <h3>✅ 推荐食物</h3>
+        <ul>
+          <li>🥚 鸡蛋、鸡肉、豆腐</li>
+          <li>🥦 西兰花、菠菜、胡萝卜</li>
+          <li>🫐 蓝莓、香蕉、苹果</li>
+          <li>🥜 杏仁、核桃 (少量)</li>
+          <li>🍚 糙米、燕麦、全麦</li>
+        </ul>
+      </div>
+      <div class="principle-box avoid">
+        <h3>❌ 避免食物 (甲亢期)</h3>
+        <ul>
+          <li>🚫 海带、紫菜、海鲜 (高碘)</li>
+          <li>☕ 咖啡、浓茶 (咖啡因)</li>
+          <li>🌶️ 辛辣刺激食物</li>
+          <li>🍺 酒精</li>
+          <li>🍟 油炸、加工食品</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="week-grid">
+      <div class="day-card">
+        <h4>周一</h4>
+        <div class="meal-section">
+          <strong>🌅 早餐</strong>
+          <p>燕麦粥+蓝莓<br>煮鸡蛋</p>
+        </div>
+        <div class="meal-section">
+          <strong>🌙 晚餐</strong>
+          <p>清蒸鸡胸肉<br>蒜蓉西兰花<br>糙米饭</p>
+        </div>
+      </div>
+      
+      <div class="day-card">
+        <h4>周二</h4>
+        <div class="meal-section">
+          <strong>🌅 早餐</strong>
+          <p>牛油果吐司<br>希腊酸奶</p>
+        </div>
+        <div class="meal-section">
+          <strong>🌙 晚餐</strong>
+          <p>番茄鸡肉意面<br>凉拌黄瓜<br>南瓜汤</p>
+        </div>
+      </div>
+      
+      <div class="day-card">
+        <h4>周三</h4>
+        <div class="meal-section">
+          <strong>🌅 早餐</strong>
+          <p>小米粥+红枣<br>蒸蛋羹</p>
+        </div>
+        <div class="meal-section">
+          <strong>🌙 晚餐</strong>
+          <p>清炖鸡汤<br>清炒时蔬<br>米饭</p>
+        </div>
+      </div>
+      
+      <div class="day-card">
+        <h4>周四</h4>
+        <div class="meal-section">
+          <strong>🌅 早餐</strong>
+          <p>全麦三明治<br>香蕉</p>
+        </div>
+        <div class="meal-section">
+          <strong>🌙 晚餐</strong>
+          <p>柠檬烤鸡<br>烤蔬菜<br>藜麦</p>
+        </div>
+      </div>
+      
+      <div class="day-card">
+        <h4>周五</h4>
+        <div class="meal-section">
+          <strong>🌅 早餐</strong>
+          <p>紫薯燕麦粥<br>坚果少许</p>
+        </div>
+        <div class="meal-section">
+          <strong>🌙 晚餐</strong>
+          <p>红烧豆腐<br>清炒芦笋<br>米饭</p>
+        </div>
+      </div>
+      
+      <div class="day-card">
+        <h4>周六</h4>
+        <div class="meal-section">
+          <strong>🌅 早餐</strong>
+          <p>蔬菜蛋饼<br>全麦面包</p>
+        </div>
+        <div class="meal-section">
+          <strong>🌙 晚餐</strong>
+          <p>番茄牛肉汤<br>清炒菜心<br>米饭</p>
+        </div>
+      </div>
+      
+      <div class="day-card">
+        <h4>周日</h4>
+        <div class="meal-section">
+          <strong>🌅 早餐</strong>
+          <p>水果酸奶碗<br>麦片</p>
+        </div>
+        <div class="meal-section">
+          <strong>🌙 晚餐</strong>
+          <p>清蒸鸡肉<br>山药排骨汤<br>米饭</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="tips">
+      <h3>💡 温馨提示</h3>
+      <div class="tips-grid">
+        <div class="tip-item">
+          <span>🍵</span>
+          温热饮食
+        </div>
+        <div class="tip-item">
+          <span>💧</span>
+          多喝温水
+        </div>
+        <div class="tip-item">
+          <span>😴</span>
+          充足休息
+        </div>
+        <div class="tip-item">
+          <span>💊</span>
+          遵医嘱服药
+        </div>
+        <div class="tip-item">
+          <span>😊</span>
+          保持好心情
+        </div>
+      </div>
+    </div>
+    
+    <footer>
+      Made with ❤️ for Olivia · 早日康复！
+    </footer>
+  </div>
+  
+  <script>
+    // Auto print when opened
+    // window.onload = () => window.print();
+  </script>
+</body>
+</html>
