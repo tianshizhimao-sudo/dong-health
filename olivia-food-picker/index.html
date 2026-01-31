@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#fef3c7">
+  <title>Olivia 今天吃什么？</title>
+  <style>
+    :root {
+      --bg: #fffbeb;
+      --card: #ffffff;
+      --primary: #f59e0b;
+      --primary-light: #fef3c7;
+      --success: #10b981;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 20px;
+      padding-bottom: 100px;
+    }
+    .container { max-width: 500px; margin: 0 auto; }
+    header { text-align: center; padding: 20px 0; }
+    
+    .logo {
+      width: 120px;
+      height: auto;
+      margin-bottom: 16px;
+    }
+    
+    h1 { font-size: 24px; color: var(--primary); margin-bottom: 8px; }
+    .subtitle { color: var(--muted); font-size: 14px; }
+    
+    .card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    
+    .meal-selector {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .meal-btn {
+      flex: 1;
+      padding: 12px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      background: white;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .meal-btn.active {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+    .meal-btn .emoji { font-size: 20px; display: block; margin-bottom: 4px; }
+    
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .category-btn {
+      padding: 16px 8px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: white;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 12px;
+    }
+    .category-btn:hover { border-color: var(--primary); }
+    .category-btn.active {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+    .category-btn .emoji { font-size: 24px; display: block; margin-bottom: 4px; }
+    
+    .btn-generate {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    .btn-generate:active { transform: scale(0.98); }
+    
+    .result-card {
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      border: 2px solid var(--primary);
+    }
+    .result-title { 
+      font-size: 18px; 
+      font-weight: 600; 
+      margin-bottom: 12px;
+      color: var(--primary);
+    }
+    .result-item {
+      background: white;
+      padding: 16px;
+      border-radius: 12px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .result-emoji { font-size: 32px; }
+    .result-text h3 { font-size: 16px; margin-bottom: 4px; }
+    .result-text p { font-size: 12px; color: var(--muted); }
+    
+    .tag {
+      display: inline-block;
+      padding: 4px 8px;
+      background: var(--primary-light);
+      border-radius: 20px;
+      font-size: 10px;
+      color: var(--primary);
+      margin-right: 4px;
+    }
+    
+    .btn-refresh {
+      width: 100%;
+      padding: 12px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    
+    .tips {
+      background: #ecfdf5;
+      border: 1px solid #10b981;
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 13px;
+      color: #065f46;
+    }
+    .tips strong { color: #047857; }
+    
+    .hidden { display: none; }
+    
+    .avoid-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .avoid-tag {
+      padding: 4px 10px;
+      background: #fee2e2;
+      border-radius: 20px;
+      font-size: 11px;
+      color: #dc2626;
+    }
+    
+    .footer {
+      text-align: center;
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+    .footer-logo {
+      width: 80px;
+      height: auto;
+      opacity: 0.6;
+    }
+    .footer-text {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <!-- Oney & Co Logo -->
+      <svg class="logo" viewBox="0 0 190 90" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#D4A853"/>
+            <stop offset="100%" style="stop-color:#B8860B"/>
+          </linearGradient>
+        </defs>
+        <g transform="translate(38, 45)">
+          <path d="M 0 -32 A 32 32 0 1 0 0 -31.99" fill="none" stroke="url(#goldGrad)" stroke-width="7" stroke-linecap="round" stroke-dasharray="191 10"/>
+          <path d="M0 -38 L0 -44" stroke="url(#goldGrad)" stroke-width="5" stroke-linecap="round"/>
+        </g>
+        <text x="32" y="50" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="600" fill="#1E293B">ney</text>
+        <text x="77" y="50" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="url(#goldGrad)">&amp;</text>
+        <text x="94" y="50" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="600" fill="#1E293B">co</text>
+      </svg>
+      <h1>🌸 Olivia 今天吃什么？</h1>
+      <p class="subtitle">亚甲炎康复期饮食灵感</p>
+    </header>
+    
+    <div class="card">
+      <div class="card-title">🕐 选择餐次</div>
+      <div class="meal-selector">
+        <button class="meal-btn active" onclick="selectMeal('breakfast')">
+          <span class="emoji">🌅</span>早餐
+        </button>
+        <button class="meal-btn" onclick="selectMeal('lunch')">
+          <span class="emoji">☀️</span>午餐
+        </button>
+        <button class="meal-btn" onclick="selectMeal('dinner')">
+          <span class="emoji">🌙</span>晚餐
+        </button>
+        <button class="meal-btn" onclick="selectMeal('snack')">
+          <span class="emoji">🍵</span>小食
+        </button>
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-title">💭 今天想吃什么类型？</div>
+      <div class="category-grid">
+        <button class="category-btn" onclick="selectCategory('light')">
+          <span class="emoji">🥗</span>清淡
+        </button>
+        <button class="category-btn" onclick="selectCategory('warm')">
+          <span class="emoji">🍲</span>温热
+        </button>
+        <button class="category-btn" onclick="selectCategory('protein')">
+          <span class="emoji">🍗</span>蛋白质
+        </button>
+        <button class="category-btn" onclick="selectCategory('grain')">
+          <span class="emoji">🍚</span>主食
+        </button>
+        <button class="category-btn" onclick="selectCategory('veggie')">
+          <span class="emoji">🥬</span>蔬菜
+        </button>
+        <button class="category-btn" onclick="selectCategory('any')">
+          <span class="emoji">🎲</span>随便
+        </button>
+      </div>
+      
+      <button class="btn-generate" onclick="generateIdeas()">✨ 给我灵感</button>
+    </div>
+    
+    <div class="card result-card hidden" id="resultCard">
+      <div class="result-title">💡 今天可以试试...</div>
+      <div id="resultList"></div>
+      <button class="btn-refresh" onclick="generateIdeas()">🔄 换一批</button>
+    </div>
+    
+    <div class="card tips">
+      <strong>💡 温馨提示</strong><br>
+      少食多餐 · 温热为主 · 多喝温水 · 保持好心情 ❤️
+    </div>
+    
+    <div class="card">
+      <div class="card-title">❌ 康复期避免</div>
+      <div class="avoid-list">
+        <span class="avoid-tag">海带/紫菜</span>
+        <span class="avoid-tag">咖啡</span>
+        <span class="avoid-tag">浓茶</span>
+        <span class="avoid-tag">辛辣</span>
+        <span class="avoid-tag">加工食品</span>
+        <span class="avoid-tag">酒精</span>
+        <span class="avoid-tag">冰冷食物</span>
+      </div>
+    </div>
+    
+    <div class="footer">
+      <svg class="footer-logo" viewBox="0 0 190 90" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="goldGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#D4A853"/>
+            <stop offset="100%" style="stop-color:#B8860B"/>
+          </linearGradient>
+        </defs>
+        <g transform="translate(38, 45)">
+          <path d="M 0 -32 A 32 32 0 1 0 0 -31.99" fill="none" stroke="url(#goldGrad2)" stroke-width="7" stroke-linecap="round" stroke-dasharray="191 10"/>
+          <path d="M0 -38 L0 -44" stroke="url(#goldGrad2)" stroke-width="5" stroke-linecap="round"/>
+        </g>
+        <text x="32" y="50" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="600" fill="#94a3b8">ney</text>
+        <text x="77" y="50" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="url(#goldGrad2)">&amp;</text>
+        <text x="94" y="50" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="600" fill="#94a3b8">co</text>
+      </svg>
+      <p class="footer-text">Made with ❤️ for Olivia</p>
+    </div>
+  </div>
+  
+  <script>
+    let selectedMeal = 'breakfast';
+    let selectedCategory = null;
+    
+    const foods = {
+      breakfast: {
+        light: [
+          { name: '燕麦粥配蓝莓', emoji: '🥣', tags: ['抗炎', '易消化'] },
+          { name: '希腊酸奶配坚果', emoji: '🥛', tags: ['蛋白质', '硒'] },
+          { name: '水果酸奶碗', emoji: '🍓', tags: ['维生素', '益生菌'] },
+          { name: '蒸蛋羹', emoji: '🥚', tags: ['蛋白质', '温和'] }
+        ],
+        warm: [
+          { name: '小米粥配红枣', emoji: '🍚', tags: ['养胃', '补气'] },
+          { name: '紫薯燕麦粥', emoji: '🍠', tags: ['抗氧化', '纤维'] },
+          { name: '淡姜茶配全麦吐司', emoji: '🍞', tags: ['暖胃', '能量'] },
+          { name: '温热豆浆配鸡蛋', emoji: '🥚', tags: ['蛋白质', '温和'] }
+        ],
+        protein: [
+          { name: '煮鸡蛋配牛油果吐司', emoji: '🥑', tags: ['蛋白质', '好脂肪'] },
+          { name: '鸡蛋蔬菜卷饼', emoji: '🌯', tags: ['蛋白质', '蔬菜'] },
+          { name: '希腊酸奶配坚果蜂蜜', emoji: '🍯', tags: ['蛋白质', '能量'] }
+        ],
+        grain: [
+          { name: '全麦三明治', emoji: '🥪', tags: ['纤维', '饱腹'] },
+          { name: '燕麦配香蕉核桃', emoji: '🍌', tags: ['能量', '纤维'] },
+          { name: '杂粮粥', emoji: '🥣', tags: ['营养', '易消化'] }
+        ],
+        veggie: [
+          { name: '蔬菜蛋饼', emoji: '🥬', tags: ['蔬菜', '蛋白质'] },
+          { name: '牛油果番茄吐司', emoji: '🍅', tags: ['好脂肪', '维生素'] },
+          { name: '菠菜蘑菇煎蛋', emoji: '🍳', tags: ['蔬菜', '硒'] }
+        ]
+      },
+      lunch: {
+        light: [
+          { name: '清炒时蔬配米饭', emoji: '🥬', tags: ['清淡', '蔬菜'] },
+          { name: '蔬菜沙拉配鸡胸', emoji: '🥗', tags: ['蛋白质', '维生素'] },
+          { name: '番茄鸡蛋汤配馒头', emoji: '🍅', tags: ['温和', '开胃'] }
+        ],
+        warm: [
+          { name: '清炖鸡汤配面条', emoji: '🍜', tags: ['滋补', '温热'] },
+          { name: '南瓜浓汤配面包', emoji: '🎃', tags: ['温暖', '养胃'] },
+          { name: '番茄牛肉汤', emoji: '🍲', tags: ['蛋白质', '开胃'] }
+        ],
+        protein: [
+          { name: '清蒸鱼配蔬菜', emoji: '🐟', tags: ['优质蛋白', '抗炎'] },
+          { name: '鸡胸肉沙拉', emoji: '🍗', tags: ['低脂', '蛋白质'] },
+          { name: '豆腐蔬菜煲', emoji: '🥘', tags: ['植物蛋白', '温和'] }
+        ],
+        grain: [
+          { name: '糙米饭配清炒菜', emoji: '🍚', tags: ['纤维', '营养'] },
+          { name: '全麦意面配番茄酱', emoji: '🍝', tags: ['能量', '纤维'] },
+          { name: '藜麦沙拉', emoji: '🥗', tags: ['蛋白质', '营养'] }
+        ],
+        veggie: [
+          { name: '什锦蔬菜炒', emoji: '🥦', tags: ['多种蔬菜', '维生素'] },
+          { name: '蒜蓉西兰花配米饭', emoji: '🥦', tags: ['抗炎', '纤维'] },
+          { name: '烤蔬菜拼盘', emoji: '🍆', tags: ['多彩', '营养'] }
+        ]
+      },
+      dinner: {
+        light: [
+          { name: '清蒸鲈鱼配青菜', emoji: '🐟', tags: ['易消化', '蛋白质'] },
+          { name: '蔬菜粥', emoji: '🥣', tags: ['温和', '养胃'] },
+          { name: '凉拌豆腐配小菜', emoji: '🥢', tags: ['清淡', '植物蛋白'] }
+        ],
+        warm: [
+          { name: '山药排骨汤', emoji: '🍖', tags: ['滋补', '养胃'] },
+          { name: '银耳红枣汤', emoji: '🥣', tags: ['养颜', '滋润'] },
+          { name: '清炖鸡汤', emoji: '🍲', tags: ['滋补', '温暖'] }
+        ],
+        protein: [
+          { name: '清蒸三文鱼', emoji: '🍣', tags: ['Omega-3', '抗炎'] },
+          { name: '柠檬烤鸡胸', emoji: '🍋', tags: ['低脂', '蛋白质'] },
+          { name: '红烧豆腐', emoji: '🥢', tags: ['植物蛋白', '好吃'] }
+        ],
+        grain: [
+          { name: '杂粮饭配家常菜', emoji: '🍚', tags: ['纤维', '营养'] },
+          { name: '三文鱼盖饭', emoji: '🍱', tags: ['蛋白质', '满足'] },
+          { name: '蔬菜炒饭', emoji: '🍳', tags: ['蔬菜', '能量'] }
+        ],
+        veggie: [
+          { name: '清炒芦笋', emoji: '🥬', tags: ['抗氧化', '纤维'] },
+          { name: '蒜蓉菜心', emoji: '🥬', tags: ['维生素', '清淡'] },
+          { name: '香菇青菜', emoji: '🍄', tags: ['硒', '蔬菜'] }
+        ]
+      },
+      snack: {
+        light: [
+          { name: '新鲜水果', emoji: '🍎', tags: ['维生素', '天然'] },
+          { name: '黄瓜条', emoji: '🥒', tags: ['清爽', '低卡'] },
+          { name: '樱桃番茄', emoji: '🍅', tags: ['抗氧化', '小食'] }
+        ],
+        warm: [
+          { name: '红枣桂圆茶', emoji: '🍵', tags: ['补气血', '温暖'] },
+          { name: '枸杞菊花茶', emoji: '🍵', tags: ['护眼', '清肝'] },
+          { name: '淡姜茶', emoji: '🫖', tags: ['暖胃', '驱寒'] }
+        ],
+        protein: [
+          { name: '坚果小把', emoji: '🥜', tags: ['好脂肪', '硒'] },
+          { name: '煮鸡蛋', emoji: '🥚', tags: ['蛋白质', '便携'] },
+          { name: '希腊酸奶', emoji: '🥛', tags: ['蛋白质', '益生菌'] }
+        ],
+        grain: [
+          { name: '全麦饼干', emoji: '🍪', tags: ['纤维', '能量'] },
+          { name: '燕麦能量球', emoji: '⚫', tags: ['天然', '饱腹'] },
+          { name: '紫薯干', emoji: '🍠', tags: ['纤维', '天然甜'] }
+        ],
+        veggie: [
+          { name: '胡萝卜条', emoji: '🥕', tags: ['维生素A', '脆'] },
+          { name: '毛豆', emoji: '🫛', tags: ['蛋白质', '纤维'] },
+          { name: '西芹条', emoji: '🥬', tags: ['纤维', '清爽'] }
+        ]
+      }
+    };
+    
+    function selectMeal(meal) {
+      selectedMeal = meal;
+      document.querySelectorAll('.meal-btn').forEach(b => b.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+    }
+    
+    function selectCategory(cat) {
+      selectedCategory = cat;
+      document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+    }
+    
+    function generateIdeas() {
+      const card = document.getElementById('resultCard');
+      const list = document.getElementById('resultList');
+      
+      let pool = [];
+      const mealFoods = foods[selectedMeal];
+      
+      if (selectedCategory && selectedCategory !== 'any') {
+        pool = mealFoods[selectedCategory] || [];
+      } else {
+        Object.values(mealFoods).forEach(arr => pool.push(...arr));
+      }
+      
+      const shuffled = pool.sort(() => Math.random() - 0.5);
+      const picks = shuffled.slice(0, 3);
+      
+      list.innerHTML = picks.map(item => `
+        <div class="result-item">
+          <span class="result-emoji">${item.emoji}</span>
+          <div class="result-text">
+            <h3>${item.name}</h3>
+            <p>${item.tags.map(t => `<span class="tag">${t}</span>`).join('')}</p>
+          </div>
+        </div>
+      `).join('');
+      
+      card.classList.remove('hidden');
+      card.scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
