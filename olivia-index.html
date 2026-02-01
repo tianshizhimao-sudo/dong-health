@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="theme-color" content="#ffecd2">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💕</text></svg>">
+  <title>💕 Olivia 健康中心</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+      --card: #ffffff;
+      --primary: #e17055;
+      --primary-light: #fab1a0;
+      --secondary: #fd79a8;
+      --success: #00b894;
+      --text: #2d3436;
+      --muted: #636e72;
+      --border: #f0e6e0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans SC', -apple-system, sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      padding: 20px;
+      padding-bottom: 40px;
+    }
+    
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    
+    .avatar {
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(135deg, #fd79a8, #e17055);
+      border-radius: 50%;
+      margin: 0 auto 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      box-shadow: 0 8px 24px rgba(225, 112, 85, 0.3);
+    }
+    
+    h1 {
+      font-size: 26px;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+    
+    .subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+    
+    .status-badge {
+      display: inline-block;
+      padding: 6px 16px;
+      background: linear-gradient(135deg, #d4fc79, #96e6a1);
+      border-radius: 20px;
+      font-size: 12px;
+      color: #2d3436;
+      margin-bottom: 30px;
+    }
+    
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 20px;
+      background: var(--card);
+      border-radius: 20px;
+      text-decoration: none;
+      color: var(--text);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      transition: all 0.3s;
+    }
+    .menu-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+    .menu-item:active {
+      transform: scale(0.98);
+    }
+    
+    .menu-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      flex-shrink: 0;
+    }
+    .menu-icon.pink { background: linear-gradient(135deg, #fd79a8, #e17055); }
+    .menu-icon.purple { background: linear-gradient(135deg, #a29bfe, #6c5ce7); }
+    .menu-icon.green { background: linear-gradient(135deg, #55efc4, #00b894); }
+    .menu-icon.blue { background: linear-gradient(135deg, #74b9ff, #0984e3); }
+    .menu-icon.orange { background: linear-gradient(135deg, #ffeaa7, #fdcb6e); }
+    
+    .menu-content {
+      text-align: left;
+      flex: 1;
+    }
+    
+    .menu-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    
+    .menu-desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    
+    .footer {
+      margin-top: 30px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    
+    .heart-float {
+      position: fixed;
+      font-size: 20px;
+      animation: float 3s ease-in-out infinite;
+      opacity: 0.6;
+    }
+    .heart-float:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+    .heart-float:nth-child(2) { top: 20%; right: 15%; animation-delay: 1s; }
+    .heart-float:nth-child(3) { bottom: 30%; left: 8%; animation-delay: 2s; }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="heart-float">💕</div>
+  <div class="heart-float">🌸</div>
+  <div class="heart-float">✨</div>
+  
+  <div class="container">
+    <div class="avatar">👧</div>
+    <h1>Olivia 健康中心</h1>
+    <p class="subtitle">亚甲炎康复期 · 慢慢来 💪</p>
+    <span class="status-badge">🌱 轻柔运动模式</span>
+    
+    <nav class="menu">
+      <a href="olivia-workout.html" class="menu-item">
+        <div class="menu-icon pink">🧘</div>
+        <div class="menu-content">
+          <div class="menu-title">今日训练</div>
+          <div class="menu-desc">30分钟内 · 拉伸塑形 · 视频指导</div>
+        </div>
+      </a>
+      
+      <a href="olivia-tracker.html" class="menu-item">
+        <div class="menu-icon purple">✅</div>
+        <div class="menu-content">
+          <div class="menu-title">健身打卡</div>
+          <div class="menu-desc">记录每次训练，看见进步</div>
+        </div>
+      </a>
+      
+      <a href="olivia-plan.html" class="menu-item">
+        <div class="menu-icon green">📋</div>
+        <div class="menu-content">
+          <div class="menu-title">健身计划</div>
+          <div class="menu-desc">康复期专属训练计划</div>
+        </div>
+      </a>
+      
+      <a href="pantry.html" class="menu-item">
+        <div class="menu-icon blue">🏠</div>
+        <div class="menu-content">
+          <div class="menu-title">家庭食材库存</div>
+          <div class="menu-desc">和冬哥同步 · 一起管理</div>
+        </div>
+      </a>
+      
+      <a href="olivia-food-picker/index.html" class="menu-item">
+        <div class="menu-icon orange">🎲</div>
+        <div class="menu-content">
+          <div class="menu-title">今天吃什么</div>
+          <div class="menu-desc">让我来帮你选择~</div>
+        </div>
+      </a>
+    </nav>
+    
+    <div class="footer">
+      <p>💕 冬哥爱你 · 慢慢恢复</p>
+    </div>
+  </div>
+</body>
+</html>

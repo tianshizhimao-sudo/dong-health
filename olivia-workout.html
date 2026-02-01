@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#ffecd2">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧘</text></svg>">
+  <title>🧘 今日训练 - Olivia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+      --card: #ffffff;
+      --primary: #e17055;
+      --primary-light: #fab1a0;
+      --secondary: #fd79a8;
+      --success: #00b894;
+      --text: #2d3436;
+      --muted: #636e72;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans SC', -apple-system, sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      padding: 16px;
+      padding-bottom: 100px;
+    }
+    .container { max-width: 500px; margin: 0 auto; }
+    
+    .nav-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--primary);
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+    
+    header {
+      text-align: center;
+      padding: 10px 0 24px;
+    }
+    .date-display {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    h1 {
+      font-size: 24px;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+    .day-type {
+      display: inline-block;
+      padding: 8px 20px;
+      background: linear-gradient(135deg, var(--secondary), var(--primary));
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 600;
+      color: white;
+    }
+    .day-type.rest {
+      background: linear-gradient(135deg, #55efc4, #00b894);
+    }
+    
+    .section {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    .section-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .schedule-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    .schedule-day {
+      text-align: center;
+      padding: 10px 4px;
+      background: #f8f4f2;
+      border-radius: 12px;
+      font-size: 11px;
+      border: 2px solid transparent;
+      transition: all 0.2s;
+    }
+    .schedule-day.today {
+      border-color: var(--primary);
+      background: rgba(225, 112, 85, 0.1);
+    }
+    .schedule-day .day-name {
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .schedule-day .day-icon {
+      font-size: 16px;
+    }
+    
+    .workout-summary {
+      background: #faf6f4;
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      font-size: 13px;
+    }
+    .summary-row:last-child { border-bottom: none; }
+    .summary-label { color: var(--muted); }
+    .summary-value { font-weight: 600; }
+    
+    .video-card {
+      background: #faf6f4;
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 10px;
+      transition: all 0.2s;
+      border: 2px solid transparent;
+    }
+    .video-card:hover {
+      border-color: var(--primary);
+    }
+    .video-card a {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .video-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .video-icon {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      color: white;
+    }
+    .video-info { flex: 1; }
+    .video-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 2px;
+      color: var(--text);
+    }
+    .video-meta {
+      font-size: 11px;
+      color: var(--muted);
+    }
+    
+    .tip-box {
+      background: linear-gradient(135deg, rgba(85, 239, 196, 0.2), rgba(0, 184, 148, 0.2));
+      border: 1px solid rgba(0, 184, 148, 0.3);
+      border-radius: 14px;
+      padding: 16px;
+    }
+    .tip-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #00b894;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tip-text {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    
+    .action-btn {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--secondary), var(--primary));
+      border: none;
+      border-radius: 14px;
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      text-align: center;
+      margin-top: 16px;
+      box-shadow: 0 4px 15px rgba(225, 112, 85, 0.3);
+    }
+    
+    .reminder-box {
+      background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+      border-radius: 14px;
+      padding: 14px;
+      margin-top: 16px;
+      text-align: center;
+      font-size: 13px;
+      color: #6c5ce7;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="olivia-index.html" class="nav-back">← 返回健康中心</a>
+    
+    <header>
+      <p class="date-display" id="dateDisplay"></p>
+      <h1>🧘 今日训练</h1>
+      <span class="day-type" id="dayType"></span>
+    </header>
+
+    <div class="section">
+      <div class="section-title">📆 本周计划</div>
+      <div class="schedule-grid" id="scheduleGrid"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-title" id="workoutTitle">💪 训练内容</div>
+      <div class="workout-summary" id="workoutSummary"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">📺 跟练视频</div>
+      <div id="videoList"></div>
+    </div>
+
+    <div class="tip-box" id="tipBox">
+      <div class="tip-title">💡 温馨提示</div>
+      <p class="tip-text" id="tipText"></p>
+    </div>
+
+    <a href="olivia-tracker.html" class="action-btn">✅ 开始打卡</a>
+    
+    <div class="reminder-box">
+      🌸 亚甲炎康复期，运动以舒适为主<br>
+      感到疲劳就休息，不要勉强自己哦~
+    </div>
+  </div>
+
+  <script>
+    // Olivia 的训练计划 - 轻柔版
+    const weekPlan = {
+      1: { // 周一
+        type: '拉伸放松',
+        icon: '🧘',
+        duration: '20分钟',
+        focus: ['全身拉伸', '放松身心'],
+        exercises: ['颈部拉伸', '肩部放松', '腿部拉伸', '深呼吸'],
+        videos: [
+          { title: '15分钟全身拉伸', channel: 'Emi Wong', duration: '15分钟', url: 'https://www.youtube.com/watch?v=g_tea8ZNk5A' },
+          { title: '晨间温和拉伸', channel: 'MadFit', duration: '10分钟', url: 'https://www.youtube.com/watch?v=4C-gxOE0j7s' }
+        ],
+        tip: '周一慢慢启动，拉伸可以帮助唤醒身体，不需要太用力，享受放松的感觉~'
+      },
+      2: { // 周二
+        type: '瘦腿塑形',
+        icon: '🦵',
+        duration: '25分钟',
+        focus: ['大腿内侧', '大腿前侧', '臀部'],
+        exercises: ['侧卧抬腿', '蚌式开合', '桥式', '靠墙静蹲'],
+        videos: [
+          { title: '10分钟瘦大腿', channel: 'Emi Wong', duration: '10分钟', url: 'https://www.youtube.com/watch?v=bFeVxTwPxEQ' },
+          { title: '瘦腿不粗腿运动', channel: 'Chloe Ting', duration: '15分钟', url: 'https://www.youtube.com/watch?v=aNehbNbvPbk' }
+        ],
+        tip: '瘦腿动作要慢慢做，感受肌肉发力，不追求速度~'
+      },
+      3: { // 周三
+        type: '背部舒展',
+        icon: '🌟',
+        duration: '20分钟',
+        focus: ['上背', '下背', '脊柱灵活'],
+        exercises: ['猫牛式', '婴儿式', '眼镜蛇式', '穿针引线'],
+        videos: [
+          { title: '10分钟背部拉伸', channel: 'Yoga With Adriene', duration: '10分钟', url: 'https://www.youtube.com/watch?v=XeXz8fIZDCE' },
+          { title: '改善体态背部训练', channel: 'Pamela Reif', duration: '10分钟', url: 'https://www.youtube.com/watch?v=lIkWKHJXJUI' }
+        ],
+        tip: '背部训练可以改善体态，让你看起来更挺拔优雅~'
+      },
+      4: { // 周四
+        type: '瘦腿塑形',
+        icon: '🦵',
+        duration: '25分钟',
+        focus: ['大腿外侧', '臀部', '小腿'],
+        exercises: ['深蹲', '弓步蹲', '踮脚', '腿部画圈'],
+        videos: [
+          { title: '15分钟瘦腿塑形', channel: 'Emi Wong', duration: '15分钟', url: 'https://www.youtube.com/watch?v=QMmqVhNnCnE' },
+          { title: '躺着瘦腿运动', channel: 'Blogilates', duration: '12分钟', url: 'https://www.youtube.com/watch?v=bTdKfDaGxUE' }
+        ],
+        tip: '今天继续瘦腿～躺着做的动作对关节更友好哦'
+      },
+      5: { // 周五
+        type: '全身塑形',
+        icon: '✨',
+        duration: '25分钟',
+        focus: ['核心', '手臂', '整体线条'],
+        exercises: ['平板支撑', '侧平板', '手臂画圈', '仰卧起坐'],
+        videos: [
+          { title: '20分钟全身塑形', channel: 'Chloe Ting', duration: '20分钟', url: 'https://www.youtube.com/watch?v=IT94xC35u6k' },
+          { title: '手臂瘦身运动', channel: 'Emi Wong', duration: '10分钟', url: 'https://www.youtube.com/watch?v=4BOY_UxbcTs' }
+        ],
+        tip: '周五啦！全身动一动，为周末做准备~'
+      },
+      6: { // 周六
+        type: '瑜伽放松',
+        icon: '🧘',
+        duration: '30分钟',
+        focus: ['全身放松', '冥想', '深度拉伸'],
+        exercises: ['太阳式', '战士式', '三角式', '仰卧扭转'],
+        videos: [
+          { title: '30分钟瑜伽流', channel: 'Yoga With Adriene', duration: '30分钟', url: 'https://www.youtube.com/watch?v=oBu-pQG6sTY' },
+          { title: '睡前瑜伽放松', channel: 'Boho Beautiful', duration: '20分钟', url: 'https://www.youtube.com/watch?v=v7SN-d4qXx0' }
+        ],
+        tip: '周末了，做一次完整的瑜伽，身心都会很舒服~'
+      },
+      0: { // 周日
+        type: '休息日',
+        icon: '😴',
+        duration: '自由',
+        focus: ['休息', '恢复', '轻度活动'],
+        exercises: ['散步', '泡澡', '看书', '睡个好觉'],
+        videos: [
+          { title: '5分钟晨间拉伸', channel: 'MadFit', duration: '5分钟', url: 'https://www.youtube.com/watch?v=itJWSNgz2ms' },
+          { title: '睡前冥想', channel: 'Goodful', duration: '10分钟', url: 'https://www.youtube.com/watch?v=z0GtmPnqAd8' }
+        ],
+        tip: '今天休息！可以和冬哥出去走走，或者在家放松~'
+      }
+    };
+
+    const dayNames = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+    const dayIcons = ['😴', '🧘', '🦵', '🌟', '🦵', '✨', '🧘'];
+
+    function init() {
+      const now = new Date();
+      const today = now.getDay();
+      const plan = weekPlan[today];
+
+      const dateStr = now.toLocaleDateString('zh-CN', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric',
+        weekday: 'long'
+      });
+      document.getElementById('dateDisplay').textContent = dateStr;
+
+      const dayTypeEl = document.getElementById('dayType');
+      dayTypeEl.textContent = `${plan.icon} ${plan.type}`;
+      if (today === 0) dayTypeEl.classList.add('rest');
+
+      // 周计划
+      const scheduleGrid = document.getElementById('scheduleGrid');
+      scheduleGrid.innerHTML = '';
+      for (let i = 1; i <= 7; i++) {
+        const dayIndex = i % 7;
+        const isToday = dayIndex === today;
+        scheduleGrid.innerHTML += `
+          <div class="schedule-day ${isToday ? 'today' : ''}">
+            <div class="day-name">${dayNames[dayIndex]}</div>
+            <div class="day-icon">${dayIcons[dayIndex]}</div>
+          </div>
+        `;
+      }
+
+      // 训练摘要
+      document.getElementById('workoutTitle').innerHTML = `${plan.icon} ${plan.type}`;
+      document.getElementById('workoutSummary').innerHTML = `
+        <div class="summary-row">
+          <span class="summary-label">时长</span>
+          <span class="summary-value">${plan.duration}</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">重点</span>
+          <span class="summary-value">${plan.focus.join(' · ')}</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">动作</span>
+          <span class="summary-value">${plan.exercises.join(' · ')}</span>
+        </div>
+      `;
+
+      // 视频
+      document.getElementById('videoList').innerHTML = plan.videos.map(v => `
+        <div class="video-card">
+          <a href="${v.url}" target="_blank">
+            <div class="video-header">
+              <div class="video-icon">▶</div>
+              <div class="video-info">
+                <div class="video-title">${v.title}</div>
+                <div class="video-meta">${v.channel} · ${v.duration}</div>
+              </div>
+            </div>
+          </a>
+        </div>
+      `).join('');
+
+      document.getElementById('tipText').textContent = plan.tip;
+    }
+
+    init();
+  </script>
+</body>
+</html>

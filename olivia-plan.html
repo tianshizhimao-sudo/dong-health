@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#ffecd2">
+  <title>📋 健身计划 - Olivia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+      --card: #ffffff;
+      --primary: #e17055;
+      --primary-light: #fab1a0;
+      --secondary: #fd79a8;
+      --success: #00b894;
+      --text: #2d3436;
+      --muted: #636e72;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans SC', -apple-system, sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      padding: 16px;
+      padding-bottom: 40px;
+    }
+    .container { max-width: 500px; margin: 0 auto; }
+    
+    .nav-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--primary);
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+    
+    header {
+      text-align: center;
+      padding: 10px 0 24px;
+    }
+    h1 {
+      font-size: 24px;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 13px;
+    }
+    
+    .section {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    .section-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .week-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+    }
+    .day-card {
+      background: #faf6f4;
+      border-radius: 12px;
+      padding: 12px 6px;
+      text-align: center;
+    }
+    .day-card.highlight {
+      background: linear-gradient(135deg, rgba(253, 121, 168, 0.2), rgba(225, 112, 85, 0.2));
+      border: 2px solid var(--primary);
+    }
+    .day-name {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .day-icon {
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+    .day-type {
+      font-size: 9px;
+      color: var(--text);
+      font-weight: 500;
+    }
+    
+    .principle-box {
+      background: #faf6f4;
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    .principle-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .principle-list {
+      list-style: none;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+    .principle-list li::before {
+      content: '• ';
+      color: var(--primary);
+    }
+    
+    .exercise-card {
+      background: #faf6f4;
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 10px;
+    }
+    .exercise-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .exercise-name {
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .exercise-time {
+      font-size: 11px;
+      color: var(--secondary);
+      background: rgba(253, 121, 168, 0.15);
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+    .exercise-desc {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    
+    .tip-card {
+      background: linear-gradient(135deg, rgba(85, 239, 196, 0.2), rgba(0, 184, 148, 0.2));
+      border-radius: 14px;
+      padding: 16px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .tip-card strong {
+      color: #00b894;
+    }
+    
+    .video-link {
+      display: block;
+      background: #faf6f4;
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin-bottom: 8px;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.2s;
+      border: 2px solid transparent;
+    }
+    .video-link:hover {
+      border-color: var(--primary);
+    }
+    .video-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .video-meta {
+      font-size: 11px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="olivia-index.html" class="nav-back">← 返回健康中心</a>
+    
+    <header>
+      <h1>📋 Olivia 健身计划</h1>
+      <p class="subtitle">亚甲炎康复期 · 轻柔运动 · 30分钟内</p>
+    </header>
+
+    <div class="section">
+      <div class="section-title">📆 每周安排</div>
+      <div class="week-grid">
+        <div class="day-card">
+          <div class="day-name">周一</div>
+          <div class="day-icon">🧘</div>
+          <div class="day-type">拉伸</div>
+        </div>
+        <div class="day-card">
+          <div class="day-name">周二</div>
+          <div class="day-icon">🦵</div>
+          <div class="day-type">瘦腿</div>
+        </div>
+        <div class="day-card">
+          <div class="day-name">周三</div>
+          <div class="day-icon">🌟</div>
+          <div class="day-type">背部</div>
+        </div>
+        <div class="day-card">
+          <div class="day-name">周四</div>
+          <div class="day-icon">🦵</div>
+          <div class="day-type">瘦腿</div>
+        </div>
+        <div class="day-card">
+          <div class="day-name">周五</div>
+          <div class="day-icon">✨</div>
+          <div class="day-type">塑形</div>
+        </div>
+        <div class="day-card">
+          <div class="day-name">周六</div>
+          <div class="day-icon">🧘</div>
+          <div class="day-type">瑜伽</div>
+        </div>
+        <div class="day-card">
+          <div class="day-name">周日</div>
+          <div class="day-icon">😴</div>
+          <div class="day-type">休息</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">💕 康复期原则</div>
+      <div class="principle-box">
+        <div class="principle-title">✅ 可以做</div>
+        <ul class="principle-list">
+          <li>低强度拉伸和瑜伽</li>
+          <li>躺着做的腿部训练</li>
+          <li>不需要跳跃的动作</li>
+          <li>散步、慢走</li>
+          <li>每次运动不超过30分钟</li>
+        </ul>
+      </div>
+      <div class="principle-box">
+        <div class="principle-title">⚠️ 暂时避免</div>
+        <ul class="principle-list">
+          <li>高强度有氧（跑步、跳绳）</li>
+          <li>大重量力量训练</li>
+          <li>让心率飙升的运动</li>
+          <li>感到疲劳还继续</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">🦵 瘦腿动作</div>
+      
+      <div class="exercise-card">
+        <div class="exercise-header">
+          <span class="exercise-name">侧卧抬腿</span>
+          <span class="exercise-time">左右各15次×2组</span>
+        </div>
+        <div class="exercise-desc">侧躺，下面的腿弯曲，上面的腿伸直慢慢抬起，感受大腿外侧发力</div>
+      </div>
+      
+      <div class="exercise-card">
+        <div class="exercise-header">
+          <span class="exercise-name">蚌式开合</span>
+          <span class="exercise-time">左右各15次×2组</span>
+        </div>
+        <div class="exercise-desc">侧躺双腿弯曲并拢，保持脚跟贴着，打开上面的膝盖，像贝壳一样</div>
+      </div>
+      
+      <div class="exercise-card">
+        <div class="exercise-header">
+          <span class="exercise-name">臀桥</span>
+          <span class="exercise-time">15次×3组</span>
+        </div>
+        <div class="exercise-desc">仰卧屈膝，脚踩地，抬起臀部到身体成一条直线，顶端夹紧臀部</div>
+      </div>
+      
+      <div class="exercise-card">
+        <div class="exercise-header">
+          <span class="exercise-name">空中踩单车</span>
+          <span class="exercise-time">30秒×3组</span>
+        </div>
+        <div class="exercise-desc">仰卧抬腿，像骑自行车一样交替蹬腿，速度可以慢一点</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">🌟 背部动作</div>
+      
+      <div class="exercise-card">
+        <div class="exercise-header">
+          <span class="exercise-name">猫牛式</span>
+          <span class="exercise-time">10次×2组</span>
+        </div>
+        <div class="exercise-desc">四足跪姿，吸气抬头塌腰（牛式），呼气低头拱背（猫式）</div>
+      </div>
+      
+      <div class="exercise-card">
+        <div class="exercise-header">
+          <span class="exercise-name">眼镜蛇式</span>
+          <span class="exercise-time">保持30秒×3次</span>
+        </div>
+        <div class="exercise-desc">俯卧，双手撑地，慢慢抬起上半身，不要耸肩</div>
+      </div>
+      
+      <div class="exercise-card">
+        <div class="exercise-header">
+          <span class="exercise-name">超人式</span>
+          <span class="exercise-time">10次×2组</span>
+        </div>
+        <div class="exercise-desc">俯卧，同时抬起双手双脚，保持2秒再放下</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">📺 推荐视频</div>
+      
+      <a href="https://www.youtube.com/watch?v=bFeVxTwPxEQ" class="video-link" target="_blank">
+        <div class="video-title">10分钟瘦大腿</div>
+        <div class="video-meta">Emi Wong · 适合每天做</div>
+      </a>
+      
+      <a href="https://www.youtube.com/watch?v=aNehbNbvPbk" class="video-link" target="_blank">
+        <div class="video-title">瘦腿不粗腿运动</div>
+        <div class="video-meta">Chloe Ting · 15分钟</div>
+      </a>
+      
+      <a href="https://www.youtube.com/watch?v=g_tea8ZNk5A" class="video-link" target="_blank">
+        <div class="video-title">15分钟全身拉伸</div>
+        <div class="video-meta">Tom Merrick · 放松恢复</div>
+      </a>
+      
+      <a href="https://www.youtube.com/watch?v=oBu-pQG6sTY" class="video-link" target="_blank">
+        <div class="video-title">30分钟瑜伽流</div>
+        <div class="video-meta">Yoga With Adriene · 周末专属</div>
+      </a>
+    </div>
+
+    <div class="tip-card">
+      <strong>💕 冬哥的提醒：</strong><br><br>
+      亚甲炎恢复期，身体需要时间慢慢好起来。运动以舒服为主，不要勉强自己。<br><br>
+      如果今天感觉累了，就休息一天，完全没问题的！<br><br>
+      我爱你，慢慢来~ 🌸
+    </div>
+  </div>
+</body>
+</html>
