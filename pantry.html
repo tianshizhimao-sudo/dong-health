@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#1a1a2e">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
+  <title>🏠 家庭食材库存</title>
+  <style>
+    :root {
+      --bg: #1a1a2e;
+      --card: #16213e;
+      --accent: #f59e0b;
+      --accent-light: #fbbf24;
+      --text: #eaeaea;
+      --muted: #a0a0a0;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --border: #0f3460;
+      --input-bg: #0f1729;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 16px;
+      padding-bottom: 160px;
+    }
+    .container { max-width: 500px; margin: 0 auto; }
+    
+    header { text-align: center; padding: 16px 0 20px; }
+    h1 { font-size: 24px; margin-bottom: 4px; }
+    .subtitle { color: var(--muted); font-size: 13px; }
+    
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 16px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .tab {
+      padding: 10px 14px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .tab.active { background: var(--accent); border-color: var(--accent); color: #1a1a2e; }
+    
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    
+    /* Cards */
+    .section {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 12px;
+      border: 1px solid var(--border);
+    }
+    .section-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--accent-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .section-badge {
+      font-size: 11px;
+      padding: 4px 10px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 20px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    
+    /* Item List */
+    .item-list { display: flex; flex-direction: column; gap: 8px; }
+    
+    .item {
+      background: rgba(255,255,255,0.03);
+      border-radius: 10px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid rgba(255,255,255,0.05);
+      transition: all 0.2s;
+    }
+    .item.expiring-soon {
+      border-color: var(--warning);
+      background: rgba(245, 158, 11, 0.1);
+    }
+    .item.expired {
+      border-color: var(--danger);
+      background: rgba(239, 68, 68, 0.1);
+    }
+    .item.low-stock {
+      border-color: var(--danger);
+    }
+    
+    .item-icon {
+      font-size: 24px;
+      width: 40px;
+      text-align: center;
+    }
+    .item-info { flex: 1; min-width: 0; }
+    .item-name {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .item-meta {
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .item-meta .location { color: #60a5fa; }
+    .item-meta .expiry { color: var(--warning); }
+    .item-meta .expiry.expired { color: var(--danger); }
+    
+    .item-qty {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .qty-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--input-bg);
+      color: var(--text);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .qty-btn:hover { border-color: var(--accent); }
+    .qty-btn.minus { color: var(--danger); }
+    .qty-btn.plus { color: var(--success); }
+    .qty-value {
+      font-size: 16px;
+      font-weight: 700;
+      min-width: 30px;
+      text-align: center;
+    }
+    
+    /* Add Item Form */
+    .add-form {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 12px;
+      border: 1px solid var(--border);
+    }
+    .form-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .form-group { flex: 1; }
+    .form-group.small { flex: 0 0 80px; }
+    .form-label {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      display: block;
+    }
+    .form-input, .form-select {
+      width: 100%;
+      padding: 10px 12px;
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      -webkit-appearance: none;
+    }
+    .form-input:focus, .form-select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    
+    .btn {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #1a1a2e;
+      width: 100%;
+    }
+    .btn-primary:hover { background: var(--accent-light); }
+    .btn-secondary {
+      background: var(--border);
+      color: var(--text);
+    }
+    .btn-danger {
+      background: var(--danger);
+      color: white;
+    }
+    
+    /* History */
+    .history-item {
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .history-item:last-child { border-bottom: none; }
+    .history-action {
+      font-size: 13px;
+    }
+    .history-action.in { color: var(--success); }
+    .history-action.out { color: var(--danger); }
+    .history-date {
+      font-size: 11px;
+      color: var(--muted);
+    }
+    
+    /* Alerts */
+    .alert-card {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(245, 158, 11, 0.15));
+      border: 1px solid var(--warning);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+    .alert-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--warning);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .alert-list {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.6;
+    }
+    
+    /* Recipe Suggestion */
+    .recipe-card {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(59, 130, 246, 0.15));
+      border: 1px solid var(--success);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    .recipe-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .recipe-ingredients {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .recipe-actions {
+      display: flex;
+      gap: 10px;
+    }
+    .recipe-actions .btn { flex: 1; padding: 10px; }
+    
+    /* Shopping List */
+    .shopping-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .shopping-item:last-child { border-bottom: none; }
+    .shopping-check {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      border: 2px solid var(--border);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .shopping-check.checked {
+      background: var(--success);
+      border-color: var(--success);
+    }
+    .shopping-check.checked::after {
+      content: '✓';
+      color: white;
+      font-size: 14px;
+    }
+    .shopping-text {
+      flex: 1;
+      font-size: 14px;
+    }
+    .shopping-text.checked {
+      text-decoration: line-through;
+      color: var(--muted);
+    }
+    
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+    }
+    .empty-state .emoji { font-size: 48px; margin-bottom: 12px; }
+    
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--success);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 14px;
+      opacity: 0;
+      transition: all 0.3s;
+      z-index: 1000;
+    }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+    
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 24px;
+      width: 100%;
+      max-width: 400px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .modal-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .modal-actions .btn { flex: 1; }
+
+    /* Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .stat-card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 14px;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .stat-label {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🏠 家庭食材库存</h1>
+      <p class="subtitle">Dong & Olivia 的食材管理</p>
+    </header>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="totalItems">0</div>
+        <div class="stat-label">食材种类</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="expiringCount">0</div>
+        <div class="stat-label">即将过期</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="lowStockCount">0</div>
+        <div class="stat-label">需补货</div>
+      </div>
+    </div>
+
+    <!-- Alerts -->
+    <div id="alertsSection" class="alert-card" style="display: none;">
+      <div class="alert-title">⚠️ 需要注意</div>
+      <div class="alert-list" id="alertsList"></div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" onclick="showTab('inventory')">📦 库存</button>
+      <button class="tab" onclick="showTab('add')">➕ 入库</button>
+      <button class="tab" onclick="showTab('suggest')">🍳 今天吃啥</button>
+      <button class="tab" onclick="showTab('shopping')">🛒 采买</button>
+      <button class="tab" onclick="showTab('history')">📊 记录</button>
+    </div>
+
+    <!-- Inventory Tab -->
+    <div id="inventory" class="tab-content active">
+      <div class="section">
+        <div class="section-title">
+          <span>🥬 生鲜蔬果</span>
+          <span class="section-badge" id="freshCount">0</span>
+        </div>
+        <div class="item-list" id="freshList"></div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">
+          <span>🥩 肉类海鲜</span>
+          <span class="section-badge" id="meatCount">0</span>
+        </div>
+        <div class="item-list" id="meatList"></div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">
+          <span>🥛 乳制品蛋类</span>
+          <span class="section-badge" id="dairyCount">0</span>
+        </div>
+        <div class="item-list" id="dairyList"></div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">
+          <span>🍚 主食干货</span>
+          <span class="section-badge" id="stapleCount">0</span>
+        </div>
+        <div class="item-list" id="stapleList"></div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">
+          <span>🧂 调料配料</span>
+          <span class="section-badge" id="condimentCount">0</span>
+        </div>
+        <div class="item-list" id="condimentList"></div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">
+          <span>🥜 坚果零食</span>
+          <span class="section-badge" id="snackCount">0</span>
+        </div>
+        <div class="item-list" id="snackList"></div>
+      </div>
+    </div>
+
+    <!-- Add Tab -->
+    <div id="add" class="tab-content">
+      <div class="add-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">食材名称</label>
+            <input type="text" class="form-input" id="itemName" placeholder="例如：西兰花">
+          </div>
+          <div class="form-group small">
+            <label class="form-label">数量</label>
+            <input type="number" class="form-input" id="itemQty" value="1" min="1">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">分类</label>
+            <select class="form-select" id="itemCategory">
+              <option value="fresh">🥬 生鲜蔬果</option>
+              <option value="meat">🥩 肉类海鲜</option>
+              <option value="dairy">🥛 乳制品蛋类</option>
+              <option value="staple">🍚 主食干货</option>
+              <option value="condiment">🧂 调料配料</option>
+              <option value="snack">🥜 坚果零食</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">单位</label>
+            <select class="form-select" id="itemUnit">
+              <option value="个">个</option>
+              <option value="包">包</option>
+              <option value="盒">盒</option>
+              <option value="瓶">瓶</option>
+              <option value="袋">袋</option>
+              <option value="g">克(g)</option>
+              <option value="kg">公斤(kg)</option>
+              <option value="L">升(L)</option>
+              <option value="把">把</option>
+              <option value="颗">颗</option>
+              <option value="根">根</option>
+              <option value="只">只</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">存放位置</label>
+            <select class="form-select" id="itemLocation">
+              <option value="冰箱保鲜">🧊 冰箱保鲜</option>
+              <option value="冰箱冷冻">❄️ 冰箱冷冻</option>
+              <option value="厨房柜1">🗄️ 厨房柜-抽屉1</option>
+              <option value="厨房柜2">🗄️ 厨房柜-抽屉2</option>
+              <option value="厨房柜3">🗄️ 厨房柜-抽屉3</option>
+              <option value="厨房柜4">🗄️ 厨房柜-抽屉4</option>
+              <option value="烤箱左">📍 烤箱左</option>
+              <option value="烤箱右">📍 烤箱右</option>
+              <option value="操作台下">📍 操作台下</option>
+              <option value="其他">📍 其他</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">过期日期 (可选)</label>
+            <input type="date" class="form-input" id="itemExpiry">
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="addItem()">➕ 添加到库存</button>
+      </div>
+
+      <div class="section">
+        <div class="section-title">⚡ 快速添加</div>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <button class="btn btn-secondary" onclick="quickAdd('鸡蛋', 'dairy', '12', '个', '冰箱保鲜')">🥚 鸡蛋</button>
+          <button class="btn btn-secondary" onclick="quickAdd('牛奶', 'dairy', '1', 'L', '冰箱保鲜')">🥛 牛奶</button>
+          <button class="btn btn-secondary" onclick="quickAdd('西兰花', 'fresh', '1', '颗', '冰箱保鲜')">🥦 西兰花</button>
+          <button class="btn btn-secondary" onclick="quickAdd('鸡胸肉', 'meat', '500', 'g', '冰箱冷冻')">🍗 鸡胸肉</button>
+          <button class="btn btn-secondary" onclick="quickAdd('三文鱼', 'meat', '400', 'g', '冰箱冷冻')">🐟 三文鱼</button>
+          <button class="btn btn-secondary" onclick="quickAdd('大米', 'staple', '2', 'kg', '厨房柜1')">🍚 大米</button>
+          <button class="btn btn-secondary" onclick="quickAdd('香蕉', 'fresh', '1', '把', '其他')">🍌 香蕉</button>
+          <button class="btn btn-secondary" onclick="quickAdd('番茄', 'fresh', '4', '个', '冰箱保鲜')">🍅 番茄</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Suggest Tab -->
+    <div id="suggest" class="tab-content">
+      <div class="recipe-card" id="recipeCard">
+        <div class="recipe-title">🍳 正在分析库存...</div>
+        <div class="recipe-ingredients">根据现有食材推荐菜品</div>
+      </div>
+
+      <button class="btn btn-primary" onclick="generateSuggestion()" style="margin-bottom: 16px;">🔄 换一个推荐</button>
+
+      <div class="section">
+        <div class="section-title">📋 现有主要食材</div>
+        <div id="availableIngredients" class="item-list"></div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">🔗 快速入口</div>
+        <a href="olivia-food-picker/index.html" class="btn btn-secondary" style="width: 100%; margin-bottom: 10px; text-decoration: none;">
+          🎲 Olivia 今天吃什么
+        </a>
+      </div>
+    </div>
+
+    <!-- Shopping Tab -->
+    <div id="shopping" class="tab-content">
+      <div class="section">
+        <div class="section-title">
+          <span>🛒 需要补货</span>
+          <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="clearShoppingList()">清空</button>
+        </div>
+        <div id="shoppingList"></div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">📅 二月采买计划</div>
+        <div style="font-size: 13px; color: var(--muted); line-height: 1.6;">
+          <p><strong>每周固定：</strong>三文鱼、鸡胸肉、鸡蛋、豆腐、希腊酸奶</p>
+          <p style="margin-top: 8px;"><strong>生鲜(2-3次)：</strong>西兰花、菠菜、番茄、黄瓜、香蕉、蓝莓</p>
+          <p style="margin-top: 8px;"><strong>月初：</strong>大米、燕麦、坚果、蜂蜜、橄榄油</p>
+        </div>
+        <a href="february-shopping-list.md" class="btn btn-secondary" style="width: 100%; margin-top: 12px; text-decoration: none;">
+          📋 查看完整采买计划
+        </a>
+      </div>
+    </div>
+
+    <!-- History Tab -->
+    <div id="history" class="tab-content">
+      <div class="section">
+        <div class="section-title">
+          <span>📊 出入库记录</span>
+          <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="clearHistory()">清空</button>
+        </div>
+        <div id="historyList"></div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">💾 数据管理</div>
+        <div style="display: flex; gap: 10px;">
+          <button class="btn btn-secondary" style="flex: 1;" onclick="exportData()">📤 导出</button>
+          <button class="btn btn-secondary" style="flex: 1;" onclick="importDataClick()">📥 导入</button>
+        </div>
+        <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importData(event)">
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Edit Modal -->
+  <div class="modal-overlay" id="editModal">
+    <div class="modal">
+      <div class="modal-title">✏️ 编辑食材</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">名称</label>
+          <input type="text" class="form-input" id="editName">
+        </div>
+        <div class="form-group small">
+          <label class="form-label">数量</label>
+          <input type="number" class="form-input" id="editQty" min="0">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">位置</label>
+          <select class="form-select" id="editLocation">
+            <option value="冰箱保鲜">🧊 冰箱保鲜</option>
+            <option value="冰箱冷冻">❄️ 冰箱冷冻</option>
+            <option value="厨房柜1">🗄️ 厨房柜-抽屉1</option>
+            <option value="厨房柜2">🗄️ 厨房柜-抽屉2</option>
+            <option value="厨房柜3">🗄️ 厨房柜-抽屉3</option>
+            <option value="厨房柜4">🗄️ 厨房柜-抽屉4</option>
+            <option value="烤箱左">📍 烤箱左</option>
+            <option value="烤箱右">📍 烤箱右</option>
+            <option value="操作台下">📍 操作台下</option>
+            <option value="其他">📍 其他</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">过期日期</label>
+          <input type="date" class="form-input" id="editExpiry">
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-danger" onclick="deleteItem()">🗑️ 删除</button>
+        <button class="btn btn-secondary" onclick="closeModal()">取消</button>
+        <button class="btn btn-primary" onclick="saveEdit()">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ============================================
+    // 家庭食材库存管理系统
+    // ============================================
+
+    let inventory = [];
+    let history = [];
+    let shoppingList = [];
+    let editingId = null;
+
+    const categoryIcons = {
+      fresh: '🥬',
+      meat: '🥩',
+      dairy: '🥛',
+      staple: '🍚',
+      condiment: '🧂',
+      snack: '🥜'
+    };
+
+    const categoryNames = {
+      fresh: '生鲜蔬果',
+      meat: '肉类海鲜',
+      dairy: '乳制品蛋类',
+      staple: '主食干货',
+      condiment: '调料配料',
+      snack: '坚果零食'
+    };
+
+    // 菜品推荐数据
+    const recipes = [
+      { name: '番茄炒蛋', ingredients: ['番茄', '鸡蛋'], need: ['葱'] },
+      { name: '西兰花炒鸡胸', ingredients: ['西兰花', '鸡胸肉'], need: ['蒜'] },
+      { name: '三文鱼配蔬菜', ingredients: ['三文鱼', '西兰花', '胡萝卜'], need: ['柠檬'] },
+      { name: '蒜蓉菠菜', ingredients: ['菠菜', '大蒜'], need: [] },
+      { name: '黄瓜拌豆腐', ingredients: ['黄瓜', '豆腐'], need: ['香油'] },
+      { name: '牛油果吐司', ingredients: ['牛油果', '全麦面包', '鸡蛋'], need: [] },
+      { name: '虾仁炒蛋', ingredients: ['虾仁', '鸡蛋'], need: ['葱'] },
+      { name: '蔬菜意面', ingredients: ['意面', '番茄', '彩椒'], need: ['橄榄油'] },
+      { name: '酸奶水果碗', ingredients: ['希腊酸奶', '蓝莓', '香蕉', '坚果'], need: ['蜂蜜'] },
+      { name: '鸡肉沙拉', ingredients: ['鸡胸肉', '生菜', '番茄', '黄瓜'], need: ['沙拉酱'] },
+      { name: '燕麦粥', ingredients: ['燕麦', '牛奶', '蓝莓'], need: ['蜂蜜'] },
+      { name: '紫薯粥', ingredients: ['紫薯', '小米'], need: [] },
+      { name: '南瓜蒸蛋', ingredients: ['南瓜', '鸡蛋'], need: [] },
+      { name: '蒜香虾', ingredients: ['虾仁', '大蒜'], need: ['黄油'] }
+    ];
+
+    // 初始化
+    document.addEventListener('DOMContentLoaded', () => {
+      loadData();
+      renderAll();
+    });
+
+    // ============================================
+    // 数据操作
+    // ============================================
+
+    function loadData() {
+      const saved = localStorage.getItem('pantry-inventory');
+      if (saved) inventory = JSON.parse(saved);
+      
+      const savedHistory = localStorage.getItem('pantry-history');
+      if (savedHistory) history = JSON.parse(savedHistory);
+      
+      const savedShopping = localStorage.getItem('pantry-shopping');
+      if (savedShopping) shoppingList = JSON.parse(savedShopping);
+    }
+
+    function saveData() {
+      localStorage.setItem('pantry-inventory', JSON.stringify(inventory));
+      localStorage.setItem('pantry-history', JSON.stringify(history));
+      localStorage.setItem('pantry-shopping', JSON.stringify(shoppingList));
+    }
+
+    function addItem() {
+      const name = document.getElementById('itemName').value.trim();
+      const qty = parseInt(document.getElementById('itemQty').value) || 1;
+      const category = document.getElementById('itemCategory').value;
+      const unit = document.getElementById('itemUnit').value;
+      const location = document.getElementById('itemLocation').value;
+      const expiry = document.getElementById('itemExpiry').value;
+
+      if (!name) {
+        showToast('请输入食材名称', 'warning');
+        return;
+      }
+
+      const item = {
+        id: Date.now(),
+        name,
+        qty,
+        category,
+        unit,
+        location,
+        expiry: expiry || null,
+        addedAt: new Date().toISOString()
+      };
+
+      inventory.push(item);
+      addHistory('in', name, qty, unit);
+      saveData();
+      renderAll();
+
+      // 清空表单
+      document.getElementById('itemName').value = '';
+      document.getElementById('itemQty').value = '1';
+      document.getElementById('itemExpiry').value = '';
+
+      showToast(`已添加 ${name}`);
+      showTab('inventory');
+    }
+
+    function quickAdd(name, category, qty, unit, location) {
+      const item = {
+        id: Date.now(),
+        name,
+        qty: parseInt(qty),
+        category,
+        unit,
+        location,
+        expiry: null,
+        addedAt: new Date().toISOString()
+      };
+
+      inventory.push(item);
+      addHistory('in', name, qty, unit);
+      saveData();
+      renderAll();
+      showToast(`已添加 ${name}`);
+    }
+
+    function updateQty(id, delta) {
+      const item = inventory.find(i => i.id === id);
+      if (!item) return;
+
+      item.qty += delta;
+      
+      if (item.qty <= 0) {
+        inventory = inventory.filter(i => i.id !== id);
+        addHistory('out', item.name, Math.abs(delta), item.unit);
+        
+        // 添加到购物清单
+        if (!shoppingList.includes(item.name)) {
+          shoppingList.push(item.name);
+        }
+      } else {
+        addHistory(delta > 0 ? 'in' : 'out', item.name, Math.abs(delta), item.unit);
+      }
+
+      saveData();
+      renderAll();
+    }
+
+    function addHistory(action, name, qty, unit) {
+      history.unshift({
+        action,
+        name,
+        qty,
+        unit,
+        date: new Date().toISOString()
+      });
+      
+      // 只保留最近100条
+      if (history.length > 100) history = history.slice(0, 100);
+    }
+
+    function openEdit(id) {
+      const item = inventory.find(i => i.id === id);
+      if (!item) return;
+
+      editingId = id;
+      document.getElementById('editName').value = item.name;
+      document.getElementById('editQty').value = item.qty;
+      document.getElementById('editLocation').value = item.location;
+      document.getElementById('editExpiry').value = item.expiry || '';
+      
+      document.getElementById('editModal').classList.add('show');
+    }
+
+    function closeModal() {
+      document.getElementById('editModal').classList.remove('show');
+      editingId = null;
+    }
+
+    function saveEdit() {
+      const item = inventory.find(i => i.id === editingId);
+      if (!item) return;
+
+      item.name = document.getElementById('editName').value.trim();
+      item.qty = parseInt(document.getElementById('editQty').value) || 0;
+      item.location = document.getElementById('editLocation').value;
+      item.expiry = document.getElementById('editExpiry').value || null;
+
+      if (item.qty <= 0) {
+        inventory = inventory.filter(i => i.id !== editingId);
+      }
+
+      saveData();
+      renderAll();
+      closeModal();
+      showToast('已保存');
+    }
+
+    function deleteItem() {
+      const item = inventory.find(i => i.id === editingId);
+      if (!item) return;
+
+      inventory = inventory.filter(i => i.id !== editingId);
+      addHistory('out', item.name, item.qty, item.unit);
+      
+      if (!shoppingList.includes(item.name)) {
+        shoppingList.push(item.name);
+      }
+
+      saveData();
+      renderAll();
+      closeModal();
+      showToast('已删除');
+    }
+
+    // ============================================
+    // 渲染
+    // ============================================
+
+    function renderAll() {
+      renderInventory();
+      renderStats();
+      renderAlerts();
+      renderHistory();
+      renderShopping();
+      renderSuggestion();
+    }
+
+    function renderInventory() {
+      const categories = ['fresh', 'meat', 'dairy', 'staple', 'condiment', 'snack'];
+      
+      categories.forEach(cat => {
+        const items = inventory.filter(i => i.category === cat);
+        const list = document.getElementById(`${cat}List`);
+        const count = document.getElementById(`${cat}Count`);
+        
+        count.textContent = items.length;
+        
+        if (items.length === 0) {
+          list.innerHTML = '<div class="empty-state"><p style="font-size: 13px;">暂无食材</p></div>';
+          return;
+        }
+
+        list.innerHTML = items.map(item => {
+          const expiryClass = getExpiryClass(item.expiry);
+          const expiryText = getExpiryText(item.expiry);
+          
+          return `
+            <div class="item ${expiryClass}" onclick="openEdit(${item.id})">
+              <div class="item-icon">${getItemIcon(item.name)}</div>
+              <div class="item-info">
+                <div class="item-name">${item.name}</div>
+                <div class="item-meta">
+                  <span class="location">📍 ${item.location}</span>
+                  ${expiryText ? `<span class="expiry ${expiryClass}">${expiryText}</span>` : ''}
+                </div>
+              </div>
+              <div class="item-qty">
+                <button class="qty-btn minus" onclick="event.stopPropagation(); updateQty(${item.id}, -1)">−</button>
+                <span class="qty-value">${item.qty}${item.unit}</span>
+                <button class="qty-btn plus" onclick="event.stopPropagation(); updateQty(${item.id}, 1)">+</button>
+              </div>
+            </div>
+          `;
+        }).join('');
+      });
+    }
+
+    function renderStats() {
+      document.getElementById('totalItems').textContent = inventory.length;
+      
+      const expiring = inventory.filter(i => {
+        if (!i.expiry) return false;
+        const days = getDaysUntilExpiry(i.expiry);
+        return days >= 0 && days <= 3;
+      });
+      document.getElementById('expiringCount').textContent = expiring.length;
+      
+      document.getElementById('lowStockCount').textContent = shoppingList.length;
+    }
+
+    function renderAlerts() {
+      const alerts = [];
+      
+      // 过期/即将过期
+      inventory.forEach(item => {
+        if (!item.expiry) return;
+        const days = getDaysUntilExpiry(item.expiry);
+        if (days < 0) {
+          alerts.push(`❌ <strong>${item.name}</strong> 已过期`);
+        } else if (days === 0) {
+          alerts.push(`⚠️ <strong>${item.name}</strong> 今天过期`);
+        } else if (days <= 3) {
+          alerts.push(`⏰ <strong>${item.name}</strong> ${days}天后过期`);
+        }
+      });
+
+      const section = document.getElementById('alertsSection');
+      if (alerts.length > 0) {
+        document.getElementById('alertsList').innerHTML = alerts.join('<br>');
+        section.style.display = 'block';
+      } else {
+        section.style.display = 'none';
+      }
+    }
+
+    function renderHistory() {
+      const list = document.getElementById('historyList');
+      
+      if (history.length === 0) {
+        list.innerHTML = '<div class="empty-state"><div class="emoji">📊</div><p>暂无记录</p></div>';
+        return;
+      }
+
+      list.innerHTML = history.slice(0, 20).map(h => {
+        const date = new Date(h.date);
+        const dateStr = `${date.getMonth()+1}/${date.getDate()} ${date.getHours()}:${String(date.getMinutes()).padStart(2,'0')}`;
+        return `
+          <div class="history-item">
+            <span class="history-action ${h.action}">${h.action === 'in' ? '📥 入库' : '📤 消耗'} ${h.name} ×${h.qty}${h.unit}</span>
+            <span class="history-date">${dateStr}</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderShopping() {
+      const list = document.getElementById('shoppingList');
+      
+      if (shoppingList.length === 0) {
+        list.innerHTML = '<div class="empty-state"><div class="emoji">✅</div><p>库存充足，无需补货</p></div>';
+        return;
+      }
+
+      list.innerHTML = shoppingList.map((item, index) => `
+        <div class="shopping-item">
+          <div class="shopping-check" onclick="toggleShopping(${index})"></div>
+          <span class="shopping-text">${item}</span>
+          <button class="qty-btn" onclick="removeShopping(${index})" style="color: var(--muted);">×</button>
+        </div>
+      `).join('');
+    }
+
+    function renderSuggestion() {
+      const available = inventory.map(i => i.name.toLowerCase());
+      
+      // 显示现有主要食材
+      const mainIngredients = inventory.filter(i => ['meat', 'fresh', 'dairy'].includes(i.category)).slice(0, 8);
+      document.getElementById('availableIngredients').innerHTML = mainIngredients.map(i => `
+        <div class="item" style="padding: 8px 12px;">
+          <div class="item-icon" style="font-size: 20px; width: 30px;">${getItemIcon(i.name)}</div>
+          <div class="item-info">
+            <div class="item-name" style="font-size: 13px;">${i.name}</div>
+          </div>
+          <span style="font-size: 12px; color: var(--muted);">${i.qty}${i.unit}</span>
+        </div>
+      `).join('') || '<p style="color: var(--muted); font-size: 13px;">暂无食材</p>';
+
+      generateSuggestion();
+    }
+
+    function generateSuggestion() {
+      const available = inventory.map(i => i.name.toLowerCase());
+      
+      // 找到可以做的菜
+      const possible = recipes.filter(r => {
+        const matched = r.ingredients.filter(ing => 
+          available.some(a => a.includes(ing.toLowerCase()) || ing.toLowerCase().includes(a))
+        );
+        return matched.length >= Math.ceil(r.ingredients.length * 0.6);
+      });
+
+      const card = document.getElementById('recipeCard');
+      
+      if (possible.length === 0) {
+        card.innerHTML = `
+          <div class="recipe-title">🤔 食材不足</div>
+          <div class="recipe-ingredients">库存食材较少，建议先采购一些基础食材</div>
+        `;
+        return;
+      }
+
+      const recipe = possible[Math.floor(Math.random() * possible.length)];
+      const needToBuy = recipe.need.filter(n => !available.some(a => a.includes(n.toLowerCase())));
+
+      card.innerHTML = `
+        <div class="recipe-title">🍳 ${recipe.name}</div>
+        <div class="recipe-ingredients">
+          <strong>食材：</strong>${recipe.ingredients.join('、')}
+          ${needToBuy.length > 0 ? `<br><span style="color: var(--warning);">可能需要补：${needToBuy.join('、')}</span>` : ''}
+        </div>
+      `;
+    }
+
+    // ============================================
+    // 辅助函数
+    // ============================================
+
+    function getItemIcon(name) {
+      const icons = {
+        '鸡蛋': '🥚', '蛋': '🥚',
+        '牛奶': '🥛', '酸奶': '🥛',
+        '西兰花': '🥦', '菠菜': '🥬', '生菜': '🥬', '青菜': '🥬',
+        '番茄': '🍅', '西红柿': '🍅',
+        '黄瓜': '🥒',
+        '胡萝卜': '🥕',
+        '土豆': '🥔', '紫薯': '🍠', '南瓜': '🎃',
+        '洋葱': '🧅', '大蒜': '🧄', '姜': '🫚',
+        '鸡': '🍗', '鸡胸': '🍗', '鸡腿': '🍗',
+        '牛': '🥩', '猪': '🥓', '排骨': '🍖',
+        '鱼': '🐟', '三文鱼': '🐟', '鳕鱼': '🐟', '虾': '🦐',
+        '米': '🍚', '面': '🍝', '意面': '🍝', '面包': '🍞',
+        '燕麦': '🥣',
+        '香蕉': '🍌', '苹果': '🍎', '橙': '🍊', '柠檬': '🍋',
+        '蓝莓': '🫐', '草莓': '🍓', '牛油果': '🥑',
+        '豆腐': '🧈',
+        '坚果': '🥜', '核桃': '🌰',
+        '蜂蜜': '🍯',
+        '盐': '🧂', '油': '🫒', '酱油': '🍶',
+      };
+      
+      for (const [key, icon] of Object.entries(icons)) {
+        if (name.includes(key)) return icon;
+      }
+      return '🍽️';
+    }
+
+    function getDaysUntilExpiry(expiry) {
+      if (!expiry) return null;
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const exp = new Date(expiry);
+      return Math.floor((exp - today) / (1000 * 60 * 60 * 24));
+    }
+
+    function getExpiryClass(expiry) {
+      const days = getDaysUntilExpiry(expiry);
+      if (days === null) return '';
+      if (days < 0) return 'expired';
+      if (days <= 3) return 'expiring-soon';
+      return '';
+    }
+
+    function getExpiryText(expiry) {
+      const days = getDaysUntilExpiry(expiry);
+      if (days === null) return '';
+      if (days < 0) return '已过期';
+      if (days === 0) return '今天过期';
+      if (days === 1) return '明天过期';
+      if (days <= 3) return `${days}天后过期`;
+      return '';
+    }
+
+    function showTab(tabId) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      
+      event.target.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    function showToast(message, type = 'success') {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.style.background = type === 'warning' ? 'var(--warning)' : 'var(--success)';
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2000);
+    }
+
+    function toggleShopping(index) {
+      const el = event.target;
+      el.classList.toggle('checked');
+      el.parentElement.querySelector('.shopping-text').classList.toggle('checked');
+    }
+
+    function removeShopping(index) {
+      shoppingList.splice(index, 1);
+      saveData();
+      renderShopping();
+    }
+
+    function clearShoppingList() {
+      if (confirm('确定清空购物清单？')) {
+        shoppingList = [];
+        saveData();
+        renderShopping();
+      }
+    }
+
+    function clearHistory() {
+      if (confirm('确定清空所有记录？')) {
+        history = [];
+        saveData();
+        renderHistory();
+      }
+    }
+
+    function exportData() {
+      const data = { inventory, history, shoppingList, exportedAt: new Date().toISOString() };
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `pantry-backup-${new Date().toISOString().slice(0,10)}.json`;
+      a.click();
+      showToast('已导出');
+    }
+
+    function importDataClick() {
+      document.getElementById('importFile').click();
+    }
+
+    function importData(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const data = JSON.parse(e.target.result);
+          if (data.inventory) inventory = data.inventory;
+          if (data.history) history = data.history;
+          if (data.shoppingList) shoppingList = data.shoppingList;
+          saveData();
+          renderAll();
+          showToast('导入成功');
+        } catch (err) {
+          showToast('导入失败', 'warning');
+        }
+      };
+      reader.readAsText(file);
+    }
+  </script>
+</body>
+</html>
