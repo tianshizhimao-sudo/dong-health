@@ -248,6 +248,71 @@
     .nav-back:hover {
       color: var(--text);
     }
+
+    .calendar-options {
+      background: rgba(255,255,255,0.03);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .time-picker {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .time-picker label {
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .time-input {
+      padding: 10px 14px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 16px;
+    }
+    .time-input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .calendar-warning {
+      font-size: 13px;
+      color: var(--warning);
+      background: rgba(255, 217, 61, 0.1);
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+    .calendar-warning .hint-text {
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .calendar-buttons {
+      display: flex;
+      gap: 10px;
+    }
+    .cal-btn {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--card);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .cal-btn:hover {
+      border-color: var(--accent);
+      background: rgba(233, 69, 96, 0.1);
+    }
+    .cal-btn.google:hover {
+      border-color: #4285f4;
+      background: rgba(66, 133, 244, 0.1);
+    }
   </style>
 </head>
 <body>
@@ -290,10 +355,33 @@
       <p class="tip-text" id="tipText"></p>
     </div>
 
+    <!-- 日历集成 -->
+    <div class="section" id="calendarSection">
+      <div class="section-title">📅 添加到日历</div>
+      <div class="calendar-options">
+        <div class="time-picker">
+          <label>选择训练时间</label>
+          <input type="time" id="workoutTime" value="18:00" class="time-input">
+        </div>
+        <div class="calendar-warning">
+          ⚠️ 建议避开会议前后1小时
+          <br><span class="hint-text">💡 跟 Oney 说"检查我明天的日程"确认无冲突</span>
+        </div>
+        <div class="calendar-buttons">
+          <button class="cal-btn" onclick="downloadICS()">
+            🍎 Apple Calendar
+          </button>
+          <button class="cal-btn google" onclick="addToGoogleCalendar()">
+            📆 Google Calendar
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- 操作按钮 -->
     <div class="action-buttons">
       <a href="fitness-tracker.html" class="btn btn-primary">✅ 开始打卡</a>
-      <a href="fitness-plan-illustrated.html" class="btn btn-secondary">📖 动作详解</a>
+      <a href="exercise-library.html" class="btn btn-secondary">📚 动作库</a>
     </div>
   </div>
 
@@ -476,6 +564,80 @@
     }
 
     init();
+
+    // Calendar integration
+    function getWorkoutDateTime() {
+      const time = document.getElementById('workoutTime').value;
+      const [hours, minutes] = time.split(':');
+      const date = new Date();
+      date.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+      return date;
+    }
+
+    function formatICSDate(date) {
+      return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+    }
+
+    function downloadICS() {
+      const today = new Date().getDay();
+      const plan = weekPlan[today];
+      const startTime = getWorkoutDateTime();
+      const endTime = new Date(startTime);
+
+      // Parse duration (e.g., "90分钟" -> 90)
+      const durationMatch = plan.duration.match(/(\d+)/);
+      const durationMinutes = durationMatch ? parseInt(durationMatch[1]) : 60;
+      endTime.setMinutes(endTime.getMinutes() + durationMinutes);
+
+      const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dong Fitness//EN
+BEGIN:VEVENT
+UID:${Date.now()}@dong-fitness
+DTSTAMP:${formatICSDate(new Date())}
+DTSTART:${formatICSDate(startTime)}
+DTEND:${formatICSDate(endTime)}
+SUMMARY:${plan.icon} ${plan.type}
+DESCRIPTION:训练内容：${plan.exercises.join('、')}\\n\\n训练重点：${plan.focus.join('、')}\\n\\n💡 ${plan.tip}
+LOCATION:Virgin Active Gym
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:健身时间到！准备去健身房
+END:VALARM
+END:VEVENT
+END:VCALENDAR`;
+
+      const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `dong-workout-${new Date().toISOString().split('T')[0]}.ics`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function addToGoogleCalendar() {
+      const today = new Date().getDay();
+      const plan = weekPlan[today];
+      const startTime = getWorkoutDateTime();
+      const endTime = new Date(startTime);
+
+      const durationMatch = plan.duration.match(/(\d+)/);
+      const durationMinutes = durationMatch ? parseInt(durationMatch[1]) : 60;
+      endTime.setMinutes(endTime.getMinutes() + durationMinutes);
+
+      // Format for Google Calendar URL
+      const formatGoogleDate = (d) => d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+
+      const title = encodeURIComponent(`${plan.icon} ${plan.type}`);
+      const details = encodeURIComponent(`训练内容：${plan.exercises.join('、')}\n\n训练重点：${plan.focus.join('、')}\n\n💡 ${plan.tip}`);
+      const location = encodeURIComponent('Virgin Active Gym');
+      const dates = `${formatGoogleDate(startTime)}/${formatGoogleDate(endTime)}`;
+
+      const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dates}&details=${details}&location=${location}`;
+      window.open(url, '_blank');
+    }
   </script>
 </body>
 </html>

@@ -347,7 +347,42 @@
       gap: 8px;
     }
     .sync-btn:hover { background: rgba(78, 204, 163, 0.1); }
-    
+    .sync-btn.secondary {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .sync-btn.secondary:hover { background: rgba(233, 69, 96, 0.1); }
+
+    .export-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .oney-hint {
+      display: flex;
+      gap: 12px;
+      padding: 16px;
+      background: linear-gradient(135deg, rgba(46, 204, 133, 0.1), rgba(78, 204, 163, 0.05));
+      border: 1px solid rgba(46, 204, 133, 0.3);
+      border-radius: 14px;
+      margin-top: 16px;
+    }
+    .hint-icon { font-size: 24px; }
+    .hint-content { flex: 1; }
+    .hint-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--success);
+      margin-bottom: 4px;
+    }
+    .hint-text {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
     .empty-state {
       text-align: center;
       padding: 40px 20px;
@@ -1261,12 +1296,26 @@
     <!-- 历史记录 -->
     <div id="history" class="workout-content">
       <div id="history-list"></div>
-      <button class="sync-btn" onclick="syncToDatabase()">
-        🔄 同步到健康数据库
-      </button>
-      <button class="sync-btn" onclick="exportData()" style="margin-top: 8px; border-color: var(--accent); color: var(--accent);">
-        📤 导出 JSON 数据
-      </button>
+
+      <div class="oney-hint">
+        <div class="hint-icon">💡</div>
+        <div class="hint-content">
+          <div class="hint-title">自动同步到 Google Sheets</div>
+          <div class="hint-text">跟 Oney 说"同步健身打卡"即可自动记录到 Google Sheets</div>
+        </div>
+      </div>
+
+      <div class="export-buttons">
+        <button class="sync-btn" onclick="copyDataToClipboard()">
+          📋 复制打卡数据
+        </button>
+        <button class="sync-btn" onclick="downloadCSV()">
+          📊 下载 CSV
+        </button>
+        <button class="sync-btn secondary" onclick="exportData()">
+          📤 导出 JSON
+        </button>
+      </div>
     </div>
   </div>
 
@@ -1560,7 +1609,69 @@
       URL.revokeObjectURL(url);
       showToast('📤 数据已导出！');
     }
-    
+
+    function copyDataToClipboard() {
+      const records = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      if (records.length === 0) {
+        showToast('没有数据可复制');
+        return;
+      }
+
+      // Format data for easy pasting
+      const formattedData = records.slice(-10).map(r => {
+        const date = new Date(r.date).toLocaleDateString('zh-CN');
+        const completed = r.exercises.filter(e => e.completed).length;
+        const total = r.exercises.length;
+        return `${date} | ${r.typeLabel} | ${completed}/${total}完成 | RPE: ${r.rating || '-'}`;
+      }).join('\n');
+
+      const fullData = `--- Dong 健身打卡记录 ---\n${formattedData}\n\n--- JSON数据 ---\n${JSON.stringify(records.slice(-10), null, 2)}`;
+
+      navigator.clipboard.writeText(fullData).then(() => {
+        showToast('📋 数据已复制到剪贴板！');
+      }).catch(() => {
+        // Fallback for older browsers
+        const textarea = document.createElement('textarea');
+        textarea.value = fullData;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        showToast('📋 数据已复制！');
+      });
+    }
+
+    function downloadCSV() {
+      const records = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      if (records.length === 0) {
+        showToast('没有数据可导出');
+        return;
+      }
+
+      // CSV header
+      let csv = '\uFEFF日期,训练类型,完成动作数,总动作数,完成率,RPE评分,备注\n';
+
+      // CSV rows
+      records.forEach(r => {
+        const date = new Date(r.date).toLocaleDateString('zh-CN');
+        const completedCount = r.exercises.filter(e => e.completed).length;
+        const totalCount = r.exercises.length;
+        const completionRate = Math.round((completedCount / totalCount) * 100) + '%';
+        const rating = r.rating || '';
+        const notes = (r.notes || '').replace(/,/g, '，').replace(/\n/g, ' ');
+        csv += `${date},${r.typeLabel},${completedCount},${totalCount},${completionRate},${rating},${notes}\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `dong-fitness-${new Date().toISOString().split('T')[0]}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('📊 CSV已下载！');
+    }
+
     function showToast(message) {
       const toast = document.getElementById('toast');
       toast.textContent = message;

@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#1a1a2e">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+  <title>📚 动作库</title>
+  <style>
+    :root {
+      --bg: #1a1a2e;
+      --card: #16213e;
+      --accent: #2ECC85;
+      --accent-light: #4ecca3;
+      --text: #eaeaea;
+      --muted: #a0a0a0;
+      --success: #4ecca3;
+      --warning: #ffd93d;
+      --danger: #e94560;
+      --border: #0f3460;
+      --input-bg: #0f1729;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 16px;
+      padding-bottom: 180px;
+    }
+    .container { max-width: 600px; margin: 0 auto; }
+
+    .nav-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+    .nav-back:hover { color: var(--text); }
+
+    header { text-align: center; padding: 16px 0 24px; }
+    h1 { font-size: 24px; margin-bottom: 8px; }
+    .subtitle { color: var(--muted); font-size: 14px; }
+
+    .mode-toggle {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      background: var(--card);
+      padding: 6px;
+      border-radius: 12px;
+    }
+    .mode-btn {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .mode-btn.active {
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      padding: 8px 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      color: var(--text);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--bg);
+    }
+
+    .search-box {
+      width: 100%;
+      padding: 14px 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      font-size: 15px;
+      margin-bottom: 16px;
+    }
+    .search-box:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .exercise-list { display: flex; flex-direction: column; gap: 12px; }
+
+    .exercise-card {
+      background: var(--card);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: all 0.2s;
+    }
+    .exercise-card.selected {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(46, 204, 133, 0.2);
+    }
+
+    .exercise-header {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      cursor: pointer;
+      gap: 12px;
+    }
+    .exercise-checkbox {
+      width: 24px;
+      height: 24px;
+      border: 2px solid var(--border);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+    .exercise-card.selected .exercise-checkbox {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .exercise-icon {
+      font-size: 24px;
+      width: 40px;
+      text-align: center;
+    }
+    .exercise-info { flex: 1; }
+    .exercise-name { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+    .exercise-meta {
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      gap: 8px;
+    }
+    .exercise-toggle {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 14px;
+      transition: transform 0.2s;
+    }
+    .exercise-card.expanded .exercise-toggle { transform: rotate(180deg); }
+
+    .exercise-details {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+    }
+    .exercise-card.expanded .exercise-details {
+      max-height: 1000px;
+    }
+
+    .details-content {
+      padding: 0 16px 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .instruction-section {
+      background: rgba(255,255,255,0.03);
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 12px;
+    }
+    .instruction-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .instruction-steps {
+      font-size: 14px;
+      line-height: 1.8;
+    }
+    .instruction-steps li {
+      margin-bottom: 8px;
+      padding-left: 4px;
+    }
+
+    .warning-box {
+      background: rgba(233, 69, 96, 0.1);
+      border: 1px solid rgba(233, 69, 96, 0.3);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-top: 12px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .warning-box strong {
+      color: var(--danger);
+    }
+
+    .video-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      background: rgba(255, 0, 0, 0.1);
+      border-radius: 10px;
+      margin-top: 12px;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.2s;
+    }
+    .video-link:hover {
+      background: rgba(255, 0, 0, 0.15);
+    }
+    .video-icon {
+      font-size: 20px;
+    }
+    .video-info { flex: 1; }
+    .video-title { font-size: 13px; font-weight: 600; }
+    .video-channel { font-size: 11px; color: var(--muted); }
+
+    .alternatives {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--border);
+    }
+    .alt-title {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .alt-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .alt-tag {
+      padding: 6px 10px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 6px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .custom-sets {
+      display: flex;
+      gap: 12px;
+      margin-top: 12px;
+      align-items: center;
+    }
+    .custom-sets label {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .custom-input {
+      width: 60px;
+      padding: 8px;
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      text-align: center;
+    }
+    .custom-input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .floating-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, var(--bg) 80%, transparent);
+      padding: 20px 16px 30px;
+    }
+    .floating-content {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .selected-count {
+      text-align: center;
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .selected-count strong {
+      color: var(--accent);
+    }
+    .start-btn {
+      width: 100%;
+      padding: 16px;
+      background: var(--accent);
+      border: none;
+      border-radius: 14px;
+      color: var(--bg);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .start-btn:hover {
+      filter: brightness(1.1);
+    }
+    .start-btn:disabled {
+      background: var(--border);
+      color: var(--muted);
+      cursor: not-allowed;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin: 24px 0 12px;
+      color: var(--accent-light);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="nav-back">← 返回健身中心</a>
+
+    <header>
+      <h1>📚 动作库</h1>
+      <p class="subtitle">选择动作 · 自定义训练</p>
+    </header>
+
+    <div class="mode-toggle">
+      <button class="mode-btn active" onclick="setMode('browse')">浏览动作</button>
+      <button class="mode-btn" onclick="setMode('custom')">自定义训练</button>
+    </div>
+
+    <input type="text" class="search-box" placeholder="🔍 搜索动作..." oninput="filterExercises(this.value)">
+
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all" onclick="setFilter('all')">全部</button>
+      <button class="filter-btn" data-filter="chest" onclick="setFilter('chest')">胸</button>
+      <button class="filter-btn" data-filter="back" onclick="setFilter('back')">背</button>
+      <button class="filter-btn" data-filter="shoulder" onclick="setFilter('shoulder')">肩</button>
+      <button class="filter-btn" data-filter="arms" onclick="setFilter('arms')">手臂</button>
+      <button class="filter-btn" data-filter="legs" onclick="setFilter('legs')">腿</button>
+      <button class="filter-btn" data-filter="core" onclick="setFilter('core')">核心</button>
+    </div>
+
+    <div class="exercise-list" id="exerciseList"></div>
+  </div>
+
+  <div class="floating-bar" id="floatingBar" style="display: none;">
+    <div class="floating-content">
+      <p class="selected-count">已选择 <strong id="selectedCount">0</strong> 个动作</p>
+      <button class="start-btn" id="startBtn" onclick="startCustomWorkout()" disabled>开始自定义训练</button>
+    </div>
+  </div>
+
+  <script>
+    // Exercise database
+    const exercises = [
+      // Chest
+      {
+        id: 'bench-press',
+        name: '杠铃卧推',
+        category: 'chest',
+        icon: '🏋️',
+        defaultSets: 4,
+        defaultReps: '8-10',
+        muscles: ['胸大肌', '三头肌', '前三角肌'],
+        instructions: [
+          '仰卧在卧推凳上，双脚踏实地面，臀部和上背部紧贴凳面',
+          '双手握杠略宽于肩，手腕保持中立',
+          '将杠铃从架上取下，移至胸部正上方',
+          '缓慢下放杠铃至胸部中下部位置（约乳头水平）',
+          '轻触胸部后，用力推起至手臂伸直（不锁死肘关节）',
+          '保持全程控制，不要弹胸借力'
+        ],
+        warnings: [
+          '始终有保护者在旁',
+          '避免手腕过度弯曲',
+          '下落时肘部约45度角，不要过度外展'
+        ],
+        video: { title: 'Perfect Bench Press Form', channel: 'Jeff Nippard', url: 'https://www.youtube.com/watch?v=vcBig73ojpE' },
+        alternatives: ['哑铃卧推', '器械推胸', '俯卧撑']
+      },
+      {
+        id: 'incline-db-press',
+        name: '上斜哑铃卧推',
+        category: 'chest',
+        icon: '🔥',
+        defaultSets: 3,
+        defaultReps: '10-12',
+        muscles: ['上胸', '前三角肌', '三头肌'],
+        instructions: [
+          '调整卧推凳至30-45度角',
+          '双手各持哑铃，从大腿处借力举至胸前',
+          '手心相对或略微向前，肘部微屈',
+          '缓慢下放哑铃至胸部两侧，感受胸部拉伸',
+          '用力推起，在顶端略微内收（不要碰撞哑铃）',
+          '全程保持肩胛骨后缩下沉'
+        ],
+        warnings: [
+          '角度不要超过45度，否则变成肩推',
+          '控制重量，避免哑铃失控砸落',
+          '结束时将哑铃放回大腿再放下'
+        ],
+        video: { title: 'Incline Dumbbell Press', channel: 'ATHLEAN-X', url: 'https://www.youtube.com/watch?v=8iPEnn-ltC8' },
+        alternatives: ['上斜杠铃卧推', '上斜器械推胸', '低位绳索夹胸']
+      },
+      {
+        id: 'cable-fly',
+        name: '绳索夹胸',
+        category: 'chest',
+        icon: '💪',
+        defaultSets: 3,
+        defaultReps: '12-15',
+        muscles: ['胸大肌', '前三角肌'],
+        instructions: [
+          '站在龙门架中间，双手各握一侧把手',
+          '身体略微前倾，一脚在前保持稳定',
+          '手臂微屈，掌心相对',
+          '用胸肌发力，将两手在身前合拢',
+          '在收缩位置短暂停顿，感受胸肌挤压',
+          '缓慢还原，感受胸肌拉伸'
+        ],
+        warnings: [
+          '全程保持肘部角度不变',
+          '不要用手臂发力，专注胸肌收缩',
+          '避免耸肩'
+        ],
+        video: { title: 'Cable Fly Variations', channel: 'Jeff Nippard', url: 'https://www.youtube.com/watch?v=Iwe6AmxVf7o' },
+        alternatives: ['哑铃飞鸟', '蝴蝶机夹胸', '弹力带夹胸']
+      },
+
+      // Back
+      {
+        id: 'pull-up',
+        name: '引体向上',
+        category: 'back',
+        icon: '💪',
+        defaultSets: 4,
+        defaultReps: '6-10',
+        muscles: ['背阔肌', '二头肌', '前臂'],
+        instructions: [
+          '双手正握单杠，略宽于肩',
+          '身体悬垂，肩胛骨下沉后缩',
+          '用背部力量将身体拉起，直到下巴过杠',
+          '在顶端短暂停顿，挤压背阔肌',
+          '缓慢下放至手臂完全伸直',
+          '保持核心收紧，避免晃动'
+        ],
+        warnings: [
+          '做不了可以使用辅助带或器械',
+          '避免过度借助惯性摆动',
+          '不要只用手臂拉，要激活背部'
+        ],
+        video: { title: 'Perfect Pull-Up Form', channel: 'ATHLEAN-X', url: 'https://www.youtube.com/watch?v=eGo4IYlbE5g' },
+        alternatives: ['高位下拉', '辅助引体机', '弹力带辅助']
+      },
+      {
+        id: 'barbell-row',
+        name: '杠铃划船',
+        category: 'back',
+        icon: '🚣',
+        defaultSets: 4,
+        defaultReps: '8-10',
+        muscles: ['背阔肌', '斜方肌', '菱形肌', '二头肌'],
+        instructions: [
+          '双脚与肩同宽站立，膝盖微屈',
+          '髋部向后推，上身前倾约45度',
+          '双手握杠略宽于肩，手臂自然下垂',
+          '收紧肩胛骨，将杠铃拉向下腹部',
+          '在顶端挤压背部肌肉',
+          '缓慢下放，保持上身稳定'
+        ],
+        warnings: [
+          '保持下背中立，不要弓背',
+          '避免用腰部甩动借力',
+          '可以使用护腰带增加稳定性'
+        ],
+        video: { title: 'Barbell Row Technique', channel: 'Jeff Nippard', url: 'https://www.youtube.com/watch?v=kBWAon7ItDw' },
+        alternatives: ['哑铃划船', 'T杠划船', '坐姿划船']
+      },
+      {
+        id: 'lat-pulldown',
+        name: '高位下拉',
+        category: 'back',
+        icon: '⬇️',
+        defaultSets: 3,
+        defaultReps: '10-12',
+        muscles: ['背阔肌', '大圆肌', '二头肌'],
+        instructions: [
+          '坐在高位下拉器械上，大腿固定在垫下',
+          '双手宽握拉杆，略宽于肩',
+          '身体略微后仰，挺胸',
+          '用背阔肌发力，将拉杆拉至上胸',
+          '在底端短暂停顿，挤压背部',
+          '控制还原至手臂完全伸展'
+        ],
+        warnings: [
+          '不要将拉杆拉到颈后（容易受伤）',
+          '避免身体过度后仰借力',
+          '专注背部发力，不要只用手臂拉'
+        ],
+        video: { title: 'Lat Pulldown Tips', channel: 'ATHLEAN-X', url: 'https://www.youtube.com/watch?v=CAwf7n6Luuc' },
+        alternatives: ['引体向上', '窄握下拉', '直臂下压']
+      },
+      {
+        id: 'seated-row',
+        name: '坐姿划船',
+        category: 'back',
+        icon: '🚣',
+        defaultSets: 3,
+        defaultReps: '10-12',
+        muscles: ['背阔肌', '菱形肌', '二头肌'],
+        instructions: [
+          '坐在坐姿划船器械上，双脚踏稳踏板',
+          '双手握把，手臂伸直，挺胸',
+          '收紧肩胛骨，将把手拉向腹部',
+          '手肘贴近身体两侧',
+          '在收缩位置挤压背部',
+          '缓慢还原至起始位置'
+        ],
+        warnings: [
+          '保持上身稳定，不要前后摇晃',
+          '全程保持下背中立',
+          '不要耸肩'
+        ],
+        video: { title: 'Cable Row Form', channel: 'Jeff Nippard', url: 'https://www.youtube.com/watch?v=GZbfZ033f74' },
+        alternatives: ['单臂哑铃划船', 'T杠划船', '器械划船']
+      },
+
+      // Shoulders
+      {
+        id: 'shoulder-press',
+        name: '坐姿肩推',
+        category: 'shoulder',
+        icon: '🎯',
+        defaultSets: 4,
+        defaultReps: '10-12',
+        muscles: ['三角肌前束', '三角肌中束', '三头肌'],
+        instructions: [
+          '坐在有靠背的凳子上，双手持哑铃',
+          '将哑铃举至肩部两侧，掌心向前',
+          '核心收紧，上背靠紧靠背',
+          '用力向上推起哑铃，手臂伸直',
+          '在顶端短暂停顿',
+          '缓慢下放回起始位置'
+        ],
+        warnings: [
+          '避免过度挺腰借力',
+          '不要将重量下放太低，保护肩关节',
+          '如有肩痛，改用中立握法'
+        ],
+        video: { title: 'Overhead Press Guide', channel: 'ATHLEAN-X', url: 'https://www.youtube.com/watch?v=qEwKCR5JCog' },
+        alternatives: ['杠铃推举', '阿诺德推举', '器械肩推']
+      },
+      {
+        id: 'lateral-raise',
+        name: '哑铃侧平举',
+        category: 'shoulder',
+        icon: '🦅',
+        defaultSets: 3,
+        defaultReps: '12-15',
+        muscles: ['三角肌中束'],
+        instructions: [
+          '双脚与肩同宽站立，双手各持哑铃',
+          '手臂自然下垂，掌心相对，肘部微屈',
+          '用肩部发力，将手臂向两侧抬起',
+          '抬至与肩同高或略低',
+          '在顶端短暂停顿',
+          '缓慢下放，保持控制'
+        ],
+        warnings: [
+          '不要使用过重的重量借力',
+          '避免耸肩，肩胛骨保持下沉',
+          '抬起时略微前倾小拇指'
+        ],
+        video: { title: 'Perfect Lateral Raise', channel: 'Jeff Nippard', url: 'https://www.youtube.com/watch?v=3VcKaXpzqRo' },
+        alternatives: ['绳索侧平举', '器械侧平举', '弹力带侧平举']
+      },
+      {
+        id: 'face-pull',
+        name: '绳索面拉',
+        category: 'shoulder',
+        icon: '🎯',
+        defaultSets: 3,
+        defaultReps: '15',
+        muscles: ['三角肌后束', '斜方肌中下部', '菱形肌'],
+        instructions: [
+          '将绳索调至面部高度',
+          '双手握绳索两端，后退几步',
+          '手臂伸直，身体略微后仰',
+          '将绳索拉向面部，手肘向外打开',
+          '在收缩位置，双手分开至耳朵两侧',
+          '缓慢还原至起始位置'
+        ],
+        warnings: [
+          '不要使用过重的重量',
+          '专注后束和上背发力',
+          '保持身体稳定，不要借力'
+        ],
+        video: { title: 'Face Pull Guide', channel: 'ATHLEAN-X', url: 'https://www.youtube.com/watch?v=rep-qVOkqgk' },
+        alternatives: ['俯身飞鸟', '反向蝴蝶机', '弹力带面拉']
+      },
+
+      // Arms
+      {
+        id: 'barbell-curl',
+        name: '杠铃弯举',
+        category: 'arms',
+        icon: '💪',
+        defaultSets: 3,
+        defaultReps: '10-12',
+        muscles: ['肱二头肌', '肱肌'],
+        instructions: [
+          '双脚与肩同宽站立，双手下握杠铃',
+          '手臂自然下垂，肘部贴近身体两侧',
+          '保持上臂不动，用二头肌弯举杠铃',
+          '举至肩部位置，挤压二头肌',
+          '缓慢下放至起始位置',
+          '全程保持肘部固定'
+        ],
+        warnings: [
+          '不要晃动身体借力',
+          '避免手腕过度弯曲',
+          '使用可控制的重量'
+        ],
+        video: { title: 'Bicep Curl Form', channel: 'Jeff Nippard', url: 'https://www.youtube.com/watch?v=ykJmrZ5v0Oo' },
+        alternatives: ['哑铃弯举', '牧师凳弯举', '锤式弯举']
+      },
+      {
+        id: 'tricep-pushdown',
+        name: '绳索三头下压',
+        category: 'arms',
+        icon: '💪',
+        defaultSets: 3,
+        defaultReps: '12-15',
+        muscles: ['肱三头肌'],
+        instructions: [
+          '面对绳索机，握住直杆或V型杆',
+          '上臂贴近身体，肘部固定',
+          '用三头肌发力，将手柄下压',
+          '手臂完全伸直，挤压三头肌',
+          '缓慢还原至起始位置',
+          '保持上身稳定'
+        ],
+        warnings: [
+          '肘部不要向前移动',
+          '不要耸肩或向前倾',
+          '控制重量，避免借力'
+        ],
+        video: { title: 'Tricep Pushdown Tips', channel: 'ATHLEAN-X', url: 'https://www.youtube.com/watch?v=2-LAMcpzODU' },
+        alternatives: ['绳索过头臂屈伸', '双杠臂屈伸', '窄距卧推']
+      },
+
+      // Legs
+      {
+        id: 'squat',
+        name: '杠铃深蹲',
+        category: 'legs',
+        icon: '🦵',
+        defaultSets: 5,
+        defaultReps: '6-8',
+        muscles: ['股四头肌', '臀大肌', '腘绳肌', '核心'],
+        instructions: [
+          '将杠铃置于上背斜方肌上（不是颈椎）',
+          '双脚略宽于肩，脚尖略微外展',
+          '挺胸收腹，目视前方',
+          '臀部向后坐，屈膝下蹲',
+          '蹲至大腿与地面平行或更低',
+          '脚跟发力，推起身体站直'
+        ],
+        warnings: [
+          '膝盖不要内扣，与脚尖方向一致',
+          '保持下背中立，不要弓背',
+          '使用深蹲架和保护者'
+        ],
+        video: { title: 'Perfect Squat Form', channel: 'Jeff Nippard', url: 'https://www.youtube.com/watch?v=bEv6CCg2BC8' },
+        alternatives: ['高脚杯深蹲', '腿举', '箱式深蹲']
+      },
+      {
+        id: 'rdl',
+        name: '罗马尼亚硬拉',
+        category: 'legs',
+        icon: '🦵',
+        defaultSets: 4,
+        defaultReps: '8-10',
+        muscles: ['腘绳肌', '臀大肌', '下背'],
+        instructions: [
+          '双脚与髋同宽站立，握住杠铃',
+          '膝盖微屈，保持这个角度不变',
+          '髋部向后推，上身前倾',
+          '杠铃沿大腿前侧下放',
+          '感受腘绳肌拉伸，下放至小腿中部',
+          '臀部和腘绳肌发力，推髋站直'
+        ],
+        warnings: [
+          '全程保持下背中立',
+          '不是硬拉，膝盖角度固定',
+          '不要过度弓背或圆背'
+        ],
+        video: { title: 'Romanian Deadlift Guide', channel: 'ATHLEAN-X', url: 'https://www.youtube.com/watch?v=JCXUYuzwNrM' },
+        alternatives: ['单腿RDL', '哑铃RDL', '早安式']
+      },
+      {
+        id: 'bulgarian-split',
+        name: '保加利亚分腿蹲',
+        category: 'legs',
+        icon: '🦵',
+        defaultSets: 3,
+        defaultReps: '10/腿',
+        muscles: ['股四头肌', '臀大肌', '腘绳肌'],
+        instructions: [
+          '背对凳子站立，后脚脚背放在凳上',
+          '前脚向前迈一步，保持稳定',
+          '双手持哑铃或徒手',
+          '屈膝下蹲，后膝接近地面',
+          '前腿发力站起',
+          '保持躯干直立，核心收紧'
+        ],
+        warnings: [
+          '前膝不要超过脚尖太多',
+          '保持平衡，可以扶墙练习',
+          '每侧做完再换另一侧'
+        ],
+        video: { title: 'Bulgarian Split Squat', channel: 'Jeff Nippard', url: 'https://www.youtube.com/watch?v=2C-uNgKwPLE' },
+        alternatives: ['弓步蹲', '后脚抬高蹲', '步行弓步']
+      },
+      {
+        id: 'leg-press',
+        name: '腿举',
+        category: 'legs',
+        icon: '🦵',
+        defaultSets: 4,
+        defaultReps: '10-12',
+        muscles: ['股四头肌', '臀大肌', '腘绳肌'],
+        instructions: [
+          '坐在腿举机上，背部和臀部紧贴靠背',
+          '双脚置于脚踏板上，与肩同宽',
+          '解除安全锁，双腿伸直（不锁死）',
+          '缓慢屈膝，下放重量',
+          '大腿接近腹部时，用力推起',
+          '重复动作，保持控制'
+        ],
+        warnings: [
+          '不要膝盖内扣',
+          '臀部不要离开座椅',
+          '不要完全锁死膝盖'
+        ],
+        video: { title: 'Leg Press Mistakes', channel: 'ATHLEAN-X', url: 'https://www.youtube.com/watch?v=IZxyjW7MPJQ' },
+        alternatives: ['深蹲', '哈克深蹲', '史密斯深蹲']
+      },
+
+      // Core
+      {
+        id: 'woodchop-high',
+        name: 'Woodchop (高到低)',
+        category: 'core',
+        icon: '🪓',
+        defaultSets: 3,
+        defaultReps: '12/侧',
+        muscles: ['斜方肌', '腹外斜肌', '核心'],
+        instructions: [
+          '将绳索调至最高位置',
+          '侧身站立，双手握住把手',
+          '手臂微屈，核心收紧',
+          '从高到低斜向下砍的动作',
+          '旋转躯干，用核心发力',
+          '控制还原至起始位置'
+        ],
+        warnings: [
+          '不要用手臂拉，专注核心发力',
+          '控制动作速度',
+          '保持髋部稳定'
+        ],
+        video: { title: 'Cable Woodchop', channel: 'ATHLEAN-X', url: 'https://www.youtube.com/watch?v=pAplQXk3dkU' },
+        alternatives: ['药球砍木', '弹力带砍木', '俄罗斯转体']
+      },
+      {
+        id: 'pallof-press',
+        name: 'Pallof Press',
+        category: 'core',
+        icon: '💪',
+        defaultSets: 3,
+        defaultReps: '12/侧',
+        muscles: ['腹横肌', '腹外斜肌', '核心'],
+        instructions: [
+          '将绳索调至胸部高度',
+          '侧身站立，双手握把手于胸前',
+          '双脚与肩同宽，膝盖微屈',
+          '将手臂向前推直',
+          '抵抗旋转力，保持身体不动',
+          '保持1-2秒，缓慢收回'
+        ],
+        warnings: [
+          '不要旋转躯干',
+          '核心全程收紧',
+          '控制动作，不要借力'
+        ],
+        video: { title: 'Pallof Press Guide', channel: 'ATHLEAN-X', url: 'https://www.youtube.com/watch?v=AH_QZLm_0-s' },
+        alternatives: ['死虫', '平板支撑', '抗旋转训练']
+      },
+      {
+        id: 'hanging-leg-raise',
+        name: '悬垂举腿',
+        category: 'core',
+        icon: '🦵',
+        defaultSets: 4,
+        defaultReps: '10-15',
+        muscles: ['下腹', '髂腰肌', '核心'],
+        instructions: [
+          '双手握单杠，身体悬垂',
+          '肩胛骨下沉，核心收紧',
+          '保持双腿伸直或微屈',
+          '用下腹力量抬起双腿',
+          '抬至与地面平行或更高',
+          '缓慢下放，避免晃动'
+        ],
+        warnings: [
+          '不要借助惯性晃动',
+          '做不了直腿可以屈膝',
+          '可以使用吊带辅助'
+        ],
+        video: { title: 'Hanging Leg Raise', channel: 'ATHLEAN-X', url: 'https://www.youtube.com/watch?v=hdng3Nm1x_E' },
+        alternatives: ['仰卧举腿', '船长椅举腿', '抬腿卷腹']
+      },
+      {
+        id: 'plank',
+        name: '平板支撑',
+        category: 'core',
+        icon: '🧘',
+        defaultSets: 3,
+        defaultReps: '60秒',
+        muscles: ['腹横肌', '核心', '肩部'],
+        instructions: [
+          '俯卧，前臂支撑地面，手肘在肩膀正下方',
+          '脚尖着地，身体抬起成一条直线',
+          '核心收紧，臀部夹紧',
+          '保持头部、背部、臀部在一条直线',
+          '呼吸均匀，保持稳定',
+          '计时保持姿势'
+        ],
+        warnings: [
+          '不要塌腰或撅臀',
+          '不要憋气',
+          '可以从跪姿开始'
+        ],
+        video: { title: 'Perfect Plank Form', channel: 'ATHLEAN-X', url: 'https://www.youtube.com/watch?v=pvIjsG5Svck' },
+        alternatives: ['侧平板', '高位平板', '熊式爬行']
+      },
+      {
+        id: 'dead-bug',
+        name: 'Dead Bug',
+        category: 'core',
+        icon: '🐛',
+        defaultSets: 3,
+        defaultReps: '12/侧',
+        muscles: ['腹横肌', '核心', '髂腰肌'],
+        instructions: [
+          '仰卧，双臂向上伸直指向天花板',
+          '双腿抬起，髋和膝盖各90度',
+          '下背紧贴地面，不要拱起',
+          '对侧手臂和腿同时伸直放下',
+          '接近地面但不接触',
+          '收回后换另一侧'
+        ],
+        warnings: [
+          '全程保持下背贴地',
+          '动作缓慢控制',
+          '呼吸均匀'
+        ],
+        video: { title: 'Dead Bug Exercise', channel: 'ATHLEAN-X', url: 'https://www.youtube.com/watch?v=4XLEnwUr1d8' },
+        alternatives: ['鸟狗式', '仰卧自行车', '空中漫步']
+      }
+    ];
+
+    let currentMode = 'browse';
+    let currentFilter = 'all';
+    let selectedExercises = new Set();
+
+    function init() {
+      renderExercises();
+      updateFloatingBar();
+    }
+
+    function setMode(mode) {
+      currentMode = mode;
+      document.querySelectorAll('.mode-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.includes(mode === 'browse' ? '浏览' : '自定义'));
+      });
+      document.getElementById('floatingBar').style.display = mode === 'custom' ? 'block' : 'none';
+      renderExercises();
+    }
+
+    function setFilter(filter) {
+      currentFilter = filter;
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.filter === filter);
+      });
+      renderExercises();
+    }
+
+    function filterExercises(query) {
+      renderExercises(query.toLowerCase());
+    }
+
+    function renderExercises(searchQuery = '') {
+      const list = document.getElementById('exerciseList');
+      let filtered = exercises;
+
+      if (currentFilter !== 'all') {
+        filtered = filtered.filter(ex => ex.category === currentFilter);
+      }
+
+      if (searchQuery) {
+        filtered = filtered.filter(ex =>
+          ex.name.toLowerCase().includes(searchQuery) ||
+          ex.muscles.some(m => m.includes(searchQuery))
+        );
+      }
+
+      // Group by category
+      const grouped = {};
+      filtered.forEach(ex => {
+        if (!grouped[ex.category]) grouped[ex.category] = [];
+        grouped[ex.category].push(ex);
+      });
+
+      const categoryNames = {
+        chest: '💪 胸部',
+        back: '🔙 背部',
+        shoulder: '🎯 肩部',
+        arms: '💪 手臂',
+        legs: '🦵 腿部',
+        core: '🔥 核心'
+      };
+
+      let html = '';
+      for (const category in grouped) {
+        if (currentFilter === 'all') {
+          html += `<div class="section-title">${categoryNames[category]}</div>`;
+        }
+        grouped[category].forEach(ex => {
+          html += renderExerciseCard(ex);
+        });
+      }
+
+      list.innerHTML = html;
+    }
+
+    function renderExerciseCard(ex) {
+      const isSelected = selectedExercises.has(ex.id);
+      return `
+        <div class="exercise-card ${isSelected ? 'selected' : ''}" data-id="${ex.id}">
+          <div class="exercise-header" onclick="toggleExpand(this.parentElement)">
+            ${currentMode === 'custom' ? `
+              <div class="exercise-checkbox" onclick="event.stopPropagation(); toggleSelect('${ex.id}')">
+                ${isSelected ? '✓' : ''}
+              </div>
+            ` : ''}
+            <span class="exercise-icon">${ex.icon}</span>
+            <div class="exercise-info">
+              <div class="exercise-name">${ex.name}</div>
+              <div class="exercise-meta">
+                <span>${ex.defaultSets}组 × ${ex.defaultReps}</span>
+                <span>·</span>
+                <span>${ex.muscles.join(', ')}</span>
+              </div>
+            </div>
+            <div class="exercise-toggle">▼</div>
+          </div>
+          <div class="exercise-details">
+            <div class="details-content">
+              <div class="instruction-section">
+                <div class="instruction-title">📋 动作要领</div>
+                <ol class="instruction-steps">
+                  ${ex.instructions.map(step => `<li>${step}</li>`).join('')}
+                </ol>
+              </div>
+
+              <div class="warning-box">
+                <strong>⚠️ 注意事项</strong><br>
+                ${ex.warnings.join(' · ')}
+              </div>
+
+              ${ex.video ? `
+                <a href="${ex.video.url}" target="_blank" class="video-link">
+                  <span class="video-icon">▶️</span>
+                  <div class="video-info">
+                    <div class="video-title">${ex.video.title}</div>
+                    <div class="video-channel">${ex.video.channel}</div>
+                  </div>
+                  <span>📺</span>
+                </a>
+              ` : ''}
+
+              <div class="alternatives">
+                <div class="alt-title">🔄 替代动作</div>
+                <div class="alt-list">
+                  ${ex.alternatives.map(alt => `<span class="alt-tag">${alt}</span>`).join('')}
+                </div>
+              </div>
+
+              ${currentMode === 'custom' && isSelected ? `
+                <div class="custom-sets">
+                  <label>组数</label>
+                  <input type="number" class="custom-input" value="${ex.defaultSets}" min="1" max="10" data-field="sets" data-id="${ex.id}">
+                  <label>次数</label>
+                  <input type="text" class="custom-input" value="${ex.defaultReps}" data-field="reps" data-id="${ex.id}" style="width:80px">
+                </div>
+              ` : ''}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function toggleExpand(card) {
+      card.classList.toggle('expanded');
+    }
+
+    function toggleSelect(id) {
+      if (selectedExercises.has(id)) {
+        selectedExercises.delete(id);
+      } else {
+        selectedExercises.add(id);
+      }
+      renderExercises(document.querySelector('.search-box').value.toLowerCase());
+      updateFloatingBar();
+    }
+
+    function updateFloatingBar() {
+      const count = selectedExercises.size;
+      document.getElementById('selectedCount').textContent = count;
+      document.getElementById('startBtn').disabled = count === 0;
+    }
+
+    function startCustomWorkout() {
+      const selected = exercises.filter(ex => selectedExercises.has(ex.id));
+      // Save to localStorage and redirect to tracker
+      localStorage.setItem('custom_workout', JSON.stringify(selected));
+      window.location.href = 'fitness-tracker.html?mode=custom';
+    }
+
+    init();
+  </script>
+</body>
+</html>
