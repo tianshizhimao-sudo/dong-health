@@ -124,6 +124,54 @@
       font-size: 11px;
       color: var(--border);
     }
+    
+    /* Animations */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    .container > * {
+      animation: fadeInUp 0.5s ease forwards;
+      opacity: 0;
+    }
+    
+    .container .logo { animation-delay: 0.1s; }
+    .container h1 { animation-delay: 0.2s; }
+    .container .greeting { animation-delay: 0.25s; }
+    .container .subtitle { animation-delay: 0.3s; }
+    .container .menu { animation-delay: 0.4s; }
+    
+    .menu-item {
+      animation: fadeInUp 0.4s ease forwards;
+      opacity: 0;
+    }
+    .menu-item:nth-child(1) { animation-delay: 0.5s; }
+    .menu-item:nth-child(2) { animation-delay: 0.6s; }
+    .menu-item:nth-child(3) { animation-delay: 0.7s; }
+    .menu-item:nth-child(4) { animation-delay: 0.8s; }
+    .menu-item:nth-child(5) { animation-delay: 0.9s; }
+    .menu-item:nth-child(6) { animation-delay: 1.0s; }
+    
+    .greeting {
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 4px;
+      font-weight: 500;
+    }
+    
+    .motivation {
+      font-size: 13px;
+      color: var(--muted);
+      font-style: italic;
+      margin-top: 4px;
+      min-height: 18px;
+    }
   </style>
 </head>
 <body>
@@ -145,8 +193,10 @@
       <text x="94" y="50" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="600" fill="#eaeaea">co</text>
     </svg>
     
+    <p class="greeting" id="greeting"></p>
     <h1>💪 健身中心</h1>
     <p class="subtitle">2026年2月-3月 · 增肌计划</p>
+    <p class="motivation" id="motivation"></p>
     
     <nav class="menu">
       <a href="daily-workout.html" class="menu-item">
@@ -200,8 +250,39 @@
     
     <div class="footer">
       <p>Virgin Active · TechnoGym + Eleiko</p>
-      <p class="version">v1.0 · 2026-01-30</p>
+      <p class="version">v1.1 · 2026-02-03</p>
     </div>
   </div>
+  
+  <script>
+    // Time-based greeting
+    const hour = new Date().getHours();
+    const greetingEl = document.getElementById('greeting');
+    if (hour < 6) {
+      greetingEl.textContent = '🌙 夜猫子冬哥';
+    } else if (hour < 12) {
+      greetingEl.textContent = '☀️ 早上好，冬哥';
+    } else if (hour < 18) {
+      greetingEl.textContent = '🌤️ 下午好，冬哥';
+    } else {
+      greetingEl.textContent = '🌙 晚上好，冬哥';
+    }
+    
+    // Random motivation
+    const motivations = [
+      '每一次训练都是对自己的投资 💪',
+      '坚持比完美更重要',
+      '今天的汗水，明天的力量',
+      '没有捷径，只有坚持',
+      '身体是革命的本钱',
+      '动起来，一切皆有可能',
+      '最好的时间是现在',
+      '你比你想象的更强大',
+      '累了就休息，但别放弃',
+      '每天进步一点点'
+    ];
+    const motivationEl = document.getElementById('motivation');
+    motivationEl.textContent = motivations[Math.floor(Math.random() * motivations.length)];
+  </script>
 </body>
 </html>
