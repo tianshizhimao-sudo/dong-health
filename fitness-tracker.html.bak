@@ -1,0 +1,1869 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#1a1a2e">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💪</text></svg>">
+  <title>💪 健身打卡</title>
+  <style>
+    :root {
+      --bg: #1a1a2e;
+      --card: #16213e;
+      --accent: #e94560;
+      --accent-light: #ff6b6b;
+      --text: #eaeaea;
+      --muted: #a0a0a0;
+      --success: #4ecca3;
+      --warning: #ffd93d;
+      --border: #0f3460;
+      --input-bg: #0f1729;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 16px;
+      padding-bottom: 120px;
+    }
+    .container { max-width: 500px; margin: 0 auto; }
+    
+    header { text-align: center; padding: 16px 0 24px; }
+    h1 { font-size: 24px; margin-bottom: 4px; }
+    .date { color: var(--muted); font-size: 14px; }
+    
+    .tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 16px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .tab {
+      padding: 10px 14px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .tab.active { background: var(--accent); border-color: var(--accent); }
+    .tab:hover { border-color: var(--accent); }
+    
+    .workout-content { display: none; }
+    .workout-content.active { display: block; }
+    
+    .section {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 12px;
+      border: 1px solid var(--border);
+    }
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--accent-light);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .exercise {
+      background: rgba(255,255,255,0.03);
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 10px;
+      border: 1px solid rgba(255,255,255,0.05);
+      transition: all 0.2s;
+    }
+    .exercise.completed {
+      border-color: var(--success);
+      background: rgba(78, 204, 163, 0.08);
+    }
+    .exercise.partial {
+      border-color: var(--warning);
+      background: rgba(255, 217, 61, 0.08);
+    }
+    
+    .exercise-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .exercise-name {
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .exercise-target {
+      font-size: 11px;
+      color: var(--muted);
+      background: rgba(255,255,255,0.05);
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+    
+    .sets-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .set-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .set-label {
+      font-size: 10px;
+      color: var(--muted);
+    }
+    .set-input {
+      width: 100%;
+      padding: 8px 4px;
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      text-align: center;
+      -webkit-appearance: none;
+    }
+    .set-weight {
+      width: 100%;
+      padding: 6px 4px;
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--muted);
+      font-size: 11px;
+      text-align: center;
+      -webkit-appearance: none;
+    }
+    .set-weight:focus {
+      outline: none;
+      border-color: var(--accent);
+      color: var(--text);
+    }
+    .set-weight::placeholder {
+      color: var(--muted);
+      opacity: 0.6;
+    }
+    .set-input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .set-input.done {
+      border-color: var(--success);
+      background: rgba(78, 204, 163, 0.15);
+    }
+    
+    .exercise-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    .weight-input-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .weight-input-group label {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .weight-input {
+      width: 70px;
+      padding: 6px 8px;
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 13px;
+      text-align: center;
+    }
+    .weight-input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    
+    .complete-btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .complete-btn.pending {
+      background: var(--border);
+      color: var(--muted);
+    }
+    .complete-btn.done {
+      background: var(--success);
+      color: #1a1a2e;
+    }
+    .complete-btn:active { transform: scale(0.96); }
+    
+    .skip-btn {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: rgba(255, 170, 0, 0.2);
+      color: #ffaa00;
+    }
+    .skip-btn:hover {
+      background: rgba(255, 170, 0, 0.3);
+    }
+    .skip-btn.skipped {
+      background: rgba(255, 170, 0, 0.4);
+      color: #ffcc00;
+    }
+    .exercise.skipped {
+      opacity: 0.5;
+    }
+    .exercise.skipped .exercise-name {
+      text-decoration: line-through;
+    }
+    
+    /* Rating Section */
+    .rating-section {
+      background: linear-gradient(135deg, rgba(233,69,96,0.1), rgba(78,204,163,0.1));
+      border-radius: 14px;
+      padding: 20px;
+      margin-top: 16px;
+      text-align: center;
+    }
+    .rating-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .rating-scale {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .rating-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .rating-btn:hover { border-color: var(--accent); }
+    .rating-btn.selected {
+      background: var(--accent);
+      border-color: var(--accent);
+      transform: scale(1.1);
+    }
+    .rating-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--muted);
+      padding: 0 20px;
+    }
+    
+    .notes-input {
+      width: 100%;
+      padding: 12px;
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-size: 14px;
+      resize: none;
+      margin-top: 12px;
+    }
+    .notes-input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    
+    .save-workout-btn {
+      width: 100%;
+      padding: 16px;
+      background: var(--accent);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 16px;
+      transition: all 0.2s;
+    }
+    .save-workout-btn:hover { background: var(--accent-light); }
+    .save-workout-btn:active { transform: scale(0.98); }
+    .save-workout-btn:disabled {
+      background: var(--border);
+      color: var(--muted);
+      cursor: not-allowed;
+    }
+    
+    /* Summary Section */
+    .summary-card {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 12px;
+      border: 1px solid var(--border);
+    }
+    .summary-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .summary-date {
+      font-weight: 600;
+    }
+    .summary-type {
+      font-size: 12px;
+      padding: 4px 10px;
+      background: var(--accent);
+      border-radius: 20px;
+    }
+    .summary-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      text-align: center;
+    }
+    .stat-item {
+      padding: 10px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 8px;
+    }
+    .stat-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--success);
+    }
+    .stat-label {
+      font-size: 11px;
+      color: var(--muted);
+    }
+    
+    .sync-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--card);
+      border: 2px solid var(--success);
+      border-radius: 12px;
+      color: var(--success);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .sync-btn:hover { background: rgba(78, 204, 163, 0.1); }
+    .sync-btn.secondary {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .sync-btn.secondary:hover { background: rgba(233, 69, 96, 0.1); }
+
+    .export-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .oney-hint {
+      display: flex;
+      gap: 12px;
+      padding: 16px;
+      background: linear-gradient(135deg, rgba(46, 204, 133, 0.1), rgba(78, 204, 163, 0.05));
+      border: 1px solid rgba(46, 204, 133, 0.3);
+      border-radius: 14px;
+      margin-top: 16px;
+    }
+    .hint-icon { font-size: 24px; }
+    .hint-content { flex: 1; }
+    .hint-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--success);
+      margin-bottom: 4px;
+    }
+    .hint-text {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+    }
+    .empty-state .emoji { font-size: 48px; margin-bottom: 12px; }
+    
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--success);
+      color: #1a1a2e;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 14px;
+      opacity: 0;
+      transition: all 0.3s;
+      z-index: 1000;
+    }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+    
+    @media (max-width: 380px) {
+      .sets-grid { grid-template-columns: repeat(4, 1fr); }
+      .rating-btn { width: 38px; height: 38px; font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>💪 健身打卡</h1>
+      <p class="date" id="currentDate"></p>
+    </header>
+
+    <div class="tabs">
+      <button class="tab active" onclick="showWorkout('upper')">🏋️ 上肢日</button>
+      <button class="tab" onclick="showWorkout('lower')">🦵 下肢日</button>
+      <button class="tab" onclick="showWorkout('core')">🔥 核心日</button>
+      <button class="tab" onclick="showWorkout('history')">📊 记录</button>
+    </div>
+
+    <!-- 上肢日 -->
+    <div id="upper" class="workout-content active">
+      <div class="section">
+        <div class="section-title">💪 胸部</div>
+        <div class="exercise" data-exercise="bench-press">
+          <div class="exercise-header">
+            <span class="exercise-name">杠铃卧推</span>
+            <span class="exercise-target">4组 × 8-10</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组4</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>重量</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="300">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+        
+        <div class="exercise" data-exercise="incline-db-press">
+          <div class="exercise-header">
+            <span class="exercise-name">上斜哑铃卧推</span>
+            <span class="exercise-target">3组 × 10-12</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>重量</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="100">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+        
+        <div class="exercise" data-exercise="pec-fly">
+          <div class="exercise-header">
+            <span class="exercise-name">夹胸机</span>
+            <span class="exercise-target">3组 × 12-15</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>重量</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="200">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+        
+        <div class="exercise" data-exercise="cable-fly">
+          <div class="exercise-header">
+            <span class="exercise-name">绳索夹胸</span>
+            <span class="exercise-target">3组 × 12-15</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>重量</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="100">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">🔙 背部</div>
+        <div class="exercise" data-exercise="pull-up">
+          <div class="exercise-header">
+            <span class="exercise-name">引体向上</span>
+            <span class="exercise-target">4组 × 6-10</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组4</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>辅助</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="100">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+        
+        <div class="exercise" data-exercise="barbell-row">
+          <div class="exercise-header">
+            <span class="exercise-name">杠铃划船</span>
+            <span class="exercise-target">4组 × 8-10</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组4</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>重量</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="200">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+        
+        <div class="exercise" data-exercise="seated-row">
+          <div class="exercise-header">
+            <span class="exercise-name">坐姿划船</span>
+            <span class="exercise-target">3组 × 10-12</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>重量</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="200">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+        
+        <div class="exercise" data-exercise="lat-pulldown">
+          <div class="exercise-header">
+            <span class="exercise-name">高位下拉</span>
+            <span class="exercise-target">3组 × 10-12</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>重量</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="200">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+        
+        <div class="exercise" data-exercise="straight-arm-pulldown">
+          <div class="exercise-header">
+            <span class="exercise-name">直臂下压</span>
+            <span class="exercise-target">3组 × 12-15</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>重量</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="100">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">🎯 肩部</div>
+        <div class="exercise" data-exercise="shoulder-press">
+          <div class="exercise-header">
+            <span class="exercise-name">坐姿肩推</span>
+            <span class="exercise-target">4组 × 10-12</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组4</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>重量</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="100">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+        
+        <div class="exercise" data-exercise="lateral-raise">
+          <div class="exercise-header">
+            <span class="exercise-name">哑铃侧平举</span>
+            <span class="exercise-target">3组 × 12-15</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>重量</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="30">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+        
+        <div class="exercise" data-exercise="face-pull">
+          <div class="exercise-header">
+            <span class="exercise-name">绳索面拉</span>
+            <span class="exercise-target">3组 × 15</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>重量</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="50">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+        
+        <div class="exercise" data-exercise="shrug">
+          <div class="exercise-header">
+            <span class="exercise-name">哑铃耸肩</span>
+            <span class="exercise-target">3组 × 12-15</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>重量</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="60">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">💪 手臂</div>
+        <div class="exercise" data-exercise="barbell-curl">
+          <div class="exercise-header">
+            <span class="exercise-name">杠铃弯举</span>
+            <span class="exercise-target">3组 × 10-12</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>重量</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="60">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+        
+        <div class="exercise" data-exercise="tricep-pushdown">
+          <div class="exercise-header">
+            <span class="exercise-name">绳索三头下压</span>
+            <span class="exercise-target">3组 × 12-15</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>重量</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="60">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+        
+        <div class="exercise" data-exercise="hammer-curl">
+          <div class="exercise-header">
+            <span class="exercise-name">哑铃锤式弯举</span>
+            <span class="exercise-target">3组 × 10-12</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>重量</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="30">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+        
+        <div class="exercise" data-exercise="overhead-extension">
+          <div class="exercise-header">
+            <span class="exercise-name">绳索过头臂屈伸</span>
+            <span class="exercise-target">3组 × 12-15</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>重量</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="50">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="rating-section">
+        <div class="rating-title">今天训练感觉如何？</div>
+        <div class="rating-scale" id="upper-rating">
+          <button class="rating-btn" data-value="1">1</button>
+          <button class="rating-btn" data-value="2">2</button>
+          <button class="rating-btn" data-value="3">3</button>
+          <button class="rating-btn" data-value="4">4</button>
+          <button class="rating-btn" data-value="5">5</button>
+          <button class="rating-btn" data-value="6">6</button>
+          <button class="rating-btn" data-value="7">7</button>
+          <button class="rating-btn" data-value="8">8</button>
+          <button class="rating-btn" data-value="9">9</button>
+          <button class="rating-btn" data-value="10">10</button>
+        </div>
+        <div class="rating-labels">
+          <span>轻松</span>
+          <span>适中</span>
+          <span>力竭</span>
+        </div>
+        <textarea class="notes-input" placeholder="训练备注（可选）" rows="2" id="upper-notes"></textarea>
+        <button class="save-workout-btn" onclick="saveWorkout('upper')">💾 保存训练记录</button>
+      </div>
+    </div>
+
+    <!-- 下肢日 -->
+    <div id="lower" class="workout-content">
+      <div class="section">
+        <div class="section-title">🦵 复合动作</div>
+        <div class="exercise" data-exercise="squat">
+          <div class="exercise-header">
+            <span class="exercise-name">杠铃深蹲</span>
+            <span class="exercise-target">5组 × 6-8</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组4</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组5</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>重量</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="300">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+        
+        <div class="exercise" data-exercise="rdl">
+          <div class="exercise-header">
+            <span class="exercise-name">罗马尼亚硬拉</span>
+            <span class="exercise-target">4组 × 8-10</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组4</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>重量</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="200">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+        
+        <div class="exercise" data-exercise="bulgarian-split">
+          <div class="exercise-header">
+            <span class="exercise-name">保加利亚分腿蹲</span>
+            <span class="exercise-target">3组 × 10/腿</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>重量</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="60">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+        
+        <div class="exercise" data-exercise="hip-thrust">
+          <div class="exercise-header">
+            <span class="exercise-name">杠铃臀推</span>
+            <span class="exercise-target">4组 × 10-12</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组4</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>重量</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="200">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">🎯 器械孤立</div>
+        <div class="exercise" data-exercise="leg-press">
+          <div class="exercise-header">
+            <span class="exercise-name">腿举</span>
+            <span class="exercise-target">4组 × 10-12</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组4</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>重量</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="400">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+        
+        <div class="exercise" data-exercise="leg-extension">
+          <div class="exercise-header">
+            <span class="exercise-name">腿屈伸</span>
+            <span class="exercise-target">3组 × 12-15</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>重量</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="150">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+        
+        <div class="exercise" data-exercise="leg-curl">
+          <div class="exercise-header">
+            <span class="exercise-name">腿弯举</span>
+            <span class="exercise-target">3组 × 12-15</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>重量</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="100">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+        
+        <div class="exercise" data-exercise="hip-abductor">
+          <div class="exercise-header">
+            <span class="exercise-name">臀部外展机</span>
+            <span class="exercise-target">3组 × 15</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>重量</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="100">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+        
+        <div class="exercise" data-exercise="hip-adductor">
+          <div class="exercise-header">
+            <span class="exercise-name">臀部内收机</span>
+            <span class="exercise-target">3组 × 15</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>重量</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="100">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">🦶 小腿</div>
+        <div class="exercise" data-exercise="standing-calf">
+          <div class="exercise-header">
+            <span class="exercise-name">站姿提踵</span>
+            <span class="exercise-target">4组 × 15-20</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="30"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="30"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="30"></div>
+            <div class="set-item"><span class="set-label">组4</span><input type="number" class="set-input" placeholder="次" min="0" max="30"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>重量</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="200">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+        
+        <div class="exercise" data-exercise="seated-calf">
+          <div class="exercise-header">
+            <span class="exercise-name">坐姿提踵</span>
+            <span class="exercise-target">3组 × 15-20</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="30"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="30"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="30"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>重量</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="150">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="rating-section">
+        <div class="rating-title">今天训练感觉如何？</div>
+        <div class="rating-scale" id="lower-rating">
+          <button class="rating-btn" data-value="1">1</button>
+          <button class="rating-btn" data-value="2">2</button>
+          <button class="rating-btn" data-value="3">3</button>
+          <button class="rating-btn" data-value="4">4</button>
+          <button class="rating-btn" data-value="5">5</button>
+          <button class="rating-btn" data-value="6">6</button>
+          <button class="rating-btn" data-value="7">7</button>
+          <button class="rating-btn" data-value="8">8</button>
+          <button class="rating-btn" data-value="9">9</button>
+          <button class="rating-btn" data-value="10">10</button>
+        </div>
+        <div class="rating-labels">
+          <span>轻松</span>
+          <span>适中</span>
+          <span>力竭</span>
+        </div>
+        <textarea class="notes-input" placeholder="训练备注（可选）" rows="2" id="lower-notes"></textarea>
+        <button class="save-workout-btn" onclick="saveWorkout('lower')">💾 保存训练记录</button>
+      </div>
+    </div>
+
+    <!-- 核心日 -->
+    <div id="core" class="workout-content">
+      <div class="section">
+        <div class="section-title">🎯 Cable 核心</div>
+        <div class="exercise" data-exercise="woodchop-high">
+          <div class="exercise-header">
+            <span class="exercise-name">Woodchop (高到低)</span>
+            <span class="exercise-target">3组 × 12/侧</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>重量</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="50">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+        
+        <div class="exercise" data-exercise="woodchop-low">
+          <div class="exercise-header">
+            <span class="exercise-name">Woodchop (低到高)</span>
+            <span class="exercise-target">3组 × 12/侧</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>重量</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="50">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+        
+        <div class="exercise" data-exercise="pallof-press">
+          <div class="exercise-header">
+            <span class="exercise-name">Pallof Press</span>
+            <span class="exercise-target">3组 × 12/侧</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>重量</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="40">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+        
+        <div class="exercise" data-exercise="cable-crunch">
+          <div class="exercise-header">
+            <span class="exercise-name">Cable Crunch</span>
+            <span class="exercise-target">3组 × 15</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>重量</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="80">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">💪 器械+自重</div>
+        <div class="exercise" data-exercise="hanging-leg-raise">
+          <div class="exercise-header">
+            <span class="exercise-name">悬垂举腿</span>
+            <span class="exercise-target">4组 × 10-15</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组4</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>备注</label>
+              <input type="text" class="weight-input" placeholder="—" style="width:60px">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+        
+        <div class="exercise" data-exercise="ab-roller">
+          <div class="exercise-header">
+            <span class="exercise-name">健腹轮</span>
+            <span class="exercise-target">3组 × 10-12</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>备注</label>
+              <input type="text" class="weight-input" placeholder="—" style="width:60px">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+        
+        <div class="exercise" data-exercise="plank">
+          <div class="exercise-header">
+            <span class="exercise-name">平板支撑</span>
+            <span class="exercise-target">3组 × 60秒</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="秒" min="0" max="180"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="秒" min="0" max="180"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="秒" min="0" max="180"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>备注</label>
+              <input type="text" class="weight-input" placeholder="—" style="width:60px">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+        
+        <div class="exercise" data-exercise="side-plank">
+          <div class="exercise-header">
+            <span class="exercise-name">侧平板支撑</span>
+            <span class="exercise-target">3组 × 45秒/侧</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="秒" min="0" max="120"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="秒" min="0" max="120"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="秒" min="0" max="120"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>备注</label>
+              <input type="text" class="weight-input" placeholder="—" style="width:60px">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+        
+        <div class="exercise" data-exercise="dead-bug">
+          <div class="exercise-header">
+            <span class="exercise-name">Dead Bug</span>
+            <span class="exercise-target">3组 × 12/侧</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="20"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>备注</label>
+              <input type="text" class="weight-input" placeholder="—" style="width:60px">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+        
+        <div class="exercise" data-exercise="russian-twist">
+          <div class="exercise-header">
+            <span class="exercise-name">俄罗斯转体</span>
+            <span class="exercise-target">3组 × 20</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">组1</span><input type="number" class="set-input" placeholder="次" min="0" max="30"></div>
+            <div class="set-item"><span class="set-label">组2</span><input type="number" class="set-input" placeholder="次" min="0" max="30"></div>
+            <div class="set-item"><span class="set-label">组3</span><input type="number" class="set-input" placeholder="次" min="0" max="30"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>药球</label>
+              <input type="number" class="weight-input" placeholder="kg" min="0" max="20">
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">🔥 有氧 HIIT</div>
+        <div class="exercise" data-exercise="cardio-hiit">
+          <div class="exercise-header">
+            <span class="exercise-name">器械循环 / 跑步机 HIIT</span>
+            <span class="exercise-target">30-35min</span>
+          </div>
+          <div class="sets-grid">
+            <div class="set-item"><span class="set-label">时长</span><input type="number" class="set-input" placeholder="分钟" min="0" max="60"></div>
+            <div class="set-item"><span class="set-label">轮数</span><input type="number" class="set-input" placeholder="轮" min="0" max="10"></div>
+          </div>
+          <div class="exercise-footer">
+            <div class="weight-input-group">
+              <label>类型</label>
+              <select class="weight-input" style="width:90px">
+                <option value="circuit">器械循环</option>
+                <option value="treadmill">跑步机</option>
+              </select>
+            </div>
+            <button class="complete-btn pending" onclick="toggleComplete(this)">⬜ 未完成</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="rating-section">
+        <div class="rating-title">今天训练感觉如何？</div>
+        <div class="rating-scale" id="core-rating">
+          <button class="rating-btn" data-value="1">1</button>
+          <button class="rating-btn" data-value="2">2</button>
+          <button class="rating-btn" data-value="3">3</button>
+          <button class="rating-btn" data-value="4">4</button>
+          <button class="rating-btn" data-value="5">5</button>
+          <button class="rating-btn" data-value="6">6</button>
+          <button class="rating-btn" data-value="7">7</button>
+          <button class="rating-btn" data-value="8">8</button>
+          <button class="rating-btn" data-value="9">9</button>
+          <button class="rating-btn" data-value="10">10</button>
+        </div>
+        <div class="rating-labels">
+          <span>轻松</span>
+          <span>适中</span>
+          <span>力竭</span>
+        </div>
+        <textarea class="notes-input" placeholder="训练备注（可选）" rows="2" id="core-notes"></textarea>
+        <button class="save-workout-btn" onclick="saveWorkout('core')">💾 保存训练记录</button>
+      </div>
+    </div>
+
+    <!-- 历史记录 -->
+    <div id="history" class="workout-content">
+      <div id="history-list"></div>
+
+      <div class="oney-hint">
+        <div class="hint-icon">💡</div>
+        <div class="hint-content">
+          <div class="hint-title">自动同步到 Google Sheets</div>
+          <div class="hint-text">跟 Oney 说"同步健身打卡"即可自动记录到 Google Sheets</div>
+        </div>
+      </div>
+
+      <div class="export-buttons">
+        <button class="sync-btn" onclick="copyDataToClipboard()">
+          📋 复制打卡数据
+        </button>
+        <button class="sync-btn" onclick="downloadCSV()">
+          📊 下载 CSV
+        </button>
+        <button class="sync-btn secondary" onclick="exportData()">
+          📤 导出 JSON
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // Storage key
+    const STORAGE_KEY = 'dong_fitness_tracker';
+    const SYNC_KEY = 'dong_fitness_last_sync';
+    const DRAFT_KEY = 'dong_fitness_draft';
+    
+    // 自动保存草稿 - 防止数据丢失
+    function saveDraft() {
+      const draft = {};
+      ['upper', 'lower', 'core'].forEach(workoutType => {
+        const container = document.getElementById(workoutType);
+        if (!container) return;
+        
+        const exercises = {};
+        container.querySelectorAll('.exercise').forEach(ex => {
+          const exerciseId = ex.dataset.exercise;
+          const sets = [];
+          ex.querySelectorAll('.set-input').forEach(input => {
+            sets.push(input.value || '');
+          });
+          const weightInput = ex.querySelector('.weight-input');
+          const weight = weightInput ? weightInput.value : '';
+          const completed = ex.querySelector('.complete-btn').classList.contains('done');
+          exercises[exerciseId] = { sets, weight, completed };
+        });
+        
+        const ratingBtn = container.querySelector('.rating-scale .rating-btn.selected');
+        const rating = ratingBtn ? ratingBtn.dataset.value : null;
+        const notes = container.querySelector('.notes-input')?.value || '';
+        
+        draft[workoutType] = { exercises, rating, notes };
+      });
+      
+      draft.savedAt = new Date().toISOString();
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+    }
+    
+    // 恢复草稿
+    function restoreDraft() {
+      const draftStr = localStorage.getItem(DRAFT_KEY);
+      if (!draftStr) return;
+      
+      try {
+        const draft = JSON.parse(draftStr);
+        // 只恢复今天的草稿
+        const savedDate = new Date(draft.savedAt).toDateString();
+        const today = new Date().toDateString();
+        if (savedDate !== today) {
+          localStorage.removeItem(DRAFT_KEY);
+          return;
+        }
+        
+        ['upper', 'lower', 'core'].forEach(workoutType => {
+          if (!draft[workoutType]) return;
+          const container = document.getElementById(workoutType);
+          if (!container) return;
+          
+          const { exercises, rating, notes } = draft[workoutType];
+          
+          // 恢复每个动作的数据
+          Object.entries(exercises || {}).forEach(([exerciseId, data]) => {
+            const ex = container.querySelector(`.exercise[data-exercise="${exerciseId}"]`);
+            if (!ex) return;
+            
+            // 恢复组数
+            ex.querySelectorAll('.set-input').forEach((input, i) => {
+              if (data.sets && data.sets[i]) {
+                input.value = data.sets[i];
+                if (data.sets[i]) input.classList.add('done');
+              }
+            });
+            
+            // 恢复重量
+            const weightInput = ex.querySelector('.weight-input');
+            if (weightInput && data.weight) {
+              weightInput.value = data.weight;
+            }
+            
+            // 恢复完成状态
+            if (data.completed) {
+              const btn = ex.querySelector('.complete-btn');
+              btn.classList.remove('pending');
+              btn.classList.add('done');
+              btn.innerHTML = '✅ 已完成';
+              ex.classList.add('completed');
+            }
+          });
+          
+          // 恢复评分
+          if (rating) {
+            const ratingBtn = container.querySelector(`.rating-btn[data-value="${rating}"]`);
+            if (ratingBtn) ratingBtn.classList.add('selected');
+          }
+          
+          // 恢复备注
+          const notesInput = container.querySelector('.notes-input');
+          if (notesInput && notes) notesInput.value = notes;
+        });
+        
+        console.log('✅ 草稿已恢复');
+      } catch (e) {
+        console.error('恢复草稿失败:', e);
+      }
+    }
+    
+    // 清除草稿
+    function clearDraft() {
+      localStorage.removeItem(DRAFT_KEY);
+    }
+    
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      updateDate();
+      setupRatingButtons();
+      setupSetInputs();
+      loadHistory();
+      checkAutoSync();
+      
+      // 恢复草稿
+      restoreDraft();
+      
+      // 自动保存 - 监听所有输入变化
+      document.querySelectorAll('.set-input, .weight-input, .notes-input').forEach(input => {
+        input.addEventListener('input', debounce(saveDraft, 500));
+        input.addEventListener('change', saveDraft);
+      });
+      
+      // 监听完成按钮和评分按钮
+      document.querySelectorAll('.complete-btn, .rating-btn').forEach(btn => {
+        btn.addEventListener('click', () => setTimeout(saveDraft, 100));
+      });
+      
+      // 页面关闭前保存
+      window.addEventListener('beforeunload', saveDraft);
+      
+      // 每30秒自动保存一次
+      setInterval(saveDraft, 30000);
+    });
+    
+    // 防抖函数
+    function debounce(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
+        const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
+    }
+    
+    function updateDate() {
+      const now = new Date();
+      const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+      document.getElementById('currentDate').textContent = now.toLocaleDateString('zh-CN', options);
+    }
+    
+    function showWorkout(type) {
+      document.querySelectorAll('.workout-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+      document.getElementById(type).classList.add('active');
+      event.currentTarget.classList.add('active');
+      
+      if (type === 'history') {
+        loadHistory();
+      }
+    }
+    
+    function toggleComplete(btn) {
+      const exercise = btn.closest('.exercise');
+      if (btn.classList.contains('pending')) {
+        btn.classList.remove('pending');
+        btn.classList.add('done');
+        btn.innerHTML = '✅ 已完成';
+        exercise.classList.add('completed');
+      } else {
+        btn.classList.remove('done');
+        btn.classList.add('pending');
+        btn.innerHTML = '⬜ 未完成';
+        exercise.classList.remove('completed');
+      }
+    }
+    
+    function setupRatingButtons() {
+      document.querySelectorAll('.rating-scale').forEach(scale => {
+        scale.querySelectorAll('.rating-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            scale.querySelectorAll('.rating-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+          });
+        });
+      });
+    }
+    
+    function setupSetInputs() {
+      document.querySelectorAll('.set-input').forEach(input => {
+        input.addEventListener('input', () => {
+          if (input.value && input.value > 0) {
+            input.classList.add('done');
+          } else {
+            input.classList.remove('done');
+          }
+        });
+      });
+    }
+    
+    function collectWorkoutData(workoutType) {
+      const container = document.getElementById(workoutType);
+      const exercises = [];
+      
+      container.querySelectorAll('.exercise').forEach(ex => {
+        const name = ex.querySelector('.exercise-name').textContent;
+        const exerciseId = ex.dataset.exercise;
+        const sets = [];
+        ex.querySelectorAll('.set-input').forEach((input, i) => {
+          sets.push(parseInt(input.value) || 0);
+        });
+        const weightInput = ex.querySelector('.weight-input');
+        const weight = weightInput ? (weightInput.value || null) : null;
+        const completed = ex.querySelector('.complete-btn').classList.contains('done');
+        
+        exercises.push({
+          id: exerciseId,
+          name,
+          sets,
+          weight,
+          completed
+        });
+      });
+      
+      const ratingBtn = container.querySelector('.rating-scale .rating-btn.selected');
+      const rating = ratingBtn ? parseInt(ratingBtn.dataset.value) : null;
+      const notes = container.querySelector('.notes-input')?.value || '';
+      
+      return {
+        date: new Date().toISOString(),
+        type: workoutType,
+        typeLabel: workoutType === 'upper' ? '上肢日' : workoutType === 'lower' ? '下肢日' : '核心日',
+        exercises,
+        rating,
+        notes,
+        completedCount: exercises.filter(e => e.completed).length,
+        totalCount: exercises.length
+      };
+    }
+    
+    function saveWorkout(workoutType) {
+      const data = collectWorkoutData(workoutType);
+      
+      // Get existing records
+      let records = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      
+      // Check if we already have a record for today + this workout type
+      const today = new Date().toDateString();
+      const existingIndex = records.findIndex(r => 
+        new Date(r.date).toDateString() === today && r.type === workoutType
+      );
+      
+      if (existingIndex >= 0) {
+        records[existingIndex] = data;
+      } else {
+        records.push(data);
+      }
+      
+      // Keep last 100 records
+      if (records.length > 100) {
+        records = records.slice(-100);
+      }
+      
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+      
+      // 清除草稿
+      clearDraft();
+      
+      showToast('✅ 训练记录已保存！');
+      
+      // Clear the form
+      setTimeout(() => {
+        if (confirm('清空当前表单数据？')) {
+          clearForm(workoutType);
+        }
+      }, 500);
+    }
+    
+    function clearForm(workoutType) {
+      const container = document.getElementById(workoutType);
+      container.querySelectorAll('.set-input').forEach(input => {
+        input.value = '';
+        input.classList.remove('done');
+      });
+      container.querySelectorAll('.weight-input').forEach(input => {
+        input.value = '';
+      });
+      container.querySelectorAll('.complete-btn').forEach(btn => {
+        btn.classList.remove('done');
+        btn.classList.add('pending');
+        btn.innerHTML = '⬜ 未完成';
+      });
+      container.querySelectorAll('.exercise').forEach(ex => {
+        ex.classList.remove('completed');
+      });
+      container.querySelectorAll('.rating-btn').forEach(btn => {
+        btn.classList.remove('selected');
+      });
+      const notes = container.querySelector('.notes-input');
+      if (notes) notes.value = '';
+    }
+    
+    function loadHistory() {
+      const records = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      const container = document.getElementById('history-list');
+      
+      if (records.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="emoji">📝</div>
+            <p>还没有训练记录</p>
+            <p style="margin-top: 8px; font-size: 13px;">完成一次训练后记录会显示在这里</p>
+          </div>
+        `;
+        return;
+      }
+      
+      // Sort by date descending
+      records.sort((a, b) => new Date(b.date) - new Date(a.date));
+      
+      container.innerHTML = records.slice(0, 20).map(record => {
+        const date = new Date(record.date);
+        const dateStr = date.toLocaleDateString('zh-CN', { month: 'short', day: 'numeric', weekday: 'short' });
+        const totalReps = record.exercises.reduce((sum, ex) => sum + ex.sets.reduce((s, v) => s + v, 0), 0);
+        
+        return `
+          <div class="summary-card">
+            <div class="summary-header">
+              <span class="summary-date">${dateStr}</span>
+              <span class="summary-type">${record.typeLabel}</span>
+            </div>
+            <div class="summary-stats">
+              <div class="stat-item">
+                <div class="stat-value">${record.completedCount}/${record.totalCount}</div>
+                <div class="stat-label">完成动作</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">${totalReps}</div>
+                <div class="stat-label">总次数</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">${record.rating || '-'}</div>
+                <div class="stat-label">RPE</div>
+              </div>
+            </div>
+            ${record.notes ? `<p style="margin-top: 10px; font-size: 13px; color: var(--muted);">📝 ${record.notes}</p>` : ''}
+          </div>
+        `;
+      }).join('');
+    }
+    
+    function checkAutoSync() {
+      const lastSync = localStorage.getItem(SYNC_KEY);
+      const now = new Date();
+      
+      // Check if it's Monday and we haven't synced today
+      if (now.getDay() === 1) {
+        const today = now.toDateString();
+        if (lastSync !== today) {
+          // It's Monday and we haven't synced today
+          showToast('📅 今天是周一，记得同步数据！');
+        }
+      }
+    }
+    
+    async function syncToDatabase() {
+      const records = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      
+      if (records.length === 0) {
+        showToast('没有数据需要同步');
+        return;
+      }
+      
+      // Prepare data for health database
+      const syncData = {
+        timestamp: new Date().toISOString(),
+        workouts: records,
+        summary: {
+          totalWorkouts: records.length,
+          byType: {
+            upper: records.filter(r => r.type === 'upper').length,
+            lower: records.filter(r => r.type === 'lower').length,
+            core: records.filter(r => r.type === 'core').length
+          },
+          avgRating: records.filter(r => r.rating).reduce((sum, r) => sum + r.rating, 0) / 
+                     records.filter(r => r.rating).length || 0
+        }
+      };
+      
+      // Save to health database location
+      const healthDbPath = '/Users/maodong/Documents/Personal/health/fitness-data.json';
+      
+      try {
+        // Create a downloadable file (for manual sync)
+        const blob = new Blob([JSON.stringify(syncData, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `fitness-sync-${new Date().toISOString().split('T')[0]}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        
+        // Mark as synced
+        localStorage.setItem(SYNC_KEY, new Date().toDateString());
+        
+        showToast('✅ 数据已导出！请保存到健康数据库');
+      } catch (err) {
+        showToast('❌ 同步失败: ' + err.message);
+      }
+    }
+    
+    function exportData() {
+      const records = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      const blob = new Blob([JSON.stringify(records, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `fitness-export-${new Date().toISOString().split('T')[0]}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('📤 数据已导出！');
+    }
+
+    function copyDataToClipboard() {
+      const records = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      if (records.length === 0) {
+        showToast('没有数据可复制');
+        return;
+      }
+
+      // Format data for easy pasting
+      const formattedData = records.slice(-10).map(r => {
+        const date = new Date(r.date).toLocaleDateString('zh-CN');
+        const completed = r.exercises.filter(e => e.completed).length;
+        const total = r.exercises.length;
+        return `${date} | ${r.typeLabel} | ${completed}/${total}完成 | RPE: ${r.rating || '-'}`;
+      }).join('\n');
+
+      const fullData = `--- Dong 健身打卡记录 ---\n${formattedData}\n\n--- JSON数据 ---\n${JSON.stringify(records.slice(-10), null, 2)}`;
+
+      navigator.clipboard.writeText(fullData).then(() => {
+        showToast('📋 数据已复制到剪贴板！');
+      }).catch(() => {
+        // Fallback for older browsers
+        const textarea = document.createElement('textarea');
+        textarea.value = fullData;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        showToast('📋 数据已复制！');
+      });
+    }
+
+    function downloadCSV() {
+      const records = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      if (records.length === 0) {
+        showToast('没有数据可导出');
+        return;
+      }
+
+      // CSV header
+      let csv = '\uFEFF日期,训练类型,完成动作数,总动作数,完成率,RPE评分,备注\n';
+
+      // CSV rows
+      records.forEach(r => {
+        const date = new Date(r.date).toLocaleDateString('zh-CN');
+        const completedCount = r.exercises.filter(e => e.completed).length;
+        const totalCount = r.exercises.length;
+        const completionRate = Math.round((completedCount / totalCount) * 100) + '%';
+        const rating = r.rating || '';
+        const notes = (r.notes || '').replace(/,/g, '，').replace(/\n/g, ' ');
+        csv += `${date},${r.typeLabel},${completedCount},${totalCount},${completionRate},${rating},${notes}\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `dong-fitness-${new Date().toISOString().split('T')[0]}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('📊 CSV已下载！');
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+  </script>
+</body>
+</html>
