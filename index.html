@@ -12,24 +12,29 @@
     :root {
       --bg: #1a1a2e;
       --card: #16213e;
-      --accent: #e94560;
-      --accent-light: #ff6b6b;
+      --accent: #2ECC85;
+      --accent-light: #4edd9a;
+      --accent-warm: #e94560;
       --text: #eaeaea;
       --muted: #a0a0a0;
-      --success: #4ecca3;
+      --success: #2ECC85;
       --border: #0f3460;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
+      min-height: 100dvh;
       padding: 20px;
+      padding: env(safe-area-inset-top, 20px) 20px env(safe-area-inset-bottom, 20px);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      -webkit-font-smoothing: antialiased;
     }
     
     .container {
@@ -76,9 +81,13 @@
     .menu-item:hover {
       border-color: var(--accent);
       transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(46, 204, 133, 0.15);
     }
     .menu-item:active {
       transform: scale(0.98);
+    }
+    @media (hover: none) {
+      .menu-item:hover { transform: none; box-shadow: none; }
     }
     
     .menu-icon {
@@ -91,10 +100,6 @@
       justify-content: center;
       font-size: 28px;
       flex-shrink: 0;
-    }
-    
-    .menu-icon.green {
-      background: linear-gradient(135deg, #2ECC85, #27ae60);
     }
     
     .menu-content {
@@ -129,7 +134,7 @@
       font-size: 16px;
       color: var(--accent);
       margin-bottom: 4px;
-      font-weight: 500;
+      font-weight: 600;
     }
     
     .motivation {
@@ -183,7 +188,7 @@
       </a>
       
       <a href="exercise-library.html" class="menu-item">
-        <div class="menu-icon green">📚</div>
+        <div class="menu-icon">📚</div>
         <div class="menu-content">
           <div class="menu-title">动作库</div>
           <div class="menu-desc">浏览动作详解 · 自定义训练</div>
@@ -225,7 +230,7 @@
     
     <div class="footer">
       <p>Virgin Active · TechnoGym + Eleiko</p>
-      <p class="version">v1.3 · 2026-02-04</p>
+      <p class="version">v1.4 · 2026-02-12</p>
     </div>
   </div>
   

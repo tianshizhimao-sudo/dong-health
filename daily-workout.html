@@ -7,27 +7,32 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#1a1a2e">
   <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📅</text></svg>">
+  <link rel="preconnect" href="https://www.youtube.com">
   <title>📅 今日训练</title>
   <style>
     :root {
       --bg: #1a1a2e;
       --card: #16213e;
-      --accent: #e94560;
-      --accent-light: #ff6b6b;
+      --accent: #2ECC85;
+      --accent-light: #4edd9a;
+      --accent-warm: #e94560;
       --text: #eaeaea;
       --muted: #a0a0a0;
-      --success: #4ecca3;
+      --success: #2ECC85;
       --warning: #ffd93d;
       --border: #0f3460;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
+      min-height: 100dvh;
       padding: 16px;
-      padding-bottom: 100px;
+      padding-bottom: max(100px, env(safe-area-inset-bottom, 100px));
+      -webkit-font-smoothing: antialiased;
     }
     .container { max-width: 500px; margin: 0 auto; }
     
@@ -53,7 +58,7 @@
       font-weight: 600;
     }
     .day-type.rest {
-      background: linear-gradient(135deg, var(--success), #2ecc71);
+      background: linear-gradient(135deg, #4ecca3, #2ecc71);
     }
     .day-type.cardio {
       background: linear-gradient(135deg, var(--warning), #f39c12);
@@ -71,7 +76,7 @@
       font-size: 16px;
       font-weight: 700;
       margin-bottom: 16px;
-      color: var(--accent-light);
+      color: var(--accent);
       display: flex;
       align-items: center;
       gap: 8px;
@@ -94,7 +99,7 @@
     }
     .schedule-day.today {
       border-color: var(--accent);
-      background: rgba(233, 69, 96, 0.15);
+      background: rgba(46, 204, 133, 0.15);
     }
     .schedule-day .day-name {
       color: var(--muted);
@@ -223,7 +228,8 @@
     }
     .btn-primary {
       background: var(--accent);
-      color: white;
+      color: #1a1a2e;
+      font-weight: 700;
     }
     .btn-primary:hover {
       background: var(--accent-light);
