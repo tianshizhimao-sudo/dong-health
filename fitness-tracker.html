@@ -6,7 +6,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#1a1a2e">
-  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💪</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%232ECC85'/%3E%3Cstop offset='100%25' style='stop-color:%231FAD73'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg transform='translate(50,50)'%3E%3Cpath d='M 0 -38 A 38 38 0 1 0 0 -37.99' fill='none' stroke='url(%23g)' stroke-width='8' stroke-linecap='round' stroke-dasharray='227 12'/%3E%3Cpath d='M0 -45 L0 -52' stroke='url(%23g)' stroke-width='6' stroke-linecap='round'/%3E%3C/g%3E%3C/svg%3E"><text y='.9em' font-size='90'>💪</text></svg>">
   <title>💪 健身打卡</title>
   <style>
     :root {
@@ -460,6 +460,7 @@
       <button class="tab active" onclick="showWorkout('upper')">🏋️ 上肢日</button>
       <button class="tab" onclick="showWorkout('lower')">🦵 下肢日</button>
       <button class="tab" onclick="showWorkout('core')">🔥 核心日</button>
+      <button class="tab" onclick="showWorkout('running')">🏃 跑步</button>
       <button class="tab" onclick="showWorkout('history')">📊 记录</button>
     </div>
 
@@ -1202,6 +1203,44 @@
     </div>
 
     <!-- 历史记录 -->
+    <!-- 跑步 Tab -->
+    <div id="running" class="workout-content">
+      <div class="section" style="margin-bottom: 16px;">
+        <div class="section-title">🏃 记录跑步</div>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div>
+            <label style="font-size: 12px; color: var(--muted); display: block; margin-bottom: 4px;">类型</label>
+            <select id="runType" style="width: 100%; padding: 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 14px;">
+              <option value="road">🛣️ Road Run</option>
+              <option value="trail">🌲 Trail Run</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 12px; color: var(--muted); display: block; margin-bottom: 4px;">距离 (km)</label>
+            <input type="number" id="runDistance" step="0.1" min="0" placeholder="例: 5.0" style="width: 100%; padding: 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 14px;">
+          </div>
+          <div>
+            <label style="font-size: 12px; color: var(--muted); display: block; margin-bottom: 4px;">体感</label>
+            <select id="runEffort" style="width: 100%; padding: 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 14px;">
+              <option value="easy">😊 轻松</option>
+              <option value="moderate">💪 适中</option>
+              <option value="hard">😤 吃力</option>
+              <option value="extreme">🔥 极限</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 12px; color: var(--muted); display: block; margin-bottom: 4px;">日期</label>
+            <input type="date" id="runDate" style="width: 100%; padding: 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 14px;">
+          </div>
+          <button onclick="saveRun()" style="padding: 14px; background: var(--accent); border: none; border-radius: 10px; color: #1a1a2e; font-size: 15px; font-weight: 700; cursor: pointer;">✅ 保存跑步记录</button>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-title">📊 跑步历史</div>
+        <div id="runHistory"></div>
+      </div>
+    </div>
+
     <div id="history" class="workout-content">
       <div id="history-list"></div>
 
@@ -1411,6 +1450,10 @@
       
       if (type === 'history') {
         loadHistory();
+      }
+      if (type === 'running') {
+        initRunDate();
+        renderRunHistory();
       }
     }
     
@@ -1786,6 +1829,96 @@
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 2500);
     }
+
+    // ========== 跑步记录 ==========
+    const RUN_STORAGE_KEY = 'dong_run_tracker';
+
+    function initRunDate() {
+      const dateInput = document.getElementById('runDate');
+      if (dateInput) dateInput.value = new Date().toISOString().split('T')[0];
+    }
+
+    function getRunRecords() {
+      return JSON.parse(localStorage.getItem(RUN_STORAGE_KEY) || '[]');
+    }
+
+    function saveRun() {
+      const type = document.getElementById('runType').value;
+      const distance = parseFloat(document.getElementById('runDistance').value);
+      const effort = document.getElementById('runEffort').value;
+      const date = document.getElementById('runDate').value;
+
+      if (!distance || distance <= 0) {
+        showToast('⚠️ 请输入距离');
+        return;
+      }
+
+      const records = getRunRecords();
+      records.unshift({ type, distance, effort, date, ts: Date.now() });
+      localStorage.setItem(RUN_STORAGE_KEY, JSON.stringify(records));
+
+      document.getElementById('runDistance').value = '';
+      initRunDate();
+      renderRunHistory();
+      showToast('🏃 跑步记录已保存！');
+    }
+
+    function deleteRun(ts) {
+      let records = getRunRecords().filter(r => r.ts !== ts);
+      localStorage.setItem(RUN_STORAGE_KEY, JSON.stringify(records));
+      renderRunHistory();
+      showToast('已删除');
+    }
+
+    function renderRunHistory() {
+      const records = getRunRecords();
+      const container = document.getElementById('runHistory');
+      if (!container) return;
+
+      if (records.length === 0) {
+        container.innerHTML = '<p style="color: var(--muted); text-align: center; padding: 20px;">还没有跑步记录</p>';
+        return;
+      }
+
+      const typeLabels = { road: '🛣️ Road', trail: '🌲 Trail' };
+      const effortLabels = { easy: '😊 轻松', moderate: '💪 适中', hard: '😤 吃力', extreme: '🔥 极限' };
+
+      // Stats
+      const totalKm = records.reduce((s, r) => s + r.distance, 0);
+      const thisMonth = records.filter(r => r.date && r.date.slice(0, 7) === new Date().toISOString().slice(0, 7));
+      const monthKm = thisMonth.reduce((s, r) => s + r.distance, 0);
+
+      let html = `<div style="display: flex; gap: 12px; margin-bottom: 16px;">
+        <div style="flex:1; background: var(--bg); border-radius: 10px; padding: 12px; text-align: center;">
+          <div style="font-size: 20px; font-weight: 700; color: var(--accent);">${totalKm.toFixed(1)}</div>
+          <div style="font-size: 11px; color: var(--muted);">总公里</div>
+        </div>
+        <div style="flex:1; background: var(--bg); border-radius: 10px; padding: 12px; text-align: center;">
+          <div style="font-size: 20px; font-weight: 700; color: var(--accent);">${monthKm.toFixed(1)}</div>
+          <div style="font-size: 11px; color: var(--muted);">本月公里</div>
+        </div>
+        <div style="flex:1; background: var(--bg); border-radius: 10px; padding: 12px; text-align: center;">
+          <div style="font-size: 20px; font-weight: 700; color: var(--accent);">${records.length}</div>
+          <div style="font-size: 11px; color: var(--muted);">总次数</div>
+        </div>
+      </div>`;
+
+      html += records.slice(0, 50).map(r => `
+        <div style="display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div style="flex: 1;">
+            <div style="font-size: 14px; font-weight: 600;">${typeLabels[r.type] || r.type} · ${r.distance} km</div>
+            <div style="font-size: 12px; color: var(--muted);">${r.date || '未知日期'} · ${effortLabels[r.effort] || r.effort}</div>
+          </div>
+          <button onclick="deleteRun(${r.ts})" style="background: none; border: none; color: var(--muted); cursor: pointer; font-size: 16px;">✕</button>
+        </div>
+      `).join('');
+
+      container.innerHTML = html;
+    }
+
+    // Init running tab
+    initRunDate();
+    renderRunHistory();
   </script>
 </body>
 </html>

@@ -6,7 +6,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#1a1a2e">
-  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💪</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%232ECC85'/%3E%3Cstop offset='100%25' style='stop-color:%231FAD73'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg transform='translate(50,50)'%3E%3Cpath d='M 0 -38 A 38 38 0 1 0 0 -37.99' fill='none' stroke='url(%23g)' stroke-width='8' stroke-linecap='round' stroke-dasharray='227 12'/%3E%3Cpath d='M0 -45 L0 -52' stroke='url(%23g)' stroke-width='6' stroke-linecap='round'/%3E%3C/g%3E%3C/svg%3E"><text y='.9em' font-size='90'>💪</text></svg>">
   <title>💪 Dong 健身中心</title>
   <style>
     :root {
@@ -151,18 +151,18 @@
     <!-- Oney & Co Logo -->
     <svg class="logo" viewBox="0 0 190 90" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style="stop-color:#D4A853"/>
-          <stop offset="100%" style="stop-color:#B8860B"/>
+        <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#2ECC85"/>
+          <stop offset="100%" style="stop-color:#1FAD73"/>
         </linearGradient>
       </defs>
       <g transform="translate(38, 45)">
-        <path d="M 0 -32 A 32 32 0 1 0 0 -31.99" fill="none" stroke="url(#goldGrad)" stroke-width="7" stroke-linecap="round" stroke-dasharray="191 10"/>
-        <path d="M0 -38 L0 -44" stroke="url(#goldGrad)" stroke-width="5" stroke-linecap="round"/>
+        <path d="M 0 -38 A 38 38 0 1 0 0 -37.99" fill="none" stroke="url(#greenGrad)" stroke-width="8" stroke-linecap="round" stroke-dasharray="227 12"/>
+        <path d="M0 -45 L0 -52" stroke="url(#greenGrad)" stroke-width="6" stroke-linecap="round"/>
       </g>
-      <text x="32" y="50" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="600" fill="#eaeaea">ney</text>
-      <text x="77" y="50" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="url(#goldGrad)">&</text>
-      <text x="94" y="50" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="600" fill="#eaeaea">co</text>
+      <text x="32" y="52" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="600" fill="#eaeaea">ney</text>
+      <text x="77" y="52" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="url(#greenGrad)">&amp;</text>
+      <text x="94" y="52" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="600" fill="#eaeaea">co</text>
     </svg>
     
     <p class="greeting" id="greeting"></p>
@@ -226,7 +226,28 @@
           <div class="menu-desc">随机选择今天的菜品</div>
         </div>
       </a>
+
+      <div class="menu-item" onclick="showMealIdeas()" style="cursor: pointer;">
+        <div class="menu-icon" style="background: linear-gradient(135deg, #ec4899, #f472b6);">🍳</div>
+        <div class="menu-content">
+          <div class="menu-title">Oli 今天吃什么？</div>
+          <div class="menu-desc">根据库存食材推荐菜式 · 亚甲炎友好</div>
+        </div>
+      </div>
     </nav>
+
+    <!-- Meal Ideas Modal -->
+    <div id="mealModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:999; padding:20px; overflow-y:auto;">
+      <div style="max-width:400px; margin:40px auto; background:#16213e; border-radius:16px; padding:20px; border:1px solid #0f3460;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+          <h2 style="font-size:18px;">🍳 今天吃什么？</h2>
+          <button onclick="document.getElementById('mealModal').style.display='none'" style="background:none; border:none; color:#eaeaea; font-size:24px; cursor:pointer;">✕</button>
+        </div>
+        <p style="font-size:12px; color:#a0a0a0; margin-bottom:16px;">根据库存食材 · 适合亚甲炎康复饮食</p>
+        <div id="mealIdeas"></div>
+        <button onclick="showMealIdeas()" style="width:100%; margin-top:16px; padding:12px; background:#2ECC85; border:none; border-radius:10px; color:#1a1a2e; font-weight:700; font-size:14px; cursor:pointer;">🔄 换一批</button>
+      </div>
+    </div>
     
     <div class="footer">
       <p>Virgin Active · TechnoGym + Eleiko</p>
@@ -263,6 +284,66 @@
     ];
     const motivationEl = document.getElementById('motivation');
     motivationEl.textContent = motivations[Math.floor(Math.random() * motivations.length)];
+
+    // ========== Oli 今天吃什么 ==========
+    const mealRecipes = [
+      { name: '清蒸三文鱼配柠檬', ingredients: ['三文鱼','柠檬'], tags: ['抗炎','高蛋白'], emoji: '🐟' },
+      { name: '蒜蓉西兰花炒鸡胸', ingredients: ['鸡胸肉','西兰花','蒜'], tags: ['高蛋白','抗炎'], emoji: '🥦' },
+      { name: '番茄鸡肉意面', ingredients: ['鸡肉','番茄','意面'], tags: ['易消化'], emoji: '🍝' },
+      { name: '日式三文鱼盖饭', ingredients: ['三文鱼','米饭','酱油'], tags: ['抗炎','富硒'], emoji: '🍣' },
+      { name: '清炖鸡汤 + 枸杞', ingredients: ['鸡肉','枸杞'], tags: ['温补','易消化'], emoji: '🍲' },
+      { name: '红烧豆腐 + 香菇', ingredients: ['豆腐','香菇'], tags: ['优质蛋白','抗炎'], emoji: '🥘' },
+      { name: '柠檬烤鸡胸 + 烤蔬菜', ingredients: ['鸡胸肉','南瓜','彩椒'], tags: ['高蛋白'], emoji: '🍗' },
+      { name: '味噌汤 (豆腐+菠菜)', ingredients: ['豆腐','菠菜','味噌'], tags: ['易消化','抗炎'], emoji: '🥣' },
+      { name: '牛油果吐司 + 煮蛋', ingredients: ['牛油果','面包','鸡蛋'], tags: ['健康脂肪'], emoji: '🥑' },
+      { name: '清蒸鲈鱼 + 蒜蓉菜心', ingredients: ['鲈鱼','菜心'], tags: ['抗炎','低脂'], emoji: '🐟' },
+      { name: '蔬菜蛋饼 (菠菜+番茄)', ingredients: ['鸡蛋','菠菜','番茄'], tags: ['富硒','高蛋白'], emoji: '🥚' },
+      { name: '山药排骨汤 + 米饭', ingredients: ['排骨','山药','米饭'], tags: ['温补'], emoji: '🍖' },
+      { name: '藜麦沙拉 + 坚果', ingredients: ['藜麦','坚果','蔬菜'], tags: ['抗炎','富硒'], emoji: '🥗' },
+      { name: '银耳红枣汤', ingredients: ['银耳','红枣'], tags: ['温补','养颜'], emoji: '🍵' },
+      { name: '南瓜浓汤 + 全麦面包', ingredients: ['南瓜','面包'], tags: ['易消化'], emoji: '🎃' },
+      { name: '清炒芦笋 + 糙米饭', ingredients: ['芦笋','糙米'], tags: ['抗炎'], emoji: '🌿' },
+      { name: '小米粥 + 蒸蛋羹', ingredients: ['小米','鸡蛋'], tags: ['易消化','温和'], emoji: '🥣' },
+      { name: '燕麦粥 + 蓝莓蜂蜜', ingredients: ['燕麦','蓝莓','蜂蜜'], tags: ['抗炎','早餐'], emoji: '🫐' },
+    ];
+
+    function showMealIdeas() {
+      // Try to load inventory from localStorage
+      let inventoryFood = [];
+      try {
+        const inv = JSON.parse(localStorage.getItem('home_inventory') || '{}');
+        const foodItems = inv.food || [];
+        inventoryFood = foodItems.filter(i => i.qty > 0).map(i => i.name.toLowerCase());
+      } catch(e) {}
+
+      // Score recipes by matching ingredients
+      const scored = mealRecipes.map(r => {
+        const matchCount = r.ingredients.filter(ing => 
+          inventoryFood.some(f => f.includes(ing) || ing.includes(f))
+        ).length;
+        return { ...r, score: matchCount, random: Math.random() };
+      });
+
+      // Sort by score desc, then random
+      scored.sort((a, b) => b.score - a.score || a.random - b.random);
+
+      // Pick top 5
+      const picks = scored.slice(0, 5);
+
+      const container = document.getElementById('mealIdeas');
+      container.innerHTML = picks.map(r => `
+        <div style="background:#1a1a2e; border-radius:12px; padding:14px; margin-bottom:10px; border:1px solid #0f3460;">
+          <div style="font-size:16px; font-weight:600; margin-bottom:6px;">${r.emoji} ${r.name}</div>
+          <div style="font-size:12px; color:#a0a0a0; margin-bottom:6px;">食材: ${r.ingredients.join('、')}</div>
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            ${r.tags.map(t => `<span style="font-size:10px; background:rgba(46,204,133,0.15); color:#2ECC85; padding:2px 8px; border-radius:20px;">${t}</span>`).join('')}
+            ${r.score > 0 ? `<span style="font-size:10px; background:rgba(251,191,36,0.15); color:#fbbf24; padding:2px 8px; border-radius:20px;">✅ 有库存</span>` : ''}
+          </div>
+        </div>
+      `).join('');
+
+      document.getElementById('mealModal').style.display = 'block';
+    }
   </script>
 </body>
 </html>
