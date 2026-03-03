@@ -220,24 +220,31 @@
   <div class="container">
     <a href="index.html" style="display:inline-flex;align-items:center;gap:6px;color:var(--muted);text-decoration:none;font-size:14px;margin-bottom:12px;">← 返回健身中心</a>
     <header>
-      <!-- Oney & Co Logo -->
-      <svg class="logo" viewBox="0 0 190 90" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style="stop-color:#2ECC85"/>
-          <stop offset="100%" style="stop-color:#1FAD73"/>
-        </linearGradient>
-      </defs>
-      <g transform="translate(38, 45)">
-        <path d="M 0 -38 A 38 38 0 1 0 0 -37.99" fill="none" stroke="url(#greenGrad)" stroke-width="8" stroke-linecap="round" stroke-dasharray="227 12"/>
-        <path d="M0 -45 L0 -52" stroke="url(#greenGrad)" stroke-width="6" stroke-linecap="round"/>
-      </g>
-      <text x="32" y="52" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="600" fill="#eaeaea">ney</text>
-      <text x="77" y="52" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="url(#greenGrad)">&amp;</text>
-      <text x="94" y="52" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="600" fill="#eaeaea">co</text>
-    </svg>
+      <!-- Oney & Co Logo v2 -->
+      <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 90">
+        <defs>
+          <linearGradient id="fillGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+            <stop offset="0%" style="stop-color:#1FAD73"/>
+            <stop offset="55%" style="stop-color:#2ECC85"/>
+            <stop offset="55%" style="stop-color:transparent"/>
+            <stop offset="100%" style="stop-color:transparent"/>
+          </linearGradient>
+          <linearGradient id="strokeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#2ECC85"/>
+            <stop offset="100%" style="stop-color:#1FAD73"/>
+          </linearGradient>
+        </defs>
+        <g transform="translate(40, 45)">
+          <circle cx="0" cy="0" r="32" fill="none" stroke="url(#strokeGrad)" stroke-width="7"/>
+          <circle cx="0" cy="0" r="24" fill="url(#fillGrad)"/>
+        </g>
+        <text x="82" y="52" font-family="Inter, system-ui, sans-serif" font-size="28" font-weight="600" fill="#eaeaea" letter-spacing="-0.5">ney</text>
+        <text x="129" y="52" font-family="Inter, system-ui, sans-serif" font-size="21" font-weight="500" fill="url(#strokeGrad)">&amp;</text>
+        <text x="148" y="52" font-family="Inter, system-ui, sans-serif" font-size="28" font-weight="600" fill="#eaeaea" letter-spacing="-0.5">co</text>
+        <circle cx="182" cy="48" r="4" fill="#6B4C9A"/>
+      </svg>
       <h1>💪 健身计划</h1>
-      <p class="subtitle">2026年2月-3月 · 器械版 · 点击查看动作演示</p>
+      <p class="subtitle">2026年3月-5月 · 器械版 · 点击查看动作演示</p>
     </header>
 
     <div class="tabs">
@@ -253,13 +260,13 @@
         <div class="section-title"><span class="emoji">📅</span> 每周安排</div>
         <table class="schedule">
           <tr><th>日</th><th>5:30-7:00 AM</th><th>下午/晚上</th></tr>
-          <tr><td>周一</td><td class="highlight">核心+有氧</td><td>短跑 (可选)</td></tr>
-          <tr><td>周二</td><td class="highlight">PT Levi / 下肢日</td><td>—</td></tr>
-          <tr><td>周三</td><td class="highlight">PT Andy 8:30am</td><td>—</td></tr>
+          <tr><td>周一</td><td class="highlight">PT Levi（隔周）/ 核心+有氧</td><td>—</td></tr>
+          <tr><td>周二</td><td class="highlight">下肢日</td><td>—</td></tr>
+          <tr><td>周三</td><td class="highlight">PT Andy 8:30am（上肢）</td><td>—</td></tr>
           <tr><td>周四</td><td>短跑 3-5km</td><td>—</td></tr>
-          <tr><td>周五</td><td class="highlight">下肢日 / 休息</td><td>—</td></tr>
-          <tr><td>周六</td><td class="highlight">LSD / 足球 (上午)</td><td>上肢日 (可选)*</td></tr>
-          <tr><td>周日</td><td>休息</td><td>—</td></tr>
+          <tr><td>周五</td><td class="highlight">核心 + HIIT</td><td>—</td></tr>
+          <tr><td>周六</td><td class="highlight">LSD 长距离慢跑</td><td>—</td></tr>
+          <tr><td>周日</td><td class="highlight">上肢日（自主）*</td><td>—</td></tr>
         </table>
         <p style="font-size: 12px; color: var(--muted); margin-top: 8px;">* 如果当天做了 PT（大部分是上肢），可跳过上肢训练</p>
         
@@ -269,7 +276,7 @@
             第1-2周：找合适重量 (RPE 7，还能做3次)<br>
             第3-4周：复合动作 +2.5kg<br>
             第5-6周：再 +2.5kg<br>
-            第7-8周：减量周 (减20%)
+            第7-8周：减量周 (减20%)<br>            ⚠️ 有PT Levi的周 → 周日改拉伸恢复
           </p>
         </div>
       </div>
