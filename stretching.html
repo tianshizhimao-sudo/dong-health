@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>拉伸指南 · Dong Health</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0a0f1e;
+      color: #eaeaea;
+      min-height: 100vh;
+      padding: 20px 16px 40px;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+    .back { color: #2ECC85; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 20px; }
+    h1 { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+    .subtitle { color: #a0a0a0; font-size: 13px; margin-bottom: 24px; }
+
+    .tab-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .tab {
+      flex: 1;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid #1e2d4a;
+      background: #16213e;
+      color: #a0a0a0;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .tab.active {
+      background: #2ECC85;
+      color: #0a0f1e;
+      border-color: #2ECC85;
+    }
+
+    .section { display: none; }
+    .section.active { display: block; }
+
+    .intro-card {
+      background: #16213e;
+      border: 1px solid #1e2d4a;
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 20px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .intro-icon { font-size: 28px; flex-shrink: 0; }
+    .intro-text h3 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+    .intro-text p { font-size: 13px; color: #a0a0a0; line-height: 1.5; }
+
+    .stretch-card {
+      background: #16213e;
+      border: 1px solid #1e2d4a;
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    .stretch-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .stretch-name {
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .stretch-duration {
+      background: rgba(46, 204, 133, 0.15);
+      color: #2ECC85;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+    .stretch-target {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .tag {
+      background: #0f3460;
+      color: #a0c4ff;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 20px;
+    }
+    .stretch-desc {
+      font-size: 13px;
+      color: #b0b0b0;
+      line-height: 1.6;
+    }
+    .stretch-how {
+      margin-top: 10px;
+      font-size: 13px;
+      color: #eaeaea;
+      line-height: 1.7;
+    }
+    .stretch-how ol { padding-left: 16px; }
+    .stretch-how li { margin-bottom: 4px; }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #2ECC85;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin: 20px 0 10px;
+    }
+
+    .timer-bar {
+      background: #0f3460;
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 24px;
+    }
+    .timer-label { font-size: 13px; color: #a0a0a0; }
+    .timer-total { font-size: 18px; font-weight: 700; color: #2ECC85; }
+
+    .tip-box {
+      background: rgba(46, 204, 133, 0.08);
+      border: 1px solid rgba(46, 204, 133, 0.2);
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 13px;
+      color: #b0e8cf;
+      line-height: 1.6;
+      margin-top: 20px;
+    }
+    .tip-box strong { color: #2ECC85; }
+  </style>
+</head>
+<body>
+
+  <a href="index.html" class="back">← 健身中心</a>
+  <h1>🧘 拉伸指南</h1>
+  <p class="subtitle">训练后的恢复，和训练本身一样重要</p>
+
+  <div class="tab-bar">
+    <div class="tab active" onclick="switchTab('run')">🏃 跑步后</div>
+    <div class="tab" onclick="switchTab('lift')">🏋️ 重训后</div>
+  </div>
+
+  <!-- 跑步后拉伸 -->
+  <div id="section-run" class="section active">
+
+    <div class="intro-card">
+      <div class="intro-icon">🏃</div>
+      <div class="intro-text">
+        <h3>跑步后静态拉伸</h3>
+        <p>跑步后肌肉温度高，是拉伸的黄金时机。重点：小腿、大腿后侧、髂胫束、髋屈肌。总时长约 <strong>10-12 分钟</strong>。</p>
+      </div>
+    </div>
+
+    <div class="section-label">下肢重点</div>
+
+    <div class="stretch-card">
+      <div class="stretch-header">
+        <div class="stretch-name">小腿拉伸（腓肠肌）</div>
+        <div class="stretch-duration">30s × 每侧</div>
+      </div>
+      <div class="stretch-target">
+        <span class="tag">小腿</span><span class="tag">跑步必做</span>
+      </div>
+      <div class="stretch-how">
+        <ol>
+          <li>面墙站立，一脚前踩、一脚后伸</li>
+          <li>后脚跟踩实地面，脚尖朝前</li>
+          <li>身体微微前倾，感受小腿后侧拉伸</li>
+          <li>换边重复</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="stretch-card">
+      <div class="stretch-header">
+        <div class="stretch-name">比目鱼肌拉伸</div>
+        <div class="stretch-duration">30s × 每侧</div>
+      </div>
+      <div class="stretch-target">
+        <span class="tag">深层小腿</span><span class="tag">防跟腱炎</span>
+      </div>
+      <div class="stretch-how">
+        <ol>
+          <li>与上式相同，但后脚膝盖微微弯曲</li>
+          <li>感受更深处、靠近跟腱的拉伸</li>
+          <li>换边重复</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="stretch-card">
+      <div class="stretch-header">
+        <div class="stretch-name">大腿后侧（腘绳肌）</div>
+        <div class="stretch-duration">45s × 每侧</div>
+      </div>
+      <div class="stretch-target">
+        <span class="tag">腘绳肌</span><span class="tag">防拉伤</span>
+      </div>
+      <div class="stretch-how">
+        <ol>
+          <li>站立，一腿向前伸直放在矮台上（或坐地伸直腿）</li>
+          <li>身体保持直立，从髋部前倾（不要弓背）</li>
+          <li>感受大腿后侧延伸感，不要撑到痛</li>
+          <li>换边重复</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="stretch-card">
+      <div class="stretch-header">
+        <div class="stretch-name">股四头肌（大腿前侧）</div>
+        <div class="stretch-duration">30s × 每侧</div>
+      </div>
+      <div class="stretch-target">
+        <span class="tag">股四头肌</span><span class="tag">膝关节保护</span>
+      </div>
+      <div class="stretch-how">
+        <ol>
+          <li>单腿站立，另一脚向后弯曲抓住脚踝</li>
+          <li>膝盖并拢，髋部向前推</li>
+          <li>感受大腿前侧拉伸</li>
+          <li>换边重复（可扶墙保持平衡）</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="stretch-card">
+      <div class="stretch-header">
+        <div class="stretch-name">髂胫束拉伸（IT Band）</div>
+        <div class="stretch-duration">30s × 每侧</div>
+      </div>
+      <div class="stretch-target">
+        <span class="tag">髂胫束</span><span class="tag">防膝外侧痛</span>
+      </div>
+      <div class="stretch-how">
+        <ol>
+          <li>站立，右脚交叉放在左脚前</li>
+          <li>身体向左侧弯，右手举起向左延伸</li>
+          <li>感受右侧大腿外侧拉伸</li>
+          <li>换边重复</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="section-label">髋部 & 臀部</div>
+
+    <div class="stretch-card">
+      <div class="stretch-header">
+        <div class="stretch-name">髋屈肌拉伸（弓步）</div>
+        <div class="stretch-duration">45s × 每侧</div>
+      </div>
+      <div class="stretch-target">
+        <span class="tag">髋屈肌</span><span class="tag">腰痛预防</span>
+      </div>
+      <div class="stretch-how">
+        <ol>
+          <li>弓步蹲，后膝跪地</li>
+          <li>髋部向前沉，上身挺直</li>
+          <li>感受后腿髋部前侧拉伸</li>
+          <li>换边重复</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="stretch-card">
+      <div class="stretch-header">
+        <div class="stretch-name">臀部拉伸（鸽子式）</div>
+        <div class="stretch-duration">45s × 每侧</div>
+      </div>
+      <div class="stretch-target">
+        <span class="tag">臀大肌</span><span class="tag">梨状肌</span>
+      </div>
+      <div class="stretch-how">
+        <ol>
+          <li>坐地，一腿弯曲放在身前（脚踝靠近对侧膝）</li>
+          <li>另一腿向后伸直</li>
+          <li>身体前倾趴下，感受臀部深层拉伸</li>
+          <li>换边重复</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="timer-bar">
+      <div class="timer-label">总时长参考</div>
+      <div class="timer-total">约 10-12 分钟</div>
+    </div>
+
+    <div class="tip-box">
+      <strong>跑步后黄金法则：</strong> 静态拉伸每个动作保持 30-45 秒，不要弹振。感觉"有点紧但不痛"才对。跑完 5 分钟内开始效果最佳。
+    </div>
+  </div>
+
+  <!-- 重训后拉伸 -->
+  <div id="section-lift" class="section">
+
+    <div class="intro-card">
+      <div class="intro-icon">🏋️</div>
+      <div class="intro-text">
+        <h3>重训后全身拉伸</h3>
+        <p>针对当天训练的肌群重点拉伸，加速乳酸代谢。以下涵盖推、拉、腿三大训练日。总时长约 <strong>10-15 分钟</strong>。</p>
+      </div>
+    </div>
+
+    <div class="section-label">胸 & 肩（推的日子）</div>
+
+    <div class="stretch-card">
+      <div class="stretch-header">
+        <div class="stretch-name">胸肌拉伸（门框式）</div>
+        <div class="stretch-duration">30s × 2组</div>
+      </div>
+      <div class="stretch-target">
+        <span class="tag">胸大肌</span><span class="tag">前三角肌</span>
+      </div>
+      <div class="stretch-how">
+        <ol>
+          <li>站在门框旁，手肘弯曲 90°，前臂贴门框</li>
+          <li>身体微微向前踏出，感受胸口打开</li>
+          <li>头部保持中立，不要耸肩</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="stretch-card">
+      <div class="stretch-header">
+        <div class="stretch-name">肩部后侧拉伸</div>
+        <div class="stretch-duration">30s × 每侧</div>
+      </div>
+      <div class="stretch-target">
+        <span class="tag">后三角肌</span><span class="tag">肩袖</span>
+      </div>
+      <div class="stretch-how">
+        <ol>
+          <li>一臂横过胸前，另一手从下方扣住手肘往胸口拉</li>
+          <li>感受肩后侧拉伸</li>
+          <li>换边重复</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="stretch-card">
+      <div class="stretch-header">
+        <div class="stretch-name">三头肌拉伸</div>
+        <div class="stretch-duration">30s × 每侧</div>
+      </div>
+      <div class="stretch-target">
+        <span class="tag">肱三头肌</span>
+      </div>
+      <div class="stretch-how">
+        <ol>
+          <li>举起一臂，手肘弯曲放到脑后</li>
+          <li>另一手轻压手肘向下</li>
+          <li>感受手臂后侧拉伸</li>
+          <li>换边重复</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="section-label">背 & 二头（拉的日子）</div>
+
+    <div class="stretch-card">
+      <div class="stretch-header">
+        <div class="stretch-name">背阔肌拉伸</div>
+        <div class="stretch-duration">30s × 每侧</div>
+      </div>
+      <div class="stretch-target">
+        <span class="tag">背阔肌</span><span class="tag">改善驼背</span>
+      </div>
+      <div class="stretch-how">
+        <ol>
+          <li>扶住门框或柱子，侧身站立</li>
+          <li>外侧手抓高处，身体向外倾斜、髋部推出</li>
+          <li>感受腋下到腰侧的拉伸</li>
+          <li>换边重复</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="stretch-card">
+      <div class="stretch-header">
+        <div class="stretch-name">猫牛式（脊柱放松）</div>
+        <div class="stretch-duration">10次呼吸</div>
+      </div>
+      <div class="stretch-target">
+        <span class="tag">脊柱</span><span class="tag">腰背</span><span class="tag">重训必做</span>
+      </div>
+      <div class="stretch-how">
+        <ol>
+          <li>四点跪撑（手腕在肩下，膝盖在髋下）</li>
+          <li>吸气时腰部下沉、抬头（牛式）</li>
+          <li>呼气时拱背、低头（猫式）</li>
+          <li>缓慢交替，随呼吸节奏</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="stretch-card">
+      <div class="stretch-header">
+        <div class="stretch-name">二头肌拉伸</div>
+        <div class="stretch-duration">20s × 每侧</div>
+      </div>
+      <div class="stretch-target">
+        <span class="tag">肱二头肌</span>
+      </div>
+      <div class="stretch-how">
+        <ol>
+          <li>手掌贴墙，大拇指朝下，手臂伸直</li>
+          <li>身体缓缓转离墙面</li>
+          <li>感受手臂前侧拉伸</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="section-label">腿 & 臀（腿的日子）</div>
+
+    <div class="stretch-card">
+      <div class="stretch-header">
+        <div class="stretch-name">深蹲后髋部拉伸</div>
+        <div class="stretch-duration">45s × 每侧</div>
+      </div>
+      <div class="stretch-target">
+        <span class="tag">臀肌</span><span class="tag">深蹲恢复</span>
+      </div>
+      <div class="stretch-how">
+        <ol>
+          <li>坐地，一腿弯曲（90°），另腿向后伸</li>
+          <li>身体微微前倾趴向弯曲腿</li>
+          <li>感受臀部外侧深层拉伸</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="stretch-card">
+      <div class="stretch-header">
+        <div class="stretch-name">股四头肌拉伸（卧式）</div>
+        <div class="stretch-duration">30s × 每侧</div>
+      </div>
+      <div class="stretch-target">
+        <span class="tag">股四头肌</span><span class="tag">深蹲必做</span>
+      </div>
+      <div class="stretch-how">
+        <ol>
+          <li>侧躺，下方腿伸直</li>
+          <li>上方腿弯曲，同侧手抓脚踝向臀部拉</li>
+          <li>髋部保持稳定，感受大腿前侧拉伸</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="stretch-card">
+      <div class="stretch-header">
+        <div class="stretch-name">腘绳肌拉伸（仰卧）</div>
+        <div class="stretch-duration">45s × 每侧</div>
+      </div>
+      <div class="stretch-target">
+        <span class="tag">腘绳肌</span><span class="tag">硬拉恢复</span>
+      </div>
+      <div class="stretch-how">
+        <ol>
+          <li>仰卧，一腿伸直抬起，双手抱住大腿后侧</li>
+          <li>缓缓将腿拉向胸口（膝盖可微弯）</li>
+          <li>感受大腿后侧拉伸</li>
+          <li>换边重复</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="stretch-card">
+      <div class="stretch-header">
+        <div class="stretch-name">儿童式（全身放松）</div>
+        <div class="stretch-duration">60s</div>
+      </div>
+      <div class="stretch-target">
+        <span class="tag">腰背</span><span class="tag">肩膀</span><span class="tag">收尾必做</span>
+      </div>
+      <div class="stretch-how">
+        <ol>
+          <li>跪地，膝盖分开，大脚趾靠拢</li>
+          <li>身体向前趴下，手臂向前伸直</li>
+          <li>额头贴地（或接近地面），深呼吸</li>
+          <li>感受全身放松下沉</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="timer-bar">
+      <div class="timer-label">总时长参考</div>
+      <div class="timer-total">约 10-15 分钟</div>
+    </div>
+
+    <div class="tip-box">
+      <strong>重训后法则：</strong> 每个动作维持 30-45 秒，不要急。乳酸堆积感在拉伸后会明显减轻。儿童式放到最后，配合深呼吸，是最好的收尾。
+    </div>
+  </div>
+
+  <script>
+    function switchTab(type) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      event.target.classList.add('active');
+      document.getElementById('section-' + type).classList.add('active');
+    }
+  </script>
+
+</body>
+</html>
