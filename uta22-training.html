@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#1a1a2e">
+  <title>🏔️ UTA22 Training Plan</title>
+  <style>
+    :root {
+      --bg: #0f0f1a;
+      --bg2: #1a1a2e;
+      --card: #16213e;
+      --card2: #1e2d45;
+      --accent: #2ECC85;
+      --accent2: #1FAD73;
+      --orange: #f97316;
+      --purple: #6B4C9A;
+      --red: #e94560;
+      --yellow: #f59e0b;
+      --text: #eaeaea;
+      --muted: #8a8a9a;
+      --border: #2a3a5a;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding-bottom: 40px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(160deg, #0f2027, #203a43, #2c5364);
+      padding: 40px 20px 32px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 80 L40 50 L80 70 L120 30 L160 55 L200 20 L240 45 L280 25 L320 60 L360 35 L400 50 L400 120 L0 120Z' fill='rgba(46,204,133,0.06)'/%3E%3C/svg%3E") bottom/cover no-repeat;
+      pointer-events: none;
+    }
+    .race-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(46,204,133,0.15); border: 1px solid rgba(46,204,133,0.3);
+      color: var(--accent); font-size: 12px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      padding: 5px 14px; border-radius: 100px; margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: 32px; font-weight: 800; letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero-sub { font-size: 15px; color: var(--muted); margin-bottom: 24px; }
+    .race-stats {
+      display: flex; justify-content: center; gap: 24px; flex-wrap: wrap;
+    }
+    .race-stat { text-align: center; }
+    .race-stat .num { font-size: 26px; font-weight: 800; color: var(--accent); }
+    .race-stat .lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px; }
+
+    /* ── COUNTDOWN ── */
+    .countdown-section {
+      background: var(--bg2); border-bottom: 1px solid var(--border);
+      padding: 16px 20px; text-align: center;
+    }
+    .countdown-row { display: flex; justify-content: center; gap: 16px; }
+    .cd-box {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 12px 18px; min-width: 70px;
+    }
+    .cd-num { font-size: 28px; font-weight: 800; color: var(--accent); line-height: 1; }
+    .cd-lbl { font-size: 11px; color: var(--muted); margin-top: 4px; text-transform: uppercase; }
+    .cd-note { font-size: 13px; color: var(--muted); margin-top: 10px; }
+
+    /* ── CONTAINER ── */
+    .container { max-width: 680px; margin: 0 auto; padding: 0 16px; }
+
+    /* ── SECTION TITLE ── */
+    .section-title {
+      font-size: 11px; font-weight: 700; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 0.1em;
+      margin: 28px 0 12px;
+    }
+
+    /* ── WEEK CARDS ── */
+    .week-grid { display: flex; flex-direction: column; gap: 10px; }
+    .week-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; overflow: hidden;
+      transition: border-color 0.2s;
+      cursor: pointer;
+    }
+    .week-card.current { border-color: var(--accent); }
+    .week-card.completed { border-color: var(--border); opacity: 0.6; }
+    .week-card.taper { border-color: var(--yellow); }
+    .week-card.race { border-color: var(--orange); background: linear-gradient(135deg, #1a2e1a, #16213e); }
+    .week-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 16px;
+    }
+    .week-left { display: flex; align-items: center; gap: 12px; }
+    .week-num {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: rgba(46,204,133,0.12); color: var(--accent);
+      font-size: 14px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .week-card.current .week-num { background: var(--accent); color: #fff; }
+    .week-card.taper .week-num { background: rgba(245,158,11,0.15); color: var(--yellow); }
+    .week-card.race .week-num { background: rgba(249,115,22,0.2); color: var(--orange); font-size: 18px; }
+    .week-info h3 { font-size: 15px; font-weight: 700; }
+    .week-info p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .week-tags { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+    .tag {
+      font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 6px;
+    }
+    .tag-km { background: rgba(46,204,133,0.12); color: var(--accent); }
+    .tag-elev { background: rgba(107,76,154,0.15); color: #a78bfa; }
+    .tag-focus { background: rgba(249,115,22,0.12); color: var(--orange); }
+    .tag-easy { background: rgba(245,158,11,0.12); color: var(--yellow); }
+    .tag-race { background: rgba(249,115,22,0.15); color: var(--orange); }
+    .week-body {
+      display: none; border-top: 1px solid var(--border);
+      padding: 14px 16px;
+    }
+    .week-card.open .week-body { display: block; }
+    .week-card.open .week-chevron { transform: rotate(180deg); }
+    .week-chevron { color: var(--muted); font-size: 12px; transition: transform 0.2s; }
+
+    /* day rows */
+    .day-row {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .day-row:last-child { border-bottom: none; }
+    .day-label {
+      width: 28px; font-size: 11px; font-weight: 700; color: var(--muted);
+      text-transform: uppercase; padding-top: 2px; flex-shrink: 0;
+    }
+    .day-content { flex: 1; }
+    .day-title { font-size: 14px; font-weight: 600; color: var(--text); }
+    .day-detail { font-size: 12px; color: var(--muted); margin-top: 2px; line-height: 1.5; }
+    .day-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      margin-top: 5px; flex-shrink: 0;
+    }
+    .dot-run { background: var(--accent); }
+    .dot-gym { background: var(--purple); }
+    .dot-rest { background: var(--border); }
+    .dot-race { background: var(--orange); }
+    .dot-easy { background: var(--yellow); }
+
+    /* ── TIPS CARD ── */
+    .tips-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 18px; margin-bottom: 10px;
+    }
+    .tips-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    .tips-list { list-style: none; }
+    .tips-list li {
+      font-size: 13px; color: var(--muted); padding: 6px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      display: flex; gap: 8px; align-items: flex-start; line-height: 1.5;
+    }
+    .tips-list li:last-child { border-bottom: none; }
+    .tips-list li span:first-child { flex-shrink: 0; }
+
+    /* ── MANDATORY GEAR ── */
+    .gear-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .gear-item {
+      background: var(--card2); border: 1px solid var(--border);
+      border-radius: 10px; padding: 10px 12px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .gear-item input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--accent); flex-shrink: 0; }
+    .gear-item label { font-size: 13px; cursor: pointer; }
+    .gear-item.critical label { color: var(--red); font-weight: 600; }
+
+    /* ── PROGRESS BAR ── */
+    .progress-section {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 18px; margin-bottom: 10px;
+    }
+    .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .progress-header h4 { font-size: 14px; font-weight: 700; }
+    .progress-pct { font-size: 13px; color: var(--accent); font-weight: 700; }
+    .progress-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent2), var(--accent)); border-radius: 4px; transition: width 0.5s ease; }
+    .progress-weeks { display: flex; justify-content: space-between; margin-top: 8px; }
+    .pw { font-size: 10px; color: var(--muted); }
+
+    /* ── TECHNIQUE ── */
+    .technique-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .tech-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px;
+    }
+    .tech-card h5 { font-size: 13px; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+    .tech-card p { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+    /* bottom nav */
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: rgba(15,15,26,0.95); backdrop-filter: blur(20px);
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-around;
+      padding: 10px 0 calc(10px + env(safe-area-inset-bottom));
+    }
+    .nav-item {
+      display: flex; flex-direction: column; align-items: center; gap: 3px;
+      color: var(--muted); text-decoration: none; font-size: 10px;
+      transition: color 0.2s; padding: 4px 12px; border-radius: 10px;
+      background: none; border: none; cursor: pointer;
+    }
+    .nav-item.active { color: var(--accent); }
+    .nav-item span:first-child { font-size: 20px; }
+
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* race day page */
+    .race-hero {
+      text-align: center; padding: 32px 20px 24px;
+      background: linear-gradient(160deg, #1a0a00, #2c1a00);
+    }
+    .race-hero h2 { font-size: 28px; font-weight: 800; color: var(--orange); margin-bottom: 6px; }
+    .race-hero p { color: var(--muted); font-size: 14px; }
+    .timeline-item {
+      display: flex; gap: 14px; padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .tl-time { width: 55px; font-size: 13px; font-weight: 700; color: var(--orange); flex-shrink: 0; padding-top: 2px; }
+    .tl-content h5 { font-size: 14px; font-weight: 600; }
+    .tl-content p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    @media (max-width: 400px) {
+      .race-stats { gap: 16px; }
+      .technique-grid { grid-template-columns: 1fr; }
+      .gear-grid { grid-template-columns: 1fr; }
+    }
+    body { padding-bottom: 90px; }
+  </style>
+</head>
+<body>
+
+<!-- PAGE: PLAN -->
+<div class="page active" id="page-plan">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="race-badge">🏔️ Ultra-Trail Australia</div>
+    <h1>UTA<span>22</span></h1>
+    <p class="hero-sub">Blue Mountains · Katoomba · 15 May 2026</p>
+    <div class="race-stats">
+      <div class="race-stat"><div class="num">22km</div><div class="lbl">Distance</div></div>
+      <div class="race-stat"><div class="num">1,200m</div><div class="lbl">Elevation +</div></div>
+      <div class="race-stat"><div class="num">7hr</div><div class="lbl">Cutoff</div></div>
+      <div class="race-stat"><div class="num">8wks</div><div class="lbl">To Race Day</div></div>
+    </div>
+  </div>
+
+  <!-- Countdown -->
+  <div class="countdown-section">
+    <div class="countdown-row">
+      <div class="cd-box"><div class="cd-num" id="cd-weeks">--</div><div class="cd-lbl">Weeks</div></div>
+      <div class="cd-box"><div class="cd-num" id="cd-days">--</div><div class="cd-lbl">Days</div></div>
+      <div class="cd-box"><div class="cd-num" id="cd-hours">--</div><div class="cd-lbl">Hours</div></div>
+    </div>
+    <div class="cd-note" id="cd-note">Until Race Day 🏁</div>
+  </div>
+
+  <div class="container">
+
+    <!-- Progress -->
+    <p class="section-title">Training Progress</p>
+    <div class="progress-section">
+      <div class="progress-header">
+        <h4>8-Week Plan</h4>
+        <span class="progress-pct" id="prog-pct">0%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+      <div class="progress-weeks">
+        <span class="pw">W1</span><span class="pw">W2</span><span class="pw">W3</span>
+        <span class="pw">W4</span><span class="pw">W5</span><span class="pw">W6</span>
+        <span class="pw">W7</span><span class="pw">W8</span><span class="pw">Race</span>
+      </div>
+    </div>
+
+    <!-- Weekly Plan -->
+    <p class="section-title">Weekly Schedule</p>
+    <div class="week-grid">
+
+      <!-- W1 -->
+      <div class="week-card current" id="w1" onclick="toggleWeek('w1')">
+        <div class="week-header">
+          <div class="week-left">
+            <div class="week-num">W1</div>
+            <div class="week-info">
+              <h3>Base & Assessment</h3>
+              <p>18 – 24 Mar 2026</p>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="week-tags">
+              <span class="tag tag-km">15km LSD</span>
+              <span class="tag tag-focus">Stair Drill</span>
+            </div>
+            <span class="week-chevron">▼</span>
+          </div>
+        </div>
+        <div class="week-body">
+          <div class="day-row"><div class="day-dot dot-gym"></div><div class="day-label">MON</div><div class="day-content"><div class="day-title">PT Levi / Core + Cardio</div><div class="day-detail">Existing gym session — no change</div></div></div>
+          <div class="day-row"><div class="day-dot dot-gym"></div><div class="day-label">TUE</div><div class="day-content"><div class="day-title">Lower Body</div><div class="day-detail">Squats, deadlift, split squat — strong legs = strong climbs</div></div></div>
+          <div class="day-row"><div class="day-dot dot-gym"></div><div class="day-label">WED</div><div class="day-content"><div class="day-title">PT Andy — Upper Body</div><div class="day-detail">Bligh St 8:30am — no change</div></div></div>
+          <div class="day-row"><div class="day-dot dot-run"></div><div class="day-label">THU</div><div class="day-content"><div class="day-title">🪜 Stair Drill — 30 min</div><div class="day-detail">Find stairs (Pyrmont / Harbour Bridge) · Power hike up, jog down · Focus: form not speed</div></div></div>
+          <div class="day-row"><div class="day-dot dot-gym"></div><div class="day-label">FRI</div><div class="day-content"><div class="day-title">Core + HIIT (lighter)</div><div class="day-detail">Keep intensity moderate — preserve legs for Saturday</div></div></div>
+          <div class="day-row"><div class="day-dot dot-run"></div><div class="day-label">SAT</div><div class="day-content"><div class="day-title">🏃 LSD 15km — Assessment Run</div><div class="day-detail">Centennial Park or coastal path · Conversational pace (Zone 2) · Note how you feel at 12km+</div></div></div>
+          <div class="day-row"><div class="day-dot dot-rest"></div><div class="day-label">SUN</div><div class="day-content"><div class="day-title">Recovery / Upper Body</div><div class="day-detail">Light stretch, foam roll · If tired: skip gym, just walk 20 min</div></div></div>
+        </div>
+      </div>
+
+      <!-- W2 -->
+      <div class="week-card" id="w2" onclick="toggleWeek('w2')">
+        <div class="week-header">
+          <div class="week-left">
+            <div class="week-num">W2</div>
+            <div class="week-info"><h3>Build Hills</h3><p>25 – 31 Mar 2026</p></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="week-tags"><span class="tag tag-km">16km</span><span class="tag tag-elev">+200m</span></div>
+            <span class="week-chevron">▼</span>
+          </div>
+        </div>
+        <div class="week-body">
+          <div class="day-row"><div class="day-dot dot-gym"></div><div class="day-label">MON</div><div class="day-content"><div class="day-title">PT / Core + Cardio</div><div class="day-detail">No change</div></div></div>
+          <div class="day-row"><div class="day-dot dot-gym"></div><div class="day-label">TUE</div><div class="day-content"><div class="day-title">Lower Body — Focus Lunges</div><div class="day-detail">Add walking lunges + step-ups for trail-specific strength</div></div></div>
+          <div class="day-row"><div class="day-dot dot-gym"></div><div class="day-label">WED</div><div class="day-content"><div class="day-title">PT Andy</div><div class="day-detail">No change</div></div></div>
+          <div class="day-row"><div class="day-dot dot-run"></div><div class="day-label">THU</div><div class="day-content"><div class="day-title">🪜 Stairs + Hill Reps 6km</div><div class="day-detail">Warm up 1km flat → 4x hill repeats (200m up, walk down) → cool down · OR Centennial Park hills</div></div></div>
+          <div class="day-row"><div class="day-dot dot-gym"></div><div class="day-label">FRI</div><div class="day-content"><div class="day-title">Core (moderate)</div><div class="day-detail">Keep it short — legs need to be fresh for Saturday</div></div></div>
+          <div class="day-row"><div class="day-dot dot-run"></div><div class="day-label">SAT</div><div class="day-content"><div class="day-title">🏃 LSD 16km — Add Undulation</div><div class="day-detail">Choose a route with some rolling hills · +200m elevation · Power hike any steep section, don't force run</div></div></div>
+          <div class="day-row"><div class="day-dot dot-rest"></div><div class="day-label">SUN</div><div class="day-content"><div class="day-title">Rest / Stretch</div><div class="day-detail">Foam roll calves + IT band — priority</div></div></div>
+        </div>
+      </div>
+
+      <!-- W3 -->
+      <div class="week-card" id="w3" onclick="toggleWeek('w3')">
+        <div class="week-header">
+          <div class="week-left">
+            <div class="week-num">W3</div>
+            <div class="week-info"><h3>Down & Up Technique</h3><p>1 – 7 Apr 2026</p></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="week-tags"><span class="tag tag-km">17km</span><span class="tag tag-elev">+350m</span><span class="tag tag-focus">Descents</span></div>
+            <span class="week-chevron">▼</span>
+          </div>
+        </div>
+        <div class="week-body">
+          <div class="day-row"><div class="day-dot dot-gym"></div><div class="day-label">MON–WED</div><div class="day-content"><div class="day-title">Gym sessions as normal</div><div class="day-detail">Add single-leg squats + calf raises for ankle stability</div></div></div>
+          <div class="day-row"><div class="day-dot dot-run"></div><div class="day-label">THU</div><div class="day-content"><div class="day-title">🏔️ Downhill Focus 7km</div><div class="day-detail">Find a proper hill (Waverton, Lavender Bay stairs, OR drive to Blue Mountains) · Run DOWN repeatedly · Short steps, quick cadence, lean forward slightly · Knees soft — NEVER locked</div></div></div>
+          <div class="day-row"><div class="day-dot dot-gym"></div><div class="day-label">FRI</div><div class="day-content"><div class="day-title">Active Recovery</div><div class="day-detail">Light core only — legs may be sore from Thursday</div></div></div>
+          <div class="day-row"><div class="day-dot dot-run"></div><div class="day-label">SAT</div><div class="day-content"><div class="day-title">🏃 LSD 17km +350m</div><div class="day-detail">Go to Ku-ring-gai Chase NP or Royal National Park · First proper trail run · Walk the steep bits, that's fine · Target: finish, not pace</div></div></div>
+          <div class="day-row"><div class="day-dot dot-rest"></div><div class="day-label">SUN</div><div class="day-content"><div class="day-title">Rest</div><div class="day-detail">Legs first — gym only if feeling good</div></div></div>
+        </div>
+      </div>
+
+      <!-- W4 -->
+      <div class="week-card" id="w4" onclick="toggleWeek('w4')">
+        <div class="week-header">
+          <div class="week-left">
+            <div class="week-num">W4</div>
+            <div class="week-info"><h3>First Real Climb</h3><p>8 – 14 Apr 2026</p></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="week-tags"><span class="tag tag-km">18km</span><span class="tag tag-elev">+500m</span></div>
+            <span class="week-chevron">▼</span>
+          </div>
+        </div>
+        <div class="week-body">
+          <div class="day-row"><div class="day-dot dot-gym"></div><div class="day-label">MON–WED</div><div class="day-content"><div class="day-title">Gym as normal</div><div class="day-detail">Lower body: add Bulgarian split squats, lateral band walks</div></div></div>
+          <div class="day-row"><div class="day-dot dot-run"></div><div class="day-label">THU</div><div class="day-content"><div class="day-title">💪 Power Hike Intervals 8km</div><div class="day-detail">Steep hill or staircase · 5 reps: power hike up hard (2 min), easy jog down · Hands on thighs for upper assist — this is the UTA secret weapon</div></div></div>
+          <div class="day-row"><div class="day-dot dot-gym"></div><div class="day-label">FRI</div><div class="day-content"><div class="day-title">Core (short)</div><div class="day-detail">20 min max — tomorrow is big</div></div></div>
+          <div class="day-row"><div class="day-dot dot-run"></div><div class="day-label">SAT</div><div class="day-content"><div class="day-title">🏔️ Trail 18km +500m — Blue Mountains</div><div class="day-detail">Suggested: Wentworth Falls → Conservation Hut loop · First time feeling 500m+ elevation · Fuel: gel every 45 min, 500ml water/hour</div></div></div>
+          <div class="day-row"><div class="day-dot dot-rest"></div><div class="day-label">SUN</div><div class="day-content"><div class="day-title">Full Rest</div><div class="day-detail">Recovery is where fitness is built</div></div></div>
+        </div>
+      </div>
+
+      <!-- W5 -->
+      <div class="week-card" id="w5" onclick="toggleWeek('w5')">
+        <div class="week-header">
+          <div class="week-left">
+            <div class="week-num">W5</div>
+            <div class="week-info"><h3>Break the 15km Barrier 🎯</h3><p>15 – 21 Apr 2026</p></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="week-tags"><span class="tag tag-km">20km</span><span class="tag tag-elev">+700m</span><span class="tag tag-focus">Key Week</span></div>
+            <span class="week-chevron">▼</span>
+          </div>
+        </div>
+        <div class="week-body">
+          <div class="day-row"><div class="day-dot dot-gym"></div><div class="day-label">MON–WED</div><div class="day-content"><div class="day-title">Gym (lighter this week)</div><div class="day-detail">Reduce gym intensity 20% — big run coming Saturday</div></div></div>
+          <div class="day-row"><div class="day-dot dot-run"></div><div class="day-label">THU</div><div class="day-content"><div class="day-title">🏃 Easy 6km Flat</div><div class="day-detail">Just keep legs moving, don't fatigue them</div></div></div>
+          <div class="day-row"><div class="day-dot dot-rest"></div><div class="day-label">FRI</div><div class="day-content"><div class="day-title">REST — Full</div><div class="day-detail">Eat well, sleep 8hr, hydrate. This is your most important prep.</div></div></div>
+          <div class="day-row"><div class="day-dot dot-run"></div><div class="day-label">SAT</div><div class="day-content"><div class="day-title">🏔️ FIRST 20km — Blue Mountains Trail</div><div class="day-detail">Route: Grand Canyon Track or Federal Pass (+700m) · Go slow. Walk every climb. This is about COMPLETING, not pace · Celebrate crossing 15km — new personal distance PB 🎉</div></div></div>
+          <div class="day-row"><div class="day-dot dot-rest"></div><div class="day-label">SUN</div><div class="day-content"><div class="day-title">Recovery Walk</div><div class="day-detail">20-30 min gentle walk only. No gym.</div></div></div>
+        </div>
+      </div>
+
+      <!-- W6 -->
+      <div class="week-card" id="w6" onclick="toggleWeek('w6')">
+        <div class="week-header">
+          <div class="week-left">
+            <div class="week-num">W6</div>
+            <div class="week-info"><h3>Simulate Race Distance</h3><p>22 – 28 Apr 2026</p></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="week-tags"><span class="tag tag-km">22km</span><span class="tag tag-elev">+900m</span><span class="tag tag-focus">Race Sim</span></div>
+            <span class="week-chevron">▼</span>
+          </div>
+        </div>
+        <div class="week-body">
+          <div class="day-row"><div class="day-dot dot-gym"></div><div class="day-label">MON–WED</div><div class="day-content"><div class="day-title">Gym (moderate)</div><div class="day-detail">Normal sessions but skip any max-effort sets</div></div></div>
+          <div class="day-row"><div class="day-dot dot-run"></div><div class="day-label">THU</div><div class="day-content"><div class="day-title">Trail 8km — Race Gear Rehearsal</div><div class="day-detail">Wear EXACTLY what you'll race in — shoes, pack, poles (if using) · Check mandatory gear · Eat gels from your race nutrition plan</div></div></div>
+          <div class="day-row"><div class="day-dot dot-rest"></div><div class="day-label">FRI</div><div class="day-content"><div class="day-title">REST</div><div class="day-detail">Full rest day</div></div></div>
+          <div class="day-row"><div class="day-dot dot-run"></div><div class="day-label">SAT</div><div class="day-content"><div class="day-title">🏔️ RACE SIMULATION 22km +900m</div><div class="day-detail">Closest thing to race day · Start at 7am (same as race) · Blue Mountains course-adjacent route if possible · Use race nutrition, race gear, race pacing strategy</div></div></div>
+          <div class="day-row"><div class="day-dot dot-rest"></div><div class="day-label">SUN</div><div class="day-content"><div class="day-title">Full Rest</div><div class="day-detail">You've done the hard work. Trust it.</div></div></div>
+        </div>
+      </div>
+
+      <!-- W7 Taper -->
+      <div class="week-card taper" id="w7" onclick="toggleWeek('w7')">
+        <div class="week-header">
+          <div class="week-left">
+            <div class="week-num">W7</div>
+            <div class="week-info"><h3>Taper — Sharpen Up</h3><p>29 Apr – 5 May 2026</p></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="week-tags"><span class="tag tag-easy">↓ Volume</span><span class="tag tag-km">15km</span></div>
+            <span class="week-chevron">▼</span>
+          </div>
+        </div>
+        <div class="week-body">
+          <div class="day-row"><div class="day-dot dot-gym"></div><div class="day-label">MON</div><div class="day-content"><div class="day-title">Light Gym</div><div class="day-detail">60% normal intensity. No leg press PBs.</div></div></div>
+          <div class="day-row"><div class="day-dot dot-rest"></div><div class="day-label">TUE</div><div class="day-content"><div class="day-title">Rest / Walk</div><div class="day-detail">Easy 30 min walk</div></div></div>
+          <div class="day-row"><div class="day-dot dot-gym"></div><div class="day-label">WED</div><div class="day-content"><div class="day-title">PT Andy (light)</div><div class="day-detail">Tell Andy you're racing in 2 weeks — reduce intensity</div></div></div>
+          <div class="day-row"><div class="day-dot dot-run"></div><div class="day-label">THU</div><div class="day-content"><div class="day-title">Easy 5km with short hill</div><div class="day-detail">Just to keep legs awake. Zone 2 only.</div></div></div>
+          <div class="day-row"><div class="day-dot dot-rest"></div><div class="day-label">FRI</div><div class="day-content"><div class="day-title">Rest</div><div class="day-detail">Sleep. Eat carbs. Relax.</div></div></div>
+          <div class="day-row"><div class="day-dot dot-run"></div><div class="day-label">SAT</div><div class="day-content"><div class="day-title">🏃 Easy 15km — Flat, Relaxed</div><div class="day-detail">This is NOT a hard run. Go slow, enjoy it. Confirm gear is dialled in.</div></div></div>
+          <div class="day-row"><div class="day-dot dot-rest"></div><div class="day-label">SUN</div><div class="day-content"><div class="day-title">Rest</div><div class="day-detail"></div></div></div>
+        </div>
+      </div>
+
+      <!-- W8 Taper 2 -->
+      <div class="week-card taper" id="w8" onclick="toggleWeek('w8')">
+        <div class="week-header">
+          <div class="week-left">
+            <div class="week-num">W8</div>
+            <div class="week-info"><h3>Race Week — Conserve</h3><p>6 – 14 May 2026</p></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="week-tags"><span class="tag tag-easy">Final Prep</span><span class="tag tag-km">10km</span></div>
+            <span class="week-chevron">▼</span>
+          </div>
+        </div>
+        <div class="week-body">
+          <div class="day-row"><div class="day-dot dot-gym"></div><div class="day-label">MON</div><div class="day-content"><div class="day-title">Very Light Gym</div><div class="day-detail">Upper body only. No legs at all this week.</div></div></div>
+          <div class="day-row"><div class="day-dot dot-rest"></div><div class="day-label">TUE</div><div class="day-content"><div class="day-title">Rest</div><div class="day-detail">Pack race gear. Check mandatory checklist.</div></div></div>
+          <div class="day-row"><div class="day-dot dot-rest"></div><div class="day-label">WED</div><div class="day-content"><div class="day-title">Rest / Easy Walk</div><div class="day-detail">Drive to Katoomba? Check-in area.</div></div></div>
+          <div class="day-row"><div class="day-dot dot-run"></div><div class="day-label">THU</div><div class="day-content"><div class="day-title">🏃 3km Shakeout Run</div><div class="day-detail">Just to move. 20 min max. Light strides.</div></div></div>
+          <div class="day-row"><div class="day-dot dot-rest"></div><div class="day-label">FRI</div><div class="day-content"><div class="day-title">REST — Final gear check</div><div class="day-detail">Lay everything out. Eat carbs dinner. Sleep by 9:30pm.</div></div></div>
+          <div class="day-row"><div class="day-dot dot-rest"></div><div class="day-label">SAT</div><div class="day-content"><div class="day-title">Travel to Katoomba / Rest</div><div class="day-detail">Easy walk around town. Don't do anything stupid 😄</div></div></div>
+          <div class="day-row"><div class="day-dot dot-race"></div><div class="day-label">THU</div><div class="day-content"><div class="day-title">🏔️ RACE DAY — UTA22</div><div class="day-detail">Start: Echo Point, Katoomba · Goal: Finish and enjoy it · Cutoff: 7 hours · You've got this 💪</div></div></div>
+        </div>
+      </div>
+
+      <!-- RACE DAY card -->
+      <div class="week-card race" id="wrace" onclick="toggleWeek('wrace')">
+        <div class="week-header">
+          <div class="week-left">
+            <div class="week-num">🏔️</div>
+            <div class="week-info"><h3>RACE DAY</h3><p>15 May 2026 · Katoomba</p></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="week-tags"><span class="tag tag-race">22km</span><span class="tag tag-race">1,200m+</span></div>
+            <span class="week-chevron">▼</span>
+          </div>
+        </div>
+        <div class="week-body">
+          <div class="day-row"><div class="day-dot dot-race"></div><div class="day-label">5:30am</div><div class="day-content"><div class="day-title">Wake Up</div><div class="day-detail">Coffee + carb breakfast (toast/porridge) · No new foods</div></div></div>
+          <div class="day-row"><div class="day-dot dot-race"></div><div class="day-label">6:30am</div><div class="day-content"><div class="day-title">Arrive Echo Point</div><div class="day-detail">Gear check · Warm up 10 min easy jog · Hydrate 500ml</div></div></div>
+          <div class="day-row"><div class="day-dot dot-race"></div><div class="day-label">7:00am</div><div class="day-content"><div class="day-title">🚀 START</div><div class="day-detail">GO SLOW for first 3km. Everyone sprints. You don't.</div></div></div>
+          <div class="day-row"><div class="day-dot dot-race"></div><div class="day-label">0-5km</div><div class="day-content"><div class="day-title">First Descent into Valley</div><div class="day-detail">Short steps, soft knees, lean forward · Walk any steep descent · Save quads for the climb home</div></div></div>
+          <div class="day-row"><div class="day-dot dot-race"></div><div class="day-label">5-16km</div><div class="day-content"><div class="day-title">Valley Floor — Settle In</div><div class="day-detail">Run comfortably · Gel at 45 min + 90 min · Drink at every aid station · Power hike any incline over 8%</div></div></div>
+          <div class="day-row"><div class="day-dot dot-race"></div><div class="day-label">16-22km</div><div class="day-content"><div class="day-title">Final Climb — Giant Stairway</div><div class="day-detail">This is where it hurts. Power hike every step. Hands on knees. Breathe. One step at a time. You trained for exactly this.</div></div></div>
+          <div class="day-row"><div class="day-dot dot-race"></div><div class="day-label">FINISH</div><div class="day-content"><div class="day-title">🎉 You Did It</div><div class="day-detail">UTA22 finisher · Ultra-trail athlete</div></div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PAGE: TIPS -->
+<div class="page" id="page-tips">
+  <div style="background:linear-gradient(135deg,#1a2e1a,#0f1a0f);padding:32px 20px 20px;text-align:center;">
+    <div style="font-size:36px;margin-bottom:8px;">🧠</div>
+    <h2 style="font-size:22px;font-weight:800;">Trail Running Guide</h2>
+    <p style="font-size:13px;color:var(--muted);margin-top:6px;">Technique · Nutrition · Gear · Mental</p>
+  </div>
+  <div class="container" style="padding-top:16px;">
+
+    <p class="section-title">Technique</p>
+    <div class="technique-grid">
+      <div class="tech-card">
+        <h5>⬆️ Uphill</h5>
+        <p>Power hike with hands on thighs. This saves 40% energy vs running. Lean forward, drive with arms. Short steps.</p>
+      </div>
+      <div class="tech-card">
+        <h5>⬇️ Downhill</h5>
+        <p>Quick short steps, NOT big strides. Lean slightly forward. Knees never locked. Arms out for balance. This protects your quads.</p>
+      </div>
+      <div class="tech-card">
+        <h5>🏃 Flat</h5>
+        <p>Run easy (Zone 2). If you can't hold a conversation, you're going too fast. Save energy for the climbs.</p>
+      </div>
+      <div class="tech-card">
+        <h5>🦵 Power Hike</h5>
+        <p>The secret weapon. Fast walkers beat slow runners on trail. Practice it every Thursday session. Master it.</p>
+      </div>
+    </div>
+
+    <p class="section-title">Nutrition Plan</p>
+    <div class="tips-card">
+      <h4>⚡ Race Day Fuel</h4>
+      <ul class="tips-list">
+        <li><span>Pre-race</span><span>Breakfast 2hr before: oats or toast + coffee. Nothing new.</span></li>
+        <li><span>0:45min</span><span>First gel or 2 dates. Don't wait until you're hungry.</span></li>
+        <li><span>Every 45min</span><span>Gel (100cal) OR real food (banana, PB sandwich cut small)</span></li>
+        <li><span>Hydration</span><span>500ml/hour. Drink at EVERY aid station even if not thirsty.</span></li>
+        <li><span>Electrolytes</span><span>Salt tab or electrolyte drink every 90min. No cramps.</span></li>
+        <li><span>Practice now</span><span>Use your race nutrition on ALL training runs from W4 onwards.</span></li>
+      </ul>
+    </div>
+
+    <p class="section-title">Mental Game</p>
+    <div class="tips-card">
+      <h4>💬 When It Gets Hard</h4>
+      <ul class="tips-list">
+        <li><span>📍</span><span>"Next aid station" — break race into small segments, never think about the full distance</span></li>
+        <li><span>⏳</span><span>Slow down before you think you need to — don't blow up early</span></li>
+        <li><span>🏔️</span><span>Walking up is NOT failing — the best UTA runners power hike climbs strategically</span></li>
+        <li><span>💪</span><span>At 16km when the final climb starts: "I trained for exactly this moment"</span></li>
+        <li><span>🎯</span><span>Cutoff is 7 hours. Average pace to finish = 19 min/km. You have plenty of time.</span></li>
+      </ul>
+    </div>
+
+    <p class="section-title">Best Sydney Training Spots</p>
+    <div class="tips-card">
+      <h4>📍 Recommended Routes</h4>
+      <ul class="tips-list">
+        <li><span>🏙️</span><span><strong>Pyrmont Stairs</strong> — Quick and easy. Good for Thursday sessions. 5 min from CBD.</span></li>
+        <li><span>🌊</span><span><strong>Bondi to Coogee</strong> — Undulating coastal path, 6km. Great for technique.</span></li>
+        <li><span>🌿</span><span><strong>Ku-ring-gai Chase NP</strong> — 45 min drive. Actual trail, rocks, roots. Perfect W3-4.</span></li>
+        <li><span>🏞️</span><span><strong>Royal National Park</strong> — 1hr south. Coastal Track is beautiful and hilly.</span></li>
+        <li><span>🏔️</span><span><strong>Blue Mountains (Wentworth Falls)</strong> — 1.5hr west. BEST prep, closest to race terrain. Go W5+.</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: GEAR -->
+<div class="page" id="page-gear">
+  <div style="background:linear-gradient(135deg,#1a1a0a,#2e2a0a);padding:32px 20px 20px;text-align:center;">
+    <div style="font-size:36px;margin-bottom:8px;">🎒</div>
+    <h2 style="font-size:22px;font-weight:800;">Mandatory Gear</h2>
+    <p style="font-size:13px;color:var(--muted);margin-top:6px;">Must carry at all times. Checked at start.</p>
+  </div>
+  <div class="container" style="padding-top:16px;">
+
+    <p class="section-title">⚠️ Race Mandatory (Verify on UTA website)</p>
+    <div style="background:rgba(233,69,96,0.08);border:1px solid rgba(233,69,96,0.3);border-radius:12px;padding:12px 14px;margin-bottom:12px;font-size:13px;color:var(--muted);line-height:1.6;">
+      Always check the official <strong style="color:var(--text)">UTA mandatory gear list</strong> at ultratrailaustralia.com.au — this list may change year to year.
+    </div>
+    <div class="gear-grid">
+      <div class="gear-item critical"><input type="checkbox" id="g1"><label for="g1">Hydration Pack / Vest</label></div>
+      <div class="gear-item critical"><input type="checkbox" id="g2"><label for="g2">1L min water capacity</label></div>
+      <div class="gear-item critical"><input type="checkbox" id="g3"><label for="g3">Emergency Thermal Blanket</label></div>
+      <div class="gear-item critical"><input type="checkbox" id="g4"><label for="g4">Fully Charged Phone</label></div>
+      <div class="gear-item"><input type="checkbox" id="g5"><label for="g5">Waterproof Jacket</label></div>
+      <div class="gear-item"><input type="checkbox" id="g6"><label for="g6">First Aid Kit</label></div>
+      <div class="gear-item"><input type="checkbox" id="g7"><label for="g7">Headlamp + Batteries</label></div>
+      <div class="gear-item"><input type="checkbox" id="g8"><label for="g8">Whistle</label></div>
+      <div class="gear-item"><input type="checkbox" id="g9"><label for="g9">Race Bib (printed)</label></div>
+      <div class="gear-item"><input type="checkbox" id="g10"><label for="g10">GPS Watch (optional)</label></div>
+    </div>
+
+    <p class="section-title">Recommended Shoes</p>
+    <div class="tips-card">
+      <h4>👟 Trail Shoes — Get These ASAP</h4>
+      <ul class="tips-list">
+        <li><span>🥇</span><span><strong>Salomon Speedcross 6</strong> — Aggressive lugs for mud/rock. Most popular UTA shoe.</span></li>
+        <li><span>🥈</span><span><strong>Hoka Speedgoat 5</strong> — More cushion, great for first timer. Easier on quads downhill.</span></li>
+        <li><span>🥉</span><span><strong>ASICS Gel-Trabuco</strong> — Budget option, still great grip.</span></li>
+        <li><span>⚠️</span><span>Road running shoes will slip on wet rocks. DO NOT race in road shoes.</span></li>
+        <li><span>📅</span><span>Buy by end of W2 and break them in for at least 4 weeks before race day.</span></li>
+      </ul>
+    </div>
+
+    <p class="section-title">Nice to Have</p>
+    <div class="gear-grid">
+      <div class="gear-item"><input type="checkbox" id="g11"><label for="g11">Trekking Poles</label></div>
+      <div class="gear-item"><input type="checkbox" id="g12"><label for="g12">Trail Gaiters</label></div>
+      <div class="gear-item"><input type="checkbox" id="g13"><label for="g13">Merino Buff / Neck Gaiter</label></div>
+      <div class="gear-item"><input type="checkbox" id="g14"><label for="g14">Body Glide (no chafing)</label></div>
+      <div class="gear-item"><input type="checkbox" id="g15"><label for="g15">Race Gels x6</label></div>
+      <div class="gear-item"><input type="checkbox" id="g16"><label for="g16">Salt Tabs</label></div>
+    </div>
+  </div>
+</div>
+
+<!-- Bottom Nav -->
+<div class="bottom-nav">
+  <button class="nav-item active" id="nav-plan" onclick="showPage('plan')">
+    <span>📅</span><span>Plan</span>
+  </button>
+  <button class="nav-item" id="nav-tips" onclick="showPage('tips')">
+    <span>🧠</span><span>Tips</span>
+  </button>
+  <button class="nav-item" id="nav-gear" onclick="showPage('gear')">
+    <span>🎒</span><span>Gear</span>
+  </button>
+</div>
+
+<script>
+  // Page navigation
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    document.getElementById('nav-' + name).classList.add('active');
+  }
+
+  // Toggle week
+  function toggleWeek(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('open');
+  }
+
+  // Open current week by default
+  document.getElementById('w1').classList.add('open');
+
+  // Countdown
+  function updateCountdown() {
+    const race = new Date('2026-05-15T07:00:00+10:00');
+    const now = new Date();
+    const diff = race - now;
+    if (diff <= 0) {
+      document.getElementById('cd-weeks').textContent = '🏁';
+      document.getElementById('cd-days').textContent = '0';
+      document.getElementById('cd-hours').textContent = '0';
+      document.getElementById('cd-note').textContent = 'Race Day! Go get it! 🏔️';
+      return;
+    }
+    const weeks = Math.floor(diff / (1000*60*60*24*7));
+    const days = Math.floor((diff % (1000*60*60*24*7)) / (1000*60*60*24));
+    const hours = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+    document.getElementById('cd-weeks').textContent = weeks;
+    document.getElementById('cd-days').textContent = days;
+    document.getElementById('cd-hours').textContent = hours;
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 60000);
+
+  // Progress bar — calculate current week
+  function updateProgress() {
+    const start = new Date('2026-03-18');
+    const race = new Date('2026-05-15');
+    const now = new Date();
+    const total = race - start;
+    const elapsed = Math.min(now - start, total);
+    const pct = Math.max(0, Math.min(100, Math.round(elapsed / total * 100)));
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-pct').textContent = pct + '%';
+
+    // Highlight current week
+    const weekMs = 7 * 24 * 60 * 60 * 1000;
+    const weeksElapsed = Math.floor((now - start) / weekMs);
+    const weekIds = ['w1','w2','w3','w4','w5','w6','w7','w8'];
+    weekIds.forEach((id, i) => {
+      const el = document.getElementById(id);
+      el.classList.remove('current', 'completed');
+      if (i < weeksElapsed) el.classList.add('completed');
+      else if (i === weeksElapsed) el.classList.add('current');
+    });
+  }
+  updateProgress();
+
+  // Save checkbox states
+  document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    const key = 'uta22-gear-' + cb.id;
+    cb.checked = localStorage.getItem(key) === 'true';
+    cb.addEventListener('change', () => localStorage.setItem(key, cb.checked));
+  });
+</script>
+</body>
+</html>
