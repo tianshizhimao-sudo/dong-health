@@ -29,13 +29,13 @@
       padding: 20px;
       padding-bottom: 40px;
     }
-    
+
     .container {
       max-width: 400px;
       margin: 0 auto;
       text-align: center;
     }
-    
+
     .avatar {
       width: 100px;
       height: 100px;
@@ -48,19 +48,19 @@
       font-size: 48px;
       box-shadow: 0 8px 24px rgba(225, 112, 85, 0.3);
     }
-    
+
     h1 {
       font-size: 26px;
       color: var(--primary);
       margin-bottom: 4px;
     }
-    
+
     .subtitle {
       color: var(--muted);
       font-size: 14px;
       margin-bottom: 8px;
     }
-    
+
     .status-badge {
       display: inline-block;
       padding: 6px 16px;
@@ -70,13 +70,13 @@
       color: #2d3436;
       margin-bottom: 30px;
     }
-    
+
     .menu {
       display: flex;
       flex-direction: column;
       gap: 14px;
     }
-    
+
     .menu-item {
       display: flex;
       align-items: center;
@@ -96,7 +96,7 @@
     .menu-item:active {
       transform: scale(0.98);
     }
-    
+
     .menu-icon {
       width: 52px;
       height: 52px;
@@ -112,30 +112,30 @@
     .menu-icon.green { background: linear-gradient(135deg, #55efc4, #00b894); }
     .menu-icon.blue { background: linear-gradient(135deg, #74b9ff, #0984e3); }
     .menu-icon.orange { background: linear-gradient(135deg, #ffeaa7, #fdcb6e); }
-    
+
     .menu-content {
       text-align: left;
       flex: 1;
     }
-    
+
     .menu-title {
       font-size: 16px;
       font-weight: 600;
       margin-bottom: 4px;
     }
-    
+
     .menu-desc {
       font-size: 12px;
       color: var(--muted);
       line-height: 1.4;
     }
-    
+
     .footer {
       margin-top: 30px;
       font-size: 12px;
       color: var(--muted);
     }
-    
+
     .heart-float {
       position: fixed;
       font-size: 20px;
@@ -145,24 +145,32 @@
     .heart-float:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
     .heart-float:nth-child(2) { top: 20%; right: 15%; animation-delay: 1s; }
     .heart-float:nth-child(3) { bottom: 30%; left: 8%; animation-delay: 2s; }
-    
+
     @keyframes float {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-10px); }
     }
+
+    /* Home UI sync */
+    :root{--bg:#07080c;--card:rgba(13,15,21,.74);--primary:#34e0a1;--primary-light:#5ff0bb;--secondary:#a67bff;--success:#34e0a1;--text:#f2f3f5;--muted:#9aa0ae;--border:rgba(255,255,255,.08);}
+    body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC","Segoe UI",system-ui,sans-serif;background:radial-gradient(120% 90% at 0 0,rgba(52,224,161,.12),transparent 55%),radial-gradient(120% 90% at 100% 100%,rgba(166,123,255,.14),transparent 55%),#07080c;}
+    .avatar{background:linear-gradient(135deg,#34e0a1,#a67bff);box-shadow:0 8px 28px rgba(52,224,161,.28);}
+    .status-badge{background:rgba(52,224,161,.14);color:#34e0a1;border:1px solid rgba(52,224,161,.25);}
+    .menu-item{background:rgba(13,15,21,.72);border:1px solid var(--border);box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 24px 40px -30px rgba(0,0,0,.8);}
+
   </style>
 </head>
 <body>
   <div class="heart-float">💕</div>
   <div class="heart-float">🌸</div>
   <div class="heart-float">✨</div>
-  
+
   <div class="container">
     <div class="avatar">👧</div>
     <h1>Olivia 健康中心</h1>
     <p class="subtitle">亚甲炎康复期 · 慢慢来 💪</p>
     <span class="status-badge">🌱 轻柔运动模式</span>
-    
+
     <nav class="menu">
       <a href="olivia-workout.html" class="menu-item">
         <div class="menu-icon pink">🧘</div>
@@ -171,7 +179,7 @@
           <div class="menu-desc">30分钟内 · 拉伸塑形 · 视频指导</div>
         </div>
       </a>
-      
+
       <a href="olivia-tracker.html" class="menu-item">
         <div class="menu-icon purple">✅</div>
         <div class="menu-content">
@@ -179,7 +187,7 @@
           <div class="menu-desc">记录每次训练，看见进步</div>
         </div>
       </a>
-      
+
       <a href="olivia-plan.html" class="menu-item">
         <div class="menu-icon green">📋</div>
         <div class="menu-content">
@@ -187,7 +195,7 @@
           <div class="menu-desc">康复期专属训练计划</div>
         </div>
       </a>
-      
+
       <a href="https://tianshizhimao-sudo.github.io/dong-home/" class="menu-item">
         <div class="menu-icon blue">🏠</div>
         <div class="menu-content">
@@ -195,7 +203,7 @@
           <div class="menu-desc">☁️ 云同步 · 和冬哥实时共享</div>
         </div>
       </a>
-      
+
       <a href="olivia-food-picker/index.html" class="menu-item">
         <div class="menu-icon orange">🎲</div>
         <div class="menu-content">
@@ -203,7 +211,7 @@
           <div class="menu-desc">让我来帮你选择~</div>
         </div>
       </a>
-      
+
       <a href="index.html" class="menu-item" style="background: linear-gradient(135deg, #dfe6e9, #b2bec3);">
         <div class="menu-icon" style="background: linear-gradient(135deg, #636e72, #2d3436);">💪</div>
         <div class="menu-content">
@@ -212,7 +220,7 @@
         </div>
       </a>
     </nav>
-    
+
     <div class="footer">
       <p>💕 冬哥爱你 · 慢慢恢复</p>
     </div>

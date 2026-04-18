@@ -28,7 +28,7 @@
       padding-bottom: 100px;
     }
     .container { max-width: 500px; margin: 0 auto; }
-    
+
     .nav-back {
       display: inline-flex;
       align-items: center;
@@ -38,7 +38,7 @@
       font-size: 14px;
       margin-bottom: 16px;
     }
-    
+
     header {
       text-align: center;
       padding: 10px 0 24px;
@@ -65,7 +65,7 @@
     .day-type.rest {
       background: linear-gradient(135deg, #55efc4, #00b894);
     }
-    
+
     .section {
       background: var(--card);
       border-radius: 20px;
@@ -82,7 +82,7 @@
       align-items: center;
       gap: 8px;
     }
-    
+
     .schedule-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
@@ -109,7 +109,7 @@
     .schedule-day .day-icon {
       font-size: 16px;
     }
-    
+
     .workout-summary {
       background: #faf6f4;
       border-radius: 14px;
@@ -126,7 +126,7 @@
     .summary-row:last-child { border-bottom: none; }
     .summary-label { color: var(--muted); }
     .summary-value { font-weight: 600; }
-    
+
     .video-card {
       background: #faf6f4;
       border-radius: 14px;
@@ -170,7 +170,7 @@
       font-size: 11px;
       color: var(--muted);
     }
-    
+
     .tip-box {
       background: linear-gradient(135deg, rgba(85, 239, 196, 0.2), rgba(0, 184, 148, 0.2));
       border: 1px solid rgba(0, 184, 148, 0.3);
@@ -191,7 +191,7 @@
       color: var(--muted);
       line-height: 1.6;
     }
-    
+
     .action-btn {
       display: block;
       width: 100%;
@@ -207,7 +207,7 @@
       margin-top: 16px;
       box-shadow: 0 4px 15px rgba(225, 112, 85, 0.3);
     }
-    
+
     .reminder-box {
       background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
       border-radius: 14px;
@@ -217,12 +217,19 @@
       font-size: 13px;
       color: #6c5ce7;
     }
+
+    /* Home UI sync */
+    :root{--bg:#07080c;--card:rgba(13,15,21,.74);--primary:#34e0a1;--primary-light:#5ff0bb;--secondary:#a67bff;--success:#34e0a1;--text:#f2f3f5;--muted:#9aa0ae;}
+    body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC","Segoe UI",system-ui,sans-serif;background:radial-gradient(120% 90% at 0 0,rgba(52,224,161,.12),transparent 55%),radial-gradient(120% 90% at 100% 100%,rgba(166,123,255,.14),transparent 55%),#07080c;}
+    .section,.schedule-day,.exercise-card,.tip-box{background:rgba(13,15,21,.72);border:1px solid rgba(255,255,255,.08);box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 24px 40px -30px rgba(0,0,0,.8);}
+    .day-type{background:linear-gradient(135deg,#34e0a1,#1dbf83);color:#07241b;}
+
   </style>
 </head>
 <body>
   <div class="container">
     <a href="olivia-index.html" class="nav-back">← 返回健康中心</a>
-    
+
     <header>
       <p class="date-display" id="dateDisplay"></p>
       <h1>🧘 今日训练</h1>
@@ -250,7 +257,7 @@
     </div>
 
     <a href="olivia-tracker.html" class="action-btn">✅ 开始打卡</a>
-    
+
     <div class="reminder-box">
       🌸 亚甲炎康复期，运动以舒适为主<br>
       感到疲劳就休息，不要勉强自己哦~
@@ -354,9 +361,9 @@
       const today = now.getDay();
       const plan = weekPlan[today];
 
-      const dateStr = now.toLocaleDateString('zh-CN', { 
-        year: 'numeric', 
-        month: 'long', 
+      const dateStr = now.toLocaleDateString('zh-CN', {
+        year: 'numeric',
+        month: 'long',
         day: 'numeric',
         weekday: 'long'
       });

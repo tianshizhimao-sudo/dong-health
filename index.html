@@ -10,13 +10,13 @@
   <title>冬哥训练中心 · Dong Health</title>
   <style>
     :root {
-      --bg: #07080c;
-      --bg-elev: #0d0f15;
-      --ink: #f2f3f5;
-      --ink-dim: #9aa0ae;
-      --ink-mute: #5d6471;
-      --hairline: rgba(255,255,255,0.06);
-      --hairline-strong: rgba(255,255,255,0.1);
+      --bg: #0c1220;
+      --bg-elev: #151d2f;
+      --ink: #f5f7ff;
+      --ink-dim: #b6bfd4;
+      --ink-mute: #8f9ab2;
+      --hairline: rgba(255,255,255,0.12);
+      --hairline-strong: rgba(255,255,255,0.2);
       --green: #34e0a1;
       --green-deep: #1dbf83;
       --purple: #a67bff;
@@ -613,10 +613,10 @@
         <span id="greetingText"></span>
       </p>
       <h1 class="hero-title">冬哥训练中心</h1>
-      <p class="hero-sub">个人训练、恢复与生活节奏的中枢 · 2026 年 2–3 月增肌期</p>
+      <p class="hero-sub">个人训练、恢复与生活节奏的中枢 · 2026 年 4–6 月体能重建期</p>
       <p class="motivation" id="motivation"></p>
       <div class="pills">
-        <span class="pill green">增肌期 · Week 3</span>
+        <span class="pill green">体能重建期 · Week 1</span>
         <span class="pill purple">UTA22 · 5月15日</span>
         <span class="pill">Virgin Active</span>
       </div>
@@ -642,7 +642,7 @@
           </div>
           <div class="stat">
             <div class="stat-label">Phase</div>
-            <div class="stat-value">增肌</div>
+            <div class="stat-value">重建</div>
           </div>
           <div class="stat">
             <div class="stat-label">Race</div>
@@ -770,9 +770,9 @@
       const hint = document.getElementById('todayHint');
       let text, hintText;
       if (hour < 6) { text = '夜猫子冬哥'; hintText = '夜深了，轻度恢复'; }
-      else if (hour < 12) { text = '早上好，冬哥'; hintText = '状态最佳窗口'; }
-      else if (hour < 18) { text = '下午好，冬哥'; hintText = '午后训练黄金段'; }
-      else { text = '晚上好，冬哥'; hintText = '放松 + 拉伸'; }
+      else if (hour < 12) { text = '早上好，冬哥'; hintText = '晨间激活窗口'; }
+      else if (hour < 18) { text = '下午好，冬哥'; hintText = '稳态输出窗口'; }
+      else { text = '晚上好，冬哥'; hintText = '恢复与睡眠优先'; }
       el.textContent = text;
       hint.textContent = hintText;
     })();
