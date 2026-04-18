@@ -35,7 +35,7 @@
       -webkit-font-smoothing: antialiased;
     }
     .container { max-width: 500px; margin: 0 auto; }
-    
+
     header {
       text-align: center;
       padding: 20px 0 30px;
@@ -64,7 +64,7 @@
       background: linear-gradient(135deg, var(--warning), #f39c12);
       color: #1a1a2e;
     }
-    
+
     .section {
       background: var(--card);
       border-radius: 16px;
@@ -81,7 +81,7 @@
       align-items: center;
       gap: 8px;
     }
-    
+
     .schedule-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
@@ -108,7 +108,7 @@
     .schedule-day .day-icon {
       font-size: 18px;
     }
-    
+
     .workout-summary {
       background: rgba(255,255,255,0.03);
       border-radius: 12px;
@@ -132,7 +132,7 @@
       font-weight: 600;
       font-size: 14px;
     }
-    
+
     .video-card {
       background: rgba(255,255,255,0.03);
       border-radius: 12px;
@@ -182,7 +182,7 @@
       color: var(--success);
       margin-top: 8px;
     }
-    
+
     .tip-box {
       background: linear-gradient(135deg, rgba(78,204,163,0.1), rgba(46,204,113,0.1));
       border: 1px solid rgba(78,204,163,0.3);
@@ -204,7 +204,7 @@
       color: var(--muted);
       line-height: 1.5;
     }
-    
+
     .action-buttons {
       display: flex;
       gap: 12px;
@@ -241,7 +241,7 @@
     .btn-secondary:hover {
       background: rgba(255,255,255,0.1);
     }
-    
+
     .nav-back {
       display: inline-flex;
       align-items: center;
@@ -319,12 +319,19 @@
       border-color: #4285f4;
       background: rgba(66, 133, 244, 0.1);
     }
+
+    /* Home UI sync */
+    :root{--bg:#0c1220;--card:rgba(24,32,52,.82);--accent:#34e0a1;--accent-light:#5ff0bb;--text:#f5f7ff;--muted:#b6bfd4;--border:rgba(255,255,255,.15);}
+    body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC","Segoe UI",system-ui,sans-serif;background:radial-gradient(120% 90% at 0 0,rgba(52,224,161,.16),transparent 55%),radial-gradient(120% 90% at 100% 100%,rgba(166,123,255,.2),transparent 55%),var(--bg);}
+    .section{border-radius:22px;border:1px solid var(--border);box-shadow:0 1px 0 rgba(255,255,255,.08) inset,0 24px 40px -30px rgba(0,0,0,.6);}
+    .schedule-day,.workout-summary,.exercise-card,.tip-box{background:rgba(255,255,255,.06);border-color:var(--border);}
+
   </style>
 </head>
 <body>
   <div class="container">
     <a href="index.html" class="nav-back">← 返回健身中心</a>
-    
+
     <header>
       <p class="date-display" id="dateDisplay"></p>
       <h1>📅 今日训练</h1>
@@ -500,9 +507,9 @@
       const plan = weekPlan[today];
 
       // 显示日期
-      const dateStr = now.toLocaleDateString('zh-CN', { 
-        year: 'numeric', 
-        month: 'long', 
+      const dateStr = now.toLocaleDateString('zh-CN', {
+        year: 'numeric',
+        month: 'long',
         day: 'numeric',
         weekday: 'long'
       });

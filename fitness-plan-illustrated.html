@@ -32,12 +32,12 @@
       -webkit-font-smoothing: antialiased;
     }
     .container { max-width: 600px; margin: 0 auto; }
-    
+
     header { text-align: center; padding: 20px 0 30px; }
     .logo { width: 100px; height: auto; margin-bottom: 12px; }
     h1 { font-size: 28px; margin-bottom: 8px; }
     .subtitle { color: var(--muted); font-size: 14px; }
-    
+
     .tabs {
       display: flex;
       gap: 8px;
@@ -64,10 +64,10 @@
       font-weight: 700;
     }
     .tab:hover { border-color: var(--accent); }
-    
+
     .day-content { display: none; }
     .day-content.active { display: block; }
-    
+
     .section {
       background: var(--card);
       border-radius: 16px;
@@ -85,7 +85,7 @@
       align-items: center;
       gap: 8px;
     }
-    
+
     .exercise {
       background: rgba(255,255,255,0.03);
       border-radius: 12px;
@@ -94,7 +94,7 @@
       border: 1px solid rgba(255,255,255,0.05);
     }
     .exercise:last-child { margin-bottom: 0; }
-    
+
     .exercise-header {
       display: flex;
       justify-content: space-between;
@@ -119,7 +119,7 @@
       font-weight: 700;
       white-space: nowrap;
     }
-    
+
     .exercise-details {
       display: flex;
       gap: 12px;
@@ -133,7 +133,7 @@
       font-size: 11px;
       color: var(--success);
     }
-    
+
     .exercise-tips {
       font-size: 13px;
       color: var(--muted);
@@ -146,7 +146,7 @@
     .exercise-tips strong {
       color: var(--success);
     }
-    
+
     .video-link {
       display: inline-flex;
       align-items: center;
@@ -161,7 +161,7 @@
       transition: all 0.2s;
     }
     .video-link:hover { opacity: 0.9; transform: scale(1.02); }
-    
+
     .warmup-list {
       list-style: none;
     }
@@ -172,7 +172,7 @@
       justify-content: space-between;
     }
     .warmup-list li:last-child { border-bottom: none; }
-    
+
     .schedule {
       width: 100%;
       border-collapse: collapse;
@@ -191,7 +191,7 @@
       color: var(--accent);
       font-weight: 600;
     }
-    
+
     .progress-note {
       background: linear-gradient(135deg, rgba(233,69,96,0.1), rgba(78,204,163,0.1));
       border-radius: 12px;
@@ -209,11 +209,19 @@
     }
 
     .emoji { font-size: 20px; }
-    
+
     @media (max-width: 400px) {
       .exercise-header { flex-direction: column; gap: 8px; }
       .exercise-sets { align-self: flex-start; }
     }
+
+    /* Home UI sync */
+    :root{--bg:#07080c;--card:rgba(13,15,21,.74);--accent:#34e0a1;--accent-light:#5ff0bb;--text:#f2f3f5;--muted:#9aa0ae;--border:rgba(255,255,255,.08);}
+    body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC","Segoe UI",system-ui,sans-serif;background:radial-gradient(120% 90% at 0 0,rgba(52,224,161,.12),transparent 55%),radial-gradient(120% 90% at 100% 100%,rgba(166,123,255,.14),transparent 55%),var(--bg);}
+    .section,.tab,.exercise,.tip-box{border-radius:20px;border-color:var(--border);}
+    .section,.exercise,.tip-box{background:rgba(13,15,21,.72);box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 24px 40px -30px rgba(0,0,0,.8);}
+    .tab.active{background:linear-gradient(135deg,var(--accent),#1dbf83);color:#07241b;border-color:transparent;}
+
   </style>
 </head>
 <body>
@@ -269,7 +277,7 @@
           <tr><td>周日</td><td class="highlight">上肢日（自主）*</td><td>—</td></tr>
         </table>
         <p style="font-size: 12px; color: var(--muted); margin-top: 8px;">* 如果当天做了 PT（大部分是上肢），可跳过上肢训练</p>
-        
+
         <div class="progress-note">
           <h4>📊 渐进增重</h4>
           <p>
@@ -295,7 +303,7 @@
 
       <div class="section">
         <div class="section-title"><span class="emoji">💪</span> A. 胸部 (20分钟)</div>
-        
+
         <div class="exercise">
           <div class="exercise-header">
             <div>
@@ -372,7 +380,7 @@
 
       <div class="section">
         <div class="section-title"><span class="emoji">🔙</span> B. 背部 (20分钟)</div>
-        
+
         <div class="exercise">
           <div class="exercise-header">
             <div>
@@ -466,7 +474,7 @@
 
       <div class="section">
         <div class="section-title"><span class="emoji">🎯</span> C. 肩部 (15分钟)</div>
-        
+
         <div class="exercise">
           <div class="exercise-header">
             <div>
@@ -542,7 +550,7 @@
 
       <div class="section">
         <div class="section-title"><span class="emoji">💪</span> D. 手臂 (15分钟)</div>
-        
+
         <div class="exercise">
           <div class="exercise-header">
             <div>
@@ -630,7 +638,7 @@
 
       <div class="section">
         <div class="section-title"><span class="emoji">🦵</span> A. 复合动作 (30分钟)</div>
-        
+
         <div class="exercise">
           <div class="exercise-header">
             <div>
@@ -707,7 +715,7 @@
 
       <div class="section">
         <div class="section-title"><span class="emoji">🎯</span> B. 器械孤立 (25分钟)</div>
-        
+
         <div class="exercise">
           <div class="exercise-header">
             <div>
@@ -801,7 +809,7 @@
 
       <div class="section">
         <div class="section-title"><span class="emoji">🦶</span> C. 小腿 (10分钟)</div>
-        
+
         <div class="exercise">
           <div class="exercise-header">
             <div>
@@ -849,7 +857,7 @@
 
       <div class="section">
         <div class="section-title"><span class="emoji">🎯</span> A. Cable 核心动作 (15分钟)</div>
-        
+
         <div class="exercise">
           <div class="exercise-header">
             <div>
@@ -925,7 +933,7 @@
 
       <div class="section">
         <div class="section-title"><span class="emoji">💪</span> B. 器械+自重核心 (20分钟)</div>
-        
+
         <div class="exercise">
           <div class="exercise-header">
             <div>
@@ -1035,7 +1043,7 @@
 
       <div class="section">
         <div class="section-title"><span class="emoji">🔥</span> C. 有氧 HIIT (35分钟)</div>
-        
+
         <div class="exercise">
           <div class="exercise-header">
             <div>
@@ -1083,7 +1091,7 @@
       // Hide all content
       document.querySelectorAll('.day-content').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
-      
+
       // Show selected
       document.getElementById(day).classList.add('active');
       event.currentTarget.classList.add('active');

@@ -27,7 +27,7 @@
       padding-bottom: 40px;
     }
     .container { max-width: 500px; margin: 0 auto; }
-    
+
     .nav-back {
       display: inline-flex;
       align-items: center;
@@ -37,7 +37,7 @@
       font-size: 14px;
       margin-bottom: 16px;
     }
-    
+
     header {
       text-align: center;
       padding: 10px 0 24px;
@@ -51,7 +51,7 @@
       color: var(--muted);
       font-size: 13px;
     }
-    
+
     .section {
       background: var(--card);
       border-radius: 20px;
@@ -68,7 +68,7 @@
       align-items: center;
       gap: 8px;
     }
-    
+
     .week-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
@@ -98,7 +98,7 @@
       color: var(--text);
       font-weight: 500;
     }
-    
+
     .principle-box {
       background: #faf6f4;
       border-radius: 14px;
@@ -123,7 +123,7 @@
       content: '• ';
       color: var(--primary);
     }
-    
+
     .exercise-card {
       background: #faf6f4;
       border-radius: 14px;
@@ -151,7 +151,7 @@
       font-size: 12px;
       color: var(--muted);
     }
-    
+
     .tip-card {
       background: linear-gradient(135deg, rgba(85, 239, 196, 0.2), rgba(0, 184, 148, 0.2));
       border-radius: 14px;
@@ -162,7 +162,7 @@
     .tip-card strong {
       color: #00b894;
     }
-    
+
     .video-link {
       display: block;
       background: #faf6f4;
@@ -186,12 +186,19 @@
       font-size: 11px;
       color: var(--muted);
     }
+
+    /* Home UI sync */
+    :root{--bg:#07080c;--card:rgba(13,15,21,.74);--primary:#34e0a1;--primary-light:#5ff0bb;--secondary:#a67bff;--success:#34e0a1;--text:#f2f3f5;--muted:#9aa0ae;}
+    body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC","Segoe UI",system-ui,sans-serif;background:radial-gradient(120% 90% at 0 0,rgba(52,224,161,.12),transparent 55%),radial-gradient(120% 90% at 100% 100%,rgba(166,123,255,.14),transparent 55%),#07080c;}
+    .section,.day-card,.workout-item,.note-box,.meal-card{background:rgba(13,15,21,.72);border:1px solid rgba(255,255,255,.08);box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 24px 40px -30px rgba(0,0,0,.8);}
+    .day-card.highlight{background:linear-gradient(135deg,rgba(52,224,161,.14),rgba(166,123,255,.16));border-color:#34e0a1;}
+
   </style>
 </head>
 <body>
   <div class="container">
     <a href="olivia-index.html" class="nav-back">← 返回健康中心</a>
-    
+
     <header>
       <h1>📋 Olivia 健身计划</h1>
       <p class="subtitle">亚甲炎康复期 · 轻柔运动 · 30分钟内</p>
@@ -263,7 +270,7 @@
 
     <div class="section">
       <div class="section-title">🦵 瘦腿动作</div>
-      
+
       <div class="exercise-card">
         <div class="exercise-header">
           <span class="exercise-name">侧卧抬腿</span>
@@ -271,7 +278,7 @@
         </div>
         <div class="exercise-desc">侧躺，下面的腿弯曲，上面的腿伸直慢慢抬起，感受大腿外侧发力</div>
       </div>
-      
+
       <div class="exercise-card">
         <div class="exercise-header">
           <span class="exercise-name">蚌式开合</span>
@@ -279,7 +286,7 @@
         </div>
         <div class="exercise-desc">侧躺双腿弯曲并拢，保持脚跟贴着，打开上面的膝盖，像贝壳一样</div>
       </div>
-      
+
       <div class="exercise-card">
         <div class="exercise-header">
           <span class="exercise-name">臀桥</span>
@@ -287,7 +294,7 @@
         </div>
         <div class="exercise-desc">仰卧屈膝，脚踩地，抬起臀部到身体成一条直线，顶端夹紧臀部</div>
       </div>
-      
+
       <div class="exercise-card">
         <div class="exercise-header">
           <span class="exercise-name">空中踩单车</span>
@@ -299,7 +306,7 @@
 
     <div class="section">
       <div class="section-title">🌟 背部动作</div>
-      
+
       <div class="exercise-card">
         <div class="exercise-header">
           <span class="exercise-name">猫牛式</span>
@@ -307,7 +314,7 @@
         </div>
         <div class="exercise-desc">四足跪姿，吸气抬头塌腰（牛式），呼气低头拱背（猫式）</div>
       </div>
-      
+
       <div class="exercise-card">
         <div class="exercise-header">
           <span class="exercise-name">眼镜蛇式</span>
@@ -315,7 +322,7 @@
         </div>
         <div class="exercise-desc">俯卧，双手撑地，慢慢抬起上半身，不要耸肩</div>
       </div>
-      
+
       <div class="exercise-card">
         <div class="exercise-header">
           <span class="exercise-name">超人式</span>
@@ -327,22 +334,22 @@
 
     <div class="section">
       <div class="section-title">📺 推荐视频</div>
-      
+
       <a href="https://www.youtube.com/watch?v=bFeVxTwPxEQ" class="video-link" target="_blank">
         <div class="video-title">10分钟瘦大腿</div>
         <div class="video-meta">Emi Wong · 适合每天做</div>
       </a>
-      
+
       <a href="https://www.youtube.com/watch?v=aNehbNbvPbk" class="video-link" target="_blank">
         <div class="video-title">瘦腿不粗腿运动</div>
         <div class="video-meta">Chloe Ting · 15分钟</div>
       </a>
-      
+
       <a href="https://www.youtube.com/watch?v=g_tea8ZNk5A" class="video-link" target="_blank">
         <div class="video-title">15分钟全身拉伸</div>
         <div class="video-meta">Tom Merrick · 放松恢复</div>
       </a>
-      
+
       <a href="https://www.youtube.com/watch?v=oBu-pQG6sTY" class="video-link" target="_blank">
         <div class="video-title">30分钟瑜伽流</div>
         <div class="video-meta">Yoga With Adriene · 周末专属</div>

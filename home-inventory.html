@@ -38,7 +38,7 @@
       padding-bottom: 120px;
     }
     .container { max-width: 500px; margin: 0 auto; }
-    
+
     header { text-align: center; padding: 16px 0 20px; }
     h1 { font-size: 22px; margin-bottom: 4px; }
     .subtitle { color: var(--muted); font-size: 12px; }
@@ -50,7 +50,7 @@
       transition: opacity 0.3s;
     }
     .save-status.show { opacity: 1; }
-    
+
     .sync-bar {
       display: flex;
       justify-content: center;
@@ -76,7 +76,7 @@
     .sync-status.syncing { color: #f0ad4e; }
     .sync-status.synced { color: #4ecca3; }
     .sync-status.error { color: #e94560; }
-    
+
     .stats-row {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -168,10 +168,10 @@
       background: var(--accent);
       border-color: var(--accent);
     }
-    
+
     .category-view { display: none; }
     .category-view.active { display: block; }
-    
+
     .section {
       background: var(--card);
       border-radius: 14px;
@@ -195,9 +195,9 @@
       border-radius: 20px;
       color: var(--muted);
     }
-    
+
     .item-list { display: flex; flex-direction: column; gap: 8px; }
-    
+
     .item {
       background: rgba(255,255,255,0.03);
       border-radius: 10px;
@@ -224,7 +224,7 @@
       border-color: var(--orange);
       background: rgba(249, 115, 22, 0.1);
     }
-    
+
     .item-icon {
       font-size: 22px;
       width: 36px;
@@ -245,7 +245,7 @@
     }
     .item-meta .suggest { color: var(--accent-light); }
     .item-meta .expiry { color: var(--orange); }
-    
+
     .item-actions {
       display: flex;
       align-items: center;
@@ -295,7 +295,7 @@
       color: var(--danger);
       background: rgba(239, 68, 68, 0.1);
     }
-    
+
     .add-form {
       background: var(--card);
       border-radius: 14px;
@@ -328,7 +328,7 @@
       outline: none;
       border-color: var(--accent);
     }
-    
+
     .btn {
       padding: 12px 20px;
       border: none;
@@ -364,7 +364,7 @@
       font-size: 15px;
       margin-bottom: 12px;
     }
-    
+
     .quick-add {
       display: flex;
       flex-wrap: wrap;
@@ -381,7 +381,7 @@
       cursor: pointer;
     }
     .quick-btn:hover { border-color: var(--accent); }
-    
+
     .shopping-item {
       display: flex;
       align-items: center;
@@ -415,7 +415,7 @@
       text-decoration: line-through;
       color: var(--muted);
     }
-    
+
     .toast {
       position: fixed;
       bottom: 100px;
@@ -435,7 +435,7 @@
       transform: translateX(-50%) translateY(0);
       opacity: 1;
     }
-    
+
     .empty-state {
       text-align: center;
       padding: 40px 20px;
@@ -460,7 +460,7 @@
       font-size: 12px;
       line-height: 1.6;
     }
-    
+
     .edit-modal {
       position: fixed;
       top: 0;
@@ -526,6 +526,14 @@
     .season-tag.autumn { background: #fdba74; color: #9a3412; }
     .season-tag.winter { background: #93c5fd; color: #1e40af; }
     .season-tag.all { background: #e5e7eb; color: #374151; }
+
+    /* Home UI sync */
+    :root{--bg:#07080c;--card:rgba(13,15,21,.74);--card-hover:rgba(17,20,28,.86);--accent:#34e0a1;--accent-light:#5ff0bb;--text:#f2f3f5;--muted:#9aa0ae;--border:rgba(255,255,255,.08);--input-bg:rgba(255,255,255,.03);}
+    body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC","Segoe UI",system-ui,sans-serif;background:radial-gradient(120% 90% at 0 0,rgba(52,224,161,.12),transparent 55%),radial-gradient(120% 90% at 100% 100%,rgba(166,123,255,.14),transparent 55%),var(--bg);}
+    .stat-card,.inventory-section,.item-card,.fab,.sync-bar{border-color:var(--border);}
+    .stat-card,.inventory-section,.item-card,.sync-bar{background:rgba(13,15,21,.72);box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 24px 40px -30px rgba(0,0,0,.8);}
+    .sync-btn,.fab{background:linear-gradient(135deg,var(--accent),#1dbf83);color:#07241b;}
+
   </style>
 </head>
 <body>
@@ -620,7 +628,7 @@
     <div id="dailyView" class="category-view">
       <button class="back-btn show" onclick="goBack()">← 返回</button>
       <h2 style="font-size: 18px; margin-bottom: 16px;">🧴 日用品库存</h2>
-      
+
       <div class="tabs" id="dailyTabs">
         <button class="tab active" data-tab="medicine" onclick="showSubTab('daily', 'medicine', this)">💊 药品</button>
         <button class="tab" data-tab="hygiene" onclick="showSubTab('daily', 'hygiene', this)">🧴 卫生</button>
@@ -642,7 +650,7 @@
     <div id="foodView" class="category-view">
       <button class="back-btn show" onclick="goBack()">← 返回</button>
       <h2 style="font-size: 18px; margin-bottom: 16px;">🥬 食材库存</h2>
-      
+
       <div class="tabs" id="foodTabs">
         <button class="tab active" data-tab="fridge" onclick="showSubTab('food', 'fridge', this)">🧊 冰箱</button>
         <button class="tab" data-tab="freezer" onclick="showSubTab('food', 'freezer', this)">❄️ 冷冻</button>
@@ -666,7 +674,7 @@
     <div id="clothingView" class="category-view">
       <button class="back-btn show" onclick="goBack()">← 返回</button>
       <h2 style="font-size: 18px; margin-bottom: 16px;">👔 换季衣物</h2>
-      
+
       <div class="tabs" id="clothingTabs">
         <button class="tab active" data-tab="dong" onclick="showSubTab('clothing', 'dong', this)">👔 Dong</button>
         <button class="tab" data-tab="olivia" onclick="showSubTab('clothing', 'olivia', this)">👗 Olivia</button>
@@ -686,7 +694,7 @@
     <div id="sportsView" class="category-view">
       <button class="back-btn show" onclick="goBack()">← 返回</button>
       <h2 style="font-size: 18px; margin-bottom: 16px;">🏃 运动装备</h2>
-      
+
       <div class="tabs" id="sportsTabs">
         <button class="tab active" data-tab="running" onclick="showSubTab('sports', 'running', this)">🏃 跑步</button>
         <button class="tab" data-tab="gym" onclick="showSubTab('sports', 'gym', this)">🏋️ 健身</button>
@@ -708,7 +716,7 @@
     <div id="electronicsView" class="category-view">
       <button class="back-btn show" onclick="goBack()">← 返回</button>
       <h2 style="font-size: 18px; margin-bottom: 16px;">📱 电子产品</h2>
-      
+
       <div class="tabs" id="electronicsTabs">
         <button class="tab active" data-tab="apple" onclick="showSubTab('electronics', 'apple', this)">🍎 Apple</button>
         <button class="tab" data-tab="computer" onclick="showSubTab('electronics', 'computer', this)">💻 电脑</button>
@@ -728,7 +736,7 @@
     <div id="supplementsView" class="category-view">
       <button class="back-btn show" onclick="goBack()">← 返回</button>
       <h2 style="font-size: 18px; margin-bottom: 16px;">⚡ 运动补给</h2>
-      
+
       <div class="tabs" id="supplementsTabs">
         <button class="tab active" data-tab="energy" onclick="showSubTab('supplements', 'energy', this)">⚡ 能量胶</button>
         <button class="tab" data-tab="electrolyte" onclick="showSubTab('supplements', 'electrolyte', this)">💊 电解质</button>
@@ -748,7 +756,7 @@
     <div id="shoppingView" class="category-view">
       <button class="back-btn show" onclick="goBack()">← 返回</button>
       <h2 style="font-size: 18px; margin-bottom: 16px;">🛒 采买清单</h2>
-      
+
       <!-- 临时添加物品 -->
       <div class="section" style="margin-bottom: 12px;">
         <div class="section-title">✏️ 临时添加</div>
@@ -758,11 +766,11 @@
         </div>
         <div id="quickItemsList" style="margin-top: 10px;"></div>
       </div>
-      
+
       <button class="btn btn-warning btn-large" onclick="generateShoppingList()">
         🛒 生成采买清单
       </button>
-      
+
       <div id="appleExportSection" style="display: none; margin-bottom: 12px;">
         <button class="btn btn-large" style="background: linear-gradient(135deg, #FF6B6B, #FF8E53); width: 100%;" onclick="syncToApple()">
           🍎 同步到 Apple Reminders + 日历
@@ -771,7 +779,7 @@
           仅包含日用品和食材
         </p>
       </div>
-      
+
       <div class="section">
         <div class="section-title">
           <span>📝 需要购买</span>
@@ -937,7 +945,7 @@
         { name: '体温计', subCat: 'medicine', qty: 0, suggest: 1, unit: '个', location: '药箱', icon: '🌡️' },
         { name: '维生素C', subCat: 'medicine', qty: 0, suggest: 1, unit: '瓶', location: '药箱', icon: '🍊' },
         { name: '维生素D', subCat: 'medicine', qty: 0, suggest: 1, unit: '瓶', location: '药箱', icon: '☀️' },
-        
+
         // 卫生
         { name: '牙膏', subCat: 'hygiene', qty: 0, suggest: 2, unit: '支', location: '浴室柜', icon: '🦷' },
         { name: '牙刷', subCat: 'hygiene', qty: 0, suggest: 4, unit: '支', location: '浴室柜', icon: '🪥' },
@@ -952,7 +960,7 @@
         { name: '面巾纸', subCat: 'hygiene', qty: 0, suggest: 2, unit: '盒', location: '客厅', icon: '🧻' },
         { name: '棉签', subCat: 'hygiene', qty: 0, suggest: 1, unit: '盒', location: '浴室柜', icon: '🧵' },
         { name: '除臭剂', subCat: 'hygiene', qty: 0, suggest: 2, unit: '支', location: '浴室柜', icon: '🧴' },
-        
+
         // 清洁
         { name: '洗衣液', subCat: 'cleaning', qty: 0, suggest: 2, unit: '瓶', location: '洗衣房', icon: '🧺' },
         { name: '柔顺剂', subCat: 'cleaning', qty: 0, suggest: 1, unit: '瓶', location: '洗衣房', icon: '🌸' },
@@ -964,7 +972,7 @@
         { name: '海绵/百洁布', subCat: 'cleaning', qty: 0, suggest: 1, unit: '包', location: '厨房', icon: '🧽' },
         { name: '垃圾袋 (大)', subCat: 'cleaning', qty: 0, suggest: 1, unit: '卷', location: '储物间', icon: '🗑️' },
         { name: '垃圾袋 (小)', subCat: 'cleaning', qty: 0, suggest: 1, unit: '卷', location: '储物间', icon: '🗑️' },
-        
+
         // 厨房
         { name: '保鲜膜', subCat: 'kitchen', qty: 0, suggest: 2, unit: '卷', location: '厨房', icon: '🎞️' },
         { name: '锡箔纸', subCat: 'kitchen', qty: 0, suggest: 1, unit: '卷', location: '厨房', icon: '🪩' },
@@ -972,7 +980,7 @@
         { name: '厨房纸巾', subCat: 'kitchen', qty: 0, suggest: 2, unit: '卷', location: '厨房', icon: '🧻' },
         { name: '洗碗海绵', subCat: 'kitchen', qty: 0, suggest: 3, unit: '个', location: '厨房', icon: '🧽' },
         { name: '保鲜袋', subCat: 'kitchen', qty: 0, suggest: 1, unit: '盒', location: '厨房', icon: '👜' },
-        
+
         // 其他
         { name: '电池 (AA)', subCat: 'other', qty: 0, suggest: 1, unit: '包', location: '储物间', icon: '🔋' },
         { name: '电池 (AAA)', subCat: 'other', qty: 0, suggest: 1, unit: '包', location: '储物间', icon: '🔋' },
@@ -991,7 +999,7 @@
         { name: '胡萝卜', subCat: 'fridge', qty: 0, suggest: 5, unit: '根', location: '冰箱', icon: '🥕' },
         { name: '西红柿', subCat: 'fridge', qty: 0, suggest: 4, unit: '个', location: '冰箱', icon: '🍅' },
         { name: '洋葱', subCat: 'fridge', qty: 0, suggest: 3, unit: '个', location: '冰箱', icon: '🧅' },
-        
+
         // 冷冻
         { name: '冷冻肉类', subCat: 'freezer', qty: 0, suggest: 3, unit: '包', location: '冷冻', icon: '🥩' },
         { name: '冷冻虾', subCat: 'freezer', qty: 0, suggest: 1, unit: '包', location: '冷冻', icon: '🦐' },
@@ -999,7 +1007,7 @@
         { name: '速冻水饺', subCat: 'freezer', qty: 0, suggest: 1, unit: '包', location: '冷冻', icon: '🥟' },
         { name: '冰淇淋', subCat: 'freezer', qty: 0, suggest: 1, unit: '盒', location: '冷冻', icon: '🍨' },
         { name: '冷冻蔬菜', subCat: 'freezer', qty: 0, suggest: 2, unit: '包', location: '冷冻', icon: '🥦' },
-        
+
         // 储物柜
         { name: '大米', subCat: 'pantry', qty: 0, suggest: 5, unit: '公斤', location: '储物柜', icon: '🍚' },
         { name: '面条/意面', subCat: 'pantry', qty: 0, suggest: 3, unit: '包', location: '储物柜', icon: '🍝' },
@@ -1008,7 +1016,7 @@
         { name: '罐头 (各类)', subCat: 'pantry', qty: 0, suggest: 5, unit: '罐', location: '储物柜', icon: '🥫' },
         { name: '坚果', subCat: 'pantry', qty: 0, suggest: 1, unit: '包', location: '储物柜', icon: '🥜' },
         { name: '零食', subCat: 'pantry', qty: 0, suggest: 3, unit: '包', location: '储物柜', icon: '🍪' },
-        
+
         // 调料
         { name: '盐', subCat: 'spices', qty: 0, suggest: 1, unit: '包', location: '厨房', icon: '🧂' },
         { name: '糖', subCat: 'spices', qty: 0, suggest: 1, unit: '包', location: '厨房', icon: '🍬' },
@@ -1023,7 +1031,7 @@
         { name: '蜂蜜', subCat: 'spices', qty: 0, suggest: 1, unit: '瓶', location: '厨房', icon: '🍯' },
         { name: '胡椒粉', subCat: 'spices', qty: 0, suggest: 1, unit: '瓶', location: '厨房', icon: '🧂' },
         { name: '五香粉', subCat: 'spices', qty: 0, suggest: 1, unit: '瓶', location: '厨房', icon: '🧂' },
-        
+
         // 饮品
         { name: '矿泉水', subCat: 'drinks', qty: 0, suggest: 6, unit: '瓶', location: '储物间', icon: '💧' },
         { name: '咖啡豆/粉', subCat: 'drinks', qty: 0, suggest: 1, unit: '包', location: '厨房', icon: '☕' },
@@ -1031,7 +1039,7 @@
         { name: '果汁', subCat: 'drinks', qty: 0, suggest: 2, unit: '瓶', location: '冰箱', icon: '🧃' },
         { name: '红酒', subCat: 'drinks', qty: 0, suggest: 2, unit: '瓶', location: '储物间', icon: '🍷' },
         { name: '啤酒', subCat: 'drinks', qty: 0, suggest: 6, unit: '罐', location: '冰箱', icon: '🍺' },
-        
+
         // 健身食材
         { name: '蛋白粉', subCat: 'fitness', qty: 0, suggest: 1, unit: '罐', location: '厨房', icon: '💪' },
         { name: '鸡胸肉', subCat: 'fitness', qty: 0, suggest: 1, unit: '公斤', location: '冷冻', icon: '🍗' },
@@ -1060,7 +1068,7 @@
         { name: '睡衣', subCat: 'dong', qty: 0, suggest: 0, unit: '套', season: 'all', condition: 'good', icon: '🩲' },
         { name: '内裤', subCat: 'dong', qty: 0, suggest: 10, unit: '条', season: 'all', condition: 'good', icon: '🩲' },
         { name: '袜子', subCat: 'dong', qty: 0, suggest: 10, unit: '双', season: 'all', condition: 'good', icon: '🧦' },
-        
+
         // Olivia
         { name: 'T恤', subCat: 'olivia', qty: 0, suggest: 0, unit: '件', season: 'summer', condition: 'good', icon: '👚' },
         { name: '连衣裙', subCat: 'olivia', qty: 0, suggest: 0, unit: '件', season: 'summer', condition: 'good', icon: '👗' },
@@ -1071,7 +1079,7 @@
         { name: '羽绒服', subCat: 'olivia', qty: 0, suggest: 0, unit: '件', season: 'winter', condition: 'good', icon: '🧥' },
         { name: '毛衣', subCat: 'olivia', qty: 0, suggest: 0, unit: '件', season: 'winter', condition: 'good', icon: '🧶' },
         { name: '睡衣', subCat: 'olivia', qty: 0, suggest: 0, unit: '套', season: 'all', condition: 'good', icon: '👚' },
-        
+
         // 床品
         { name: '床单', subCat: 'bedding', qty: 0, suggest: 2, unit: '套', season: 'all', condition: 'good', icon: '🛏️' },
         { name: '被套', subCat: 'bedding', qty: 0, suggest: 2, unit: '套', season: 'all', condition: 'good', icon: '🛏️' },
@@ -1082,7 +1090,7 @@
         { name: '枕头', subCat: 'bedding', qty: 0, suggest: 4, unit: '个', season: 'all', condition: 'good', icon: '🛏️' },
         { name: '浴巾', subCat: 'bedding', qty: 0, suggest: 4, unit: '条', season: 'all', condition: 'good', icon: '🛁' },
         { name: '毛巾', subCat: 'bedding', qty: 0, suggest: 6, unit: '条', season: 'all', condition: 'good', icon: '🧴' },
-        
+
         // 鞋子
         { name: '皮鞋 (Dong)', subCat: 'shoes', qty: 0, suggest: 0, unit: '双', season: 'all', condition: 'good', icon: '👞' },
         { name: '运动鞋 (Dong)', subCat: 'shoes', qty: 0, suggest: 0, unit: '双', season: 'all', condition: 'good', icon: '👟' },
@@ -1102,7 +1110,7 @@
         { name: '运动耳机', subCat: 'running', qty: 0, suggest: 1, unit: '副', condition: 'good', icon: '🎧' },
         { name: '运动手表', subCat: 'running', qty: 0, suggest: 1, unit: '个', condition: 'good', icon: '⌚' },
         { name: '反光背心', subCat: 'running', qty: 0, suggest: 1, unit: '件', condition: 'good', icon: '🦺' },
-        
+
         // 健身
         { name: '训练鞋', subCat: 'gym', qty: 0, suggest: 1, unit: '双', condition: 'good', icon: '👟' },
         { name: '健身手套', subCat: 'gym', qty: 0, suggest: 1, unit: '双', condition: 'good', icon: '🧤' },
@@ -1111,7 +1119,7 @@
         { name: '泡沫轴', subCat: 'gym', qty: 0, suggest: 1, unit: '个', condition: 'good', icon: '🏋️' },
         { name: '阻力带', subCat: 'gym', qty: 0, suggest: 1, unit: '套', condition: 'good', icon: '🏋️' },
         { name: '护腕', subCat: 'gym', qty: 0, suggest: 1, unit: '双', condition: 'good', icon: '🏋️' },
-        
+
         // 网球
         { name: '网球拍', subCat: 'tennis', qty: 0, suggest: 1, unit: '把', condition: 'good', icon: '🎾' },
         { name: '网球', subCat: 'tennis', qty: 0, suggest: 6, unit: '个', condition: 'good', icon: '🎾' },
@@ -1119,13 +1127,13 @@
         { name: '网球包', subCat: 'tennis', qty: 0, suggest: 1, unit: '个', condition: 'good', icon: '🎒' },
         { name: '护腕带', subCat: 'tennis', qty: 0, suggest: 2, unit: '个', condition: 'good', icon: '🎾' },
         { name: '手胶', subCat: 'tennis', qty: 0, suggest: 3, unit: '条', condition: 'good', icon: '🎾' },
-        
+
         // 足球
         { name: '足球鞋', subCat: 'football', qty: 0, suggest: 1, unit: '双', condition: 'good', icon: '⚽' },
         { name: '足球', subCat: 'football', qty: 0, suggest: 1, unit: '个', condition: 'good', icon: '⚽' },
         { name: '护腿板', subCat: 'football', qty: 0, suggest: 1, unit: '双', condition: 'good', icon: '⚽' },
         { name: '足球袜', subCat: 'football', qty: 0, suggest: 2, unit: '双', condition: 'good', icon: '🧦' },
-        
+
         // 滑雪
         { name: '滑雪服 (外套)', subCat: 'ski', qty: 0, suggest: 0, unit: '件', condition: 'good', icon: '🧥' },
         { name: '滑雪裤', subCat: 'ski', qty: 0, suggest: 0, unit: '条', condition: 'good', icon: '👖' },
@@ -1148,7 +1156,7 @@
         { name: 'Apple TV', subCat: 'apple', qty: 0, suggest: 0, unit: '台', condition: 'good', icon: '📺' },
         { name: 'HomePod', subCat: 'apple', qty: 0, suggest: 0, unit: '台', condition: 'good', icon: '🔊' },
         { name: 'HomePod mini', subCat: 'apple', qty: 0, suggest: 0, unit: '台', condition: 'good', icon: '🔊' },
-        
+
         // 电脑配件
         { name: '显示器', subCat: 'computer', qty: 0, suggest: 0, unit: '台', condition: 'good', icon: '🖥️' },
         { name: '键盘', subCat: 'computer', qty: 0, suggest: 0, unit: '个', condition: 'good', icon: '⌨️' },
@@ -1157,7 +1165,7 @@
         { name: '外接硬盘', subCat: 'computer', qty: 0, suggest: 0, unit: '个', condition: 'good', icon: '💾' },
         { name: 'USB Hub', subCat: 'computer', qty: 0, suggest: 0, unit: '个', condition: 'good', icon: '🔌' },
         { name: '摄像头', subCat: 'computer', qty: 0, suggest: 0, unit: '个', condition: 'good', icon: '📹' },
-        
+
         // 智能家居
         { name: '路由器', subCat: 'home', qty: 0, suggest: 0, unit: '台', condition: 'good', icon: '📡' },
         { name: '智能灯泡', subCat: 'home', qty: 0, suggest: 0, unit: '个', condition: 'good', icon: '💡' },
@@ -1165,7 +1173,7 @@
         { name: '扫地机器人', subCat: 'home', qty: 0, suggest: 0, unit: '台', condition: 'good', icon: '🤖' },
         { name: '空气净化器', subCat: 'home', qty: 0, suggest: 0, unit: '台', condition: 'good', icon: '🌬️' },
         { name: '加湿器', subCat: 'home', qty: 0, suggest: 0, unit: '台', condition: 'good', icon: '💧' },
-        
+
         // 配件
         { name: 'Lightning 线', subCat: 'accessories', qty: 0, suggest: 3, unit: '条', condition: 'good', icon: '🔌' },
         { name: 'USB-C 线', subCat: 'accessories', qty: 0, suggest: 3, unit: '条', condition: 'good', icon: '🔌' },
@@ -1184,19 +1192,19 @@
         { name: 'Maurten能量胶', subCat: 'energy', qty: 0, suggest: 4, unit: '个', icon: '⚡' },
         { name: '能量棒', subCat: 'energy', qty: 0, suggest: 6, unit: '条', icon: '🍫' },
         { name: '能量软糖', subCat: 'energy', qty: 0, suggest: 2, unit: '包', icon: '🍬' },
-        
+
         // 电解质
         { name: '盐丸 (SaltStick)', subCat: 'electrolyte', qty: 0, suggest: 30, unit: '粒', icon: '💊' },
         { name: '电解质粉', subCat: 'electrolyte', qty: 0, suggest: 2, unit: '袋', icon: '💊' },
         { name: 'Nuun泡腾片', subCat: 'electrolyte', qty: 0, suggest: 2, unit: '管', icon: '💊' },
         { name: 'Hydralyte', subCat: 'electrolyte', qty: 0, suggest: 1, unit: '盒', icon: '💊' },
-        
+
         // 蛋白/增肌
         { name: '蛋白粉 (Whey)', subCat: 'protein', qty: 0, suggest: 1, unit: '桶', icon: '🥤' },
         { name: 'BCAA', subCat: 'protein', qty: 0, suggest: 1, unit: '瓶', icon: '🥤' },
         { name: '肌酸', subCat: 'protein', qty: 0, suggest: 1, unit: '瓶', icon: '🥤' },
         { name: '蛋白棒', subCat: 'protein', qty: 0, suggest: 6, unit: '条', icon: '🍫' },
-        
+
         // 运动饮料
         { name: '佳得乐粉', subCat: 'hydration', qty: 0, suggest: 1, unit: '罐', icon: '🧃' },
         { name: 'Powerade', subCat: 'hydration', qty: 0, suggest: 6, unit: '瓶', icon: '🧃' },
@@ -1218,7 +1226,7 @@
       checkMonthlyDecrement(); // 检查月度自动减一
       renderAll();
       setTimeout(autoSyncOnLoad, 500);
-      
+
       // 处理 URL hash 跳转到指定分类
       const hash = window.location.hash.slice(1);
       if (hash && MAIN_CATEGORIES[hash]) {
@@ -1248,17 +1256,17 @@
       const saved = localStorage.getItem('family-inventory-settings-v2');
       if (saved) settings = JSON.parse(saved);
     }
-    
+
     // 月度自动减一功能（日用品）
     function checkMonthlyDecrement() {
       const now = new Date();
       const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
       const lastDecrement = settings.lastMonthlyDecrement || '';
-      
+
       // 如果本月还没有执行过减一
       if (lastDecrement !== currentMonth && inventory.daily) {
         let decremented = 0;
-        
+
         inventory.daily.forEach(item => {
           // 只对有建议存量且当前数量大于0的物品减一
           if (item.suggest > 0 && item.qty > 0) {
@@ -1266,13 +1274,13 @@
             decremented++;
           }
         });
-        
+
         if (decremented > 0) {
           settings.lastMonthlyDecrement = currentMonth;
           saveSettings();
           saveData();
           console.log(`📉 月度自动减一: ${decremented} 件日用品数量已减少`);
-          
+
           // 显示提示
           setTimeout(() => {
             showToast(`📉 月度更新: ${decremented}件日用品自动减一`);
@@ -1316,14 +1324,14 @@
     async function syncCloud() {
       if (isSyncing || !supabaseClient) return;
       isSyncing = true;
-      
+
       const btn = document.getElementById('syncBtn');
       const status = document.getElementById('syncStatus');
-      
+
       btn.disabled = true;
       status.className = 'sync-status syncing';
       status.textContent = '⏳ 同步中...';
-      
+
       try {
         const { error } = await supabaseClient
           .from('inventory')
@@ -1332,18 +1340,18 @@
             items: inventory,
             updated_at: new Date().toISOString()
           }, { onConflict: 'family_id' });
-        
+
         if (error) throw error;
-        
+
         settings.lastSync = new Date().toISOString();
         saveSettings();
-        
+
         status.className = 'sync-status synced';
         status.textContent = '✅ 已同步';
         setTimeout(() => {
           status.textContent = '☁️ ' + new Date().toLocaleTimeString('zh-CN', {hour: '2-digit', minute: '2-digit'});
         }, 1500);
-        
+
       } catch (err) {
         console.error('Sync error:', err);
         status.className = 'sync-status error';
@@ -1359,25 +1367,25 @@
         document.getElementById('syncStatus').textContent = '⚠️ 离线模式';
         return;
       }
-      
+
       const status = document.getElementById('syncStatus');
       status.textContent = '⏳ 连接云端...';
       status.className = 'sync-status syncing';
-      
+
       try {
         const { data, error } = await supabaseClient
           .from('inventory')
           .select('*')
           .eq('family_id', FAMILY_ID)
           .single();
-        
+
         if (error && error.code === 'PGRST116') {
           await syncCloud();
           status.textContent = '⬆️ 已上传';
         } else if (data) {
           const cloudTime = new Date(data.updated_at).getTime();
           const localTime = new Date(settings.lastSync || 0).getTime();
-          
+
           if (cloudTime > localTime) {
             inventory = data.items;
             localStorage.setItem('family-inventory-v2', JSON.stringify(inventory));
@@ -1400,7 +1408,7 @@
 
     function subscribeToChanges() {
       if (!supabaseClient) return;
-      
+
       supabaseClient
         .channel('inventory-realtime-v2')
         .on('postgres_changes', {
@@ -1412,7 +1420,7 @@
           if (payload.new && payload.new.items) {
             const cloudTime = new Date(payload.new.updated_at).getTime();
             const localTime = new Date(settings.lastSync || 0).getTime();
-            
+
             if (cloudTime > localTime + 1000) {
               inventory = payload.new.items;
               localStorage.setItem('family-inventory-v2', JSON.stringify(inventory));
@@ -1438,10 +1446,10 @@
     function openCategory(cat) {
       currentView = cat;
       currentCategory = cat;
-      
+
       document.getElementById('mainView').style.display = 'none';
       document.querySelectorAll('.category-view').forEach(v => v.classList.remove('active'));
-      
+
       if (cat === 'shopping') {
         document.getElementById('shoppingView').classList.add('active');
         generateShoppingList();
@@ -1454,7 +1462,7 @@
     function goBack() {
       currentView = 'main';
       currentCategory = null;
-      
+
       document.querySelectorAll('.category-view').forEach(v => v.classList.remove('active'));
       document.getElementById('mainView').style.display = 'block';
       renderAll();
@@ -1462,20 +1470,20 @@
 
     function showSubTab(mainCat, subCat, btn) {
       currentSubTab[mainCat] = subCat;
-      
+
       const tabs = btn.parentElement.querySelectorAll('.tab');
       tabs.forEach(t => t.classList.remove('active'));
       btn.classList.add('active');
-      
+
       document.querySelectorAll(`#${mainCat}View .sub-tab-content`).forEach(c => {
         c.classList.remove('active');
         c.style.display = 'none';
       });
-      
+
       const content = document.getElementById(`${mainCat}-${subCat}`);
       content.classList.add('active');
       content.style.display = 'block';
-      
+
       if (subCat === 'add') {
         renderAddForm(mainCat);
       } else {
@@ -1492,7 +1500,7 @@
 
     function renderStats() {
       let total = 0, low = 0, out = 0;
-      
+
       Object.values(inventory).forEach(items => {
         items.forEach(item => {
           total++;
@@ -1502,7 +1510,7 @@
           }
         });
       });
-      
+
       document.getElementById('totalItems').textContent = total;
       document.getElementById('lowCount').textContent = low;
       document.getElementById('outCount').textContent = out;
@@ -1510,7 +1518,7 @@
 
     function renderAlerts() {
       const alerts = [];
-      
+
       // 低库存/缺货
       Object.values(inventory).forEach(items => {
         items.forEach(item => {
@@ -1532,18 +1540,18 @@
           }
         });
       });
-      
+
       const section = document.getElementById('alertSection');
       if (alerts.length === 0) {
         section.style.display = 'none';
         return;
       }
-      
+
       let html = '';
       const expired = alerts.filter(a => a.type === 'expired');
       const expiring = alerts.filter(a => a.type === 'expiring');
       const out = alerts.filter(a => a.type === 'out');
-      
+
       if (expired.length > 0) {
         html += `<strong style="color: var(--danger);">🚨 已过期:</strong> ${expired.slice(0,3).map(a => a.item.icon + ' ' + a.item.name).join('、')}<br>`;
       }
@@ -1554,7 +1562,7 @@
         html += `<strong style="color: var(--danger);">❌ 已用完:</strong> ${out.slice(0,5).map(a => a.item.icon + ' ' + a.item.name).join('、')}`;
         if (out.length > 5) html += ` 等${out.length}项`;
       }
-      
+
       document.getElementById('alertList').innerHTML = html;
       section.style.display = 'block';
     }
@@ -1564,7 +1572,7 @@
         const items = inventory[cat] || [];
         document.getElementById(`${cat}Count`).textContent = `${items.length} 件`;
       });
-      
+
       // 采买清单数量
       let needBuy = 0;
       Object.values(inventory).forEach(items => {
@@ -1578,7 +1586,7 @@
     function renderCategoryView(mainCat) {
       const subCats = MAIN_CATEGORIES[mainCat].subCategories;
       const firstSubCat = Object.keys(subCats)[0];
-      
+
       // 初始化所有子分类内容
       Object.keys(subCats).forEach(subCat => {
         const el = document.getElementById(`${mainCat}-${subCat}`);
@@ -1586,10 +1594,10 @@
           el.style.display = subCat === firstSubCat ? 'block' : 'none';
         }
       });
-      
+
       // 渲染第一个子分类
       renderSubCategoryItems(mainCat, firstSubCat);
-      
+
       // 渲染添加表单占位
       const addEl = document.getElementById(`${mainCat}-add`);
       if (addEl) addEl.style.display = 'none';
@@ -1598,11 +1606,11 @@
     function renderSubCategoryItems(mainCat, subCat) {
       const items = (inventory[mainCat] || []).filter(i => i.subCat === subCat);
       const container = document.getElementById(`${mainCat}-${subCat}`);
-      
+
       if (!container) return;
-      
+
       const catInfo = MAIN_CATEGORIES[mainCat].subCategories[subCat];
-      
+
       if (items.length === 0) {
         container.innerHTML = `
           <div class="section">
@@ -1618,7 +1626,7 @@
         `;
         return;
       }
-      
+
       container.innerHTML = `
         <div class="section">
           <div class="section-title">
@@ -1635,7 +1643,7 @@
     function renderItem(item, mainCat) {
       const status = getStatus(item);
       let metaHtml = '';
-      
+
       if (item.suggest > 0) {
         metaHtml += `<span class="suggest">建议: ${item.suggest}${item.unit || ''}</span>`;
       }
@@ -1662,7 +1670,7 @@
         const condNames = { fair: '一般', worn: '磨损', replace: '需换' };
         metaHtml += `<span style="color: var(--warning);">⚠️ ${condNames[item.condition]}</span>`;
       }
-      
+
       return `
         <div class="item ${status}">
           <div class="item-icon">${item.icon || '📦'}</div>
@@ -1701,9 +1709,9 @@
     function renderAddForm(mainCat) {
       const container = document.getElementById(`${mainCat}-add`);
       const subCats = MAIN_CATEGORIES[mainCat].subCategories;
-      
+
       let extraFields = '';
-      
+
       if (mainCat === 'food') {
         extraFields = `
           <div class="form-row">
@@ -1743,7 +1751,7 @@
           </div>
         `;
       }
-      
+
       container.innerHTML = `
         <div class="add-form">
           <h3 style="font-size: 14px; margin-bottom: 12px; color: var(--accent-light);">➕ 添加物品</h3>
@@ -1757,7 +1765,7 @@
             <div class="form-group">
               <label class="form-label">子分类</label>
               <select class="form-select" id="add-subcat-${mainCat}">
-                ${Object.entries(subCats).map(([key, val]) => 
+                ${Object.entries(subCats).map(([key, val]) =>
                   `<option value="${key}">${val.icon} ${val.name}</option>`
                 ).join('')}
               </select>
@@ -1793,10 +1801,10 @@
     function updateQty(mainCat, id, delta) {
       const item = (inventory[mainCat] || []).find(i => i.id === id);
       if (!item) return;
-      
+
       item.qty = Math.max(0, item.qty + delta);
       saveData();
-      
+
       if (currentView === mainCat) {
         renderSubCategoryItems(mainCat, item.subCat);
       }
@@ -1806,11 +1814,11 @@
     function deleteItem(mainCat, id) {
       const item = (inventory[mainCat] || []).find(i => i.id === id);
       if (!item) return;
-      
+
       if (confirm(`确定删除 "${item.name}" 吗？`)) {
         inventory[mainCat] = inventory[mainCat].filter(i => i.id !== id);
         saveData();
-        
+
         if (currentView === mainCat) {
           renderSubCategoryItems(mainCat, item.subCat);
         }
@@ -1825,13 +1833,13 @@
         showToast('请输入物品名称', 'warning');
         return;
       }
-      
+
       const subCat = document.getElementById(`add-subcat-${mainCat}`).value;
       const qty = parseInt(document.getElementById(`add-qty-${mainCat}`).value) || 0;
       const suggest = parseInt(document.getElementById(`add-suggest-${mainCat}`).value) || 0;
       const unit = document.getElementById(`add-unit-${mainCat}`).value || '';
       const location = document.getElementById(`add-location-${mainCat}`).value || '';
-      
+
       const newItem = {
         id: Date.now() + Math.random() * 1000,
         mainCat,
@@ -1843,7 +1851,7 @@
         location,
         icon: MAIN_CATEGORIES[mainCat].subCategories[subCat]?.icon || '📦'
       };
-      
+
       // 额外字段
       if (mainCat === 'food') {
         const expiry = document.getElementById(`add-expiry-${mainCat}`)?.value;
@@ -1854,13 +1862,13 @@
       } else if (mainCat === 'sports' || mainCat === 'electronics') {
         newItem.condition = document.getElementById(`add-condition-${mainCat}`)?.value || 'good';
       }
-      
+
       if (!inventory[mainCat]) inventory[mainCat] = [];
       inventory[mainCat].push(newItem);
       saveData();
-      
+
       document.getElementById(`add-name-${mainCat}`).value = '';
-      
+
       showToast(`已添加 ${name}`);
       renderAll();
     }
@@ -1868,23 +1876,23 @@
     function openEditModal(mainCat, id) {
       const item = (inventory[mainCat] || []).find(i => i.id === id);
       if (!item) return;
-      
+
       document.getElementById('editId').value = id;
       document.getElementById('editMainCat').value = mainCat;
       document.getElementById('editName').value = item.name;
       document.getElementById('editQty').value = item.qty;
       document.getElementById('editSuggest').value = item.suggest || 0;
       document.getElementById('editNotes').value = item.notes || '';
-      
+
       // 条件字段
       const expiryRow = document.getElementById('editExpiryRow');
       const seasonRow = document.getElementById('editSeasonRow');
       const conditionRow = document.getElementById('editConditionRow');
-      
+
       expiryRow.style.display = mainCat === 'food' ? 'flex' : 'none';
       seasonRow.style.display = mainCat === 'clothing' ? 'flex' : 'none';
       conditionRow.style.display = ['sports', 'electronics', 'clothing'].includes(mainCat) ? 'flex' : 'none';
-      
+
       if (mainCat === 'food') {
         document.getElementById('editExpiry').value = item.expiry || '';
       }
@@ -1894,7 +1902,7 @@
       if (['sports', 'electronics', 'clothing'].includes(mainCat)) {
         document.getElementById('editCondition').value = item.condition || 'good';
       }
-      
+
       document.getElementById('editModal').classList.remove('hidden');
     }
 
@@ -1907,12 +1915,12 @@
       const mainCat = document.getElementById('editMainCat').value;
       const item = (inventory[mainCat] || []).find(i => i.id === id);
       if (!item) return;
-      
+
       item.name = document.getElementById('editName').value.trim() || item.name;
       item.qty = parseInt(document.getElementById('editQty').value) || 0;
       item.suggest = parseInt(document.getElementById('editSuggest').value) || 0;
       item.notes = document.getElementById('editNotes').value || '';
-      
+
       if (mainCat === 'food') {
         item.expiry = document.getElementById('editExpiry').value || null;
       }
@@ -1922,10 +1930,10 @@
       if (['sports', 'electronics', 'clothing'].includes(mainCat)) {
         item.condition = document.getElementById('editCondition').value || 'good';
       }
-      
+
       saveData();
       closeEditModal();
-      
+
       if (currentView === mainCat) {
         renderSubCategoryItems(mainCat, item.subCat);
       }
@@ -1937,28 +1945,28 @@
     function handleSearch(query) {
       const resultsEl = document.getElementById('searchResults');
       const gridEl = document.getElementById('categoryGrid');
-      
+
       if (!query.trim()) {
         resultsEl.style.display = 'none';
         gridEl.style.display = 'grid';
         return;
       }
-      
+
       const q = query.toLowerCase();
       const results = [];
-      
+
       Object.entries(inventory).forEach(([mainCat, items]) => {
         items.forEach(item => {
-          if (item.name.toLowerCase().includes(q) || 
+          if (item.name.toLowerCase().includes(q) ||
               (item.location && item.location.toLowerCase().includes(q))) {
             results.push({ ...item, mainCat });
           }
         });
       });
-      
+
       gridEl.style.display = 'none';
       resultsEl.style.display = 'block';
-      
+
       if (results.length === 0) {
         resultsEl.innerHTML = `
           <div class="section">
@@ -1969,7 +1977,7 @@
         `;
         return;
       }
-      
+
       resultsEl.innerHTML = `
         <div class="section">
           <div class="section-title">
@@ -1987,17 +1995,17 @@
     // 全局存储采买清单和临时物品
     let currentShoppingList = [];
     let quickItems = JSON.parse(localStorage.getItem('quick-shopping-items') || '[]');
-    
+
     // 渲染临时物品列表
     function renderQuickItems() {
       const container = document.getElementById('quickItemsList');
       if (!container) return;
-      
+
       if (quickItems.length === 0) {
         container.innerHTML = '';
         return;
       }
-      
+
       container.innerHTML = quickItems.map((item, i) => `
         <div class="shopping-item" style="padding: 8px 0;">
           <span class="shopping-text">📝 ${item}</span>
@@ -2005,37 +2013,37 @@
         </div>
       `).join('');
     }
-    
+
     // 添加临时物品
     function addQuickItem() {
       const input = document.getElementById('quickAddItem');
       const text = input.value.trim();
       if (!text) return;
-      
+
       quickItems.push(text);
       localStorage.setItem('quick-shopping-items', JSON.stringify(quickItems));
       input.value = '';
       renderQuickItems();
       showToast(`已添加: ${text}`);
     }
-    
+
     // 删除临时物品
     function removeQuickItem(index) {
       quickItems.splice(index, 1);
       localStorage.setItem('quick-shopping-items', JSON.stringify(quickItems));
       renderQuickItems();
     }
-    
+
     // 清空临时物品
     function clearQuickItems() {
       quickItems = [];
       localStorage.setItem('quick-shopping-items', JSON.stringify(quickItems));
       renderQuickItems();
     }
-    
+
     function generateShoppingList() {
       const needBuy = [];
-      
+
       // 只包含日用品 (daily) 和食材 (food)
       ['daily', 'food'].forEach(mainCat => {
         const items = inventory[mainCat] || [];
@@ -2045,66 +2053,66 @@
           }
         });
       });
-      
+
       // 保存到全局变量
       currentShoppingList = needBuy;
-      
+
       const list = document.getElementById('shoppingList');
       const count = document.getElementById('shoppingCount');
       const appleSection = document.getElementById('appleExportSection');
-      
+
       const totalCount = needBuy.length + quickItems.length;
       count.textContent = totalCount;
-      
+
       // 渲染临时物品
       renderQuickItems();
-      
+
       if (totalCount === 0) {
         list.innerHTML = '<div class="empty-state"><div class="emoji">✅</div><p>库存充足，不需要采买！</p></div>';
         appleSection.style.display = 'none';
         return;
       }
-      
+
       // 显示 Apple 导出按钮
       appleSection.style.display = 'block';
-      
+
       // 按主分类排序
       needBuy.sort((a, b) => a.mainCat.localeCompare(b.mainCat));
-      
+
       let html = '';
-      
+
       // 库存物品
       if (needBuy.length > 0) {
         html += needBuy.map(item => `
           <div class="shopping-item" data-main="${item.mainCat}" data-id="${item.id}">
             <div class="shopping-check" onclick="toggleCheck(this)"></div>
             <span class="shopping-text">
-              ${item.icon || '📦'} ${item.name} 
+              ${item.icon || '📦'} ${item.name}
               <span style="color: var(--warning);">(需补${item.need}${item.unit || ''})</span>
             </span>
           </div>
         `).join('');
       }
-      
+
       list.innerHTML = html || '<div class="empty-state"><p style="font-size: 12px;">库存充足</p></div>';
-      
+
       showToast(`📋 生成了 ${totalCount} 项采买清单`);
     }
-    
+
     function syncToApple() {
       const totalItems = currentShoppingList.length + quickItems.length;
       if (totalItems === 0) {
         showToast('没有需要购买的物品', 'warning');
         return;
       }
-      
+
       const today = new Date().toISOString().slice(0, 10);
       const tz = '+11:00'; // Sydney timezone
       const catNames = {
         daily: '日用品',
         food: '食材'
       };
-      
+
       // 生成 shell 脚本
       let script = `#!/bin/bash
 # 🛒 家庭采买清单 - ${today}
@@ -2120,7 +2128,7 @@ echo "📝 添加提醒事项..."
 remindctl list "Family Shopping" --create 2>/dev/null || true
 
 `;
-      
+
       // 添加临时物品
       if (quickItems.length > 0) {
         script += `# --- 临时添加 ---\n`;
@@ -2130,7 +2138,7 @@ remindctl list "Family Shopping" --create 2>/dev/null || true
         });
         script += '\n';
       }
-      
+
       // 按分类分组库存物品
       const grouped = {};
       currentShoppingList.forEach(item => {
@@ -2138,7 +2146,7 @@ remindctl list "Family Shopping" --create 2>/dev/null || true
         if (!grouped[cat]) grouped[cat] = [];
         grouped[cat].push(item);
       });
-      
+
       // 添加每个物品到 Reminders
       Object.entries(grouped).forEach(([cat, items]) => {
         script += `# --- ${cat} ---\n`;
@@ -2149,7 +2157,7 @@ remindctl list "Family Shopping" --create 2>/dev/null || true
         });
         script += '\n';
       });
-      
+
       // 添加日历事件 (12:05-12:10 AM)
       script += `
 # ========== 2. 添加日历事件 ==========
@@ -2170,7 +2178,7 @@ echo "   - 1 个日历提醒已添加 (12:05 AM)"
 echo ""
 echo "打开 Reminders 查看: open -a Reminders"
 `;
-      
+
       // 下载脚本
       const blob = new Blob([script], { type: 'text/plain' });
       const url = URL.createObjectURL(blob);
@@ -2179,7 +2187,7 @@ echo "打开 Reminders 查看: open -a Reminders"
       a.download = `shopping-sync-${today}.sh`;
       a.click();
       URL.revokeObjectURL(url);
-      
+
       showToast('📥 脚本已下载，请在 Mac 终端运行');
     }
 
@@ -2214,8 +2222,8 @@ echo "打开 Reminders 查看: open -a Reminders"
 
     // ========== 数据管理 ==========
     function exportData() {
-      const data = { 
-        inventory, 
+      const data = {
+        inventory,
         settings,
         exportedAt: new Date().toISOString(),
         version: '3.0'
@@ -2237,7 +2245,7 @@ echo "打开 Reminders 查看: open -a Reminders"
     function importData(event) {
       const file = event.target.files[0];
       if (!file) return;
-      
+
       const reader = new FileReader();
       reader.onload = (e) => {
         try {

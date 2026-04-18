@@ -28,16 +28,16 @@
     }
     .container { max-width: 500px; margin: 0 auto; }
     header { text-align: center; padding: 20px 0; }
-    
+
     .logo {
       width: 120px;
       height: auto;
       margin-bottom: 16px;
     }
-    
+
     h1 { font-size: 24px; color: var(--primary); margin-bottom: 8px; }
     .subtitle { color: var(--muted); font-size: 14px; }
-    
+
     .card {
       background: var(--card);
       border-radius: 16px;
@@ -51,7 +51,7 @@
       color: var(--muted);
       margin-bottom: 12px;
     }
-    
+
     .meal-selector {
       display: flex;
       gap: 8px;
@@ -72,7 +72,7 @@
       background: var(--primary-light);
     }
     .meal-btn .emoji { font-size: 20px; display: block; margin-bottom: 4px; }
-    
+
     .category-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -94,7 +94,7 @@
       background: var(--primary-light);
     }
     .category-btn .emoji { font-size: 24px; display: block; margin-bottom: 4px; }
-    
+
     .btn-generate {
       width: 100%;
       padding: 16px;
@@ -108,14 +108,14 @@
       margin-top: 8px;
     }
     .btn-generate:active { transform: scale(0.98); }
-    
+
     .result-card {
       background: linear-gradient(135deg, #fef3c7, #fde68a);
       border: 2px solid var(--primary);
     }
-    .result-title { 
-      font-size: 18px; 
-      font-weight: 600; 
+    .result-title {
+      font-size: 18px;
+      font-weight: 600;
       margin-bottom: 12px;
       color: var(--primary);
     }
@@ -131,7 +131,7 @@
     .result-emoji { font-size: 32px; }
     .result-text h3 { font-size: 16px; margin-bottom: 4px; }
     .result-text p { font-size: 12px; color: var(--muted); }
-    
+
     .tag {
       display: inline-block;
       padding: 4px 8px;
@@ -141,7 +141,7 @@
       color: var(--primary);
       margin-right: 4px;
     }
-    
+
     .btn-refresh {
       width: 100%;
       padding: 12px;
@@ -152,7 +152,7 @@
       cursor: pointer;
       margin-top: 8px;
     }
-    
+
     .tips {
       background: #ecfdf5;
       border: 1px solid #10b981;
@@ -162,9 +162,9 @@
       color: #065f46;
     }
     .tips strong { color: #047857; }
-    
+
     .hidden { display: none; }
-    
+
     .avoid-list {
       display: flex;
       flex-wrap: wrap;
@@ -178,7 +178,7 @@
       font-size: 11px;
       color: #dc2626;
     }
-    
+
     .footer {
       text-align: center;
       margin-top: 24px;
@@ -195,6 +195,15 @@
       color: var(--muted);
       margin-top: 8px;
     }
+
+    /* Home UI sync */
+    :root{--bg:#07080c;--card:rgba(13,15,21,.74);--primary:#fcd34d;--primary-light:rgba(252,211,77,.14);--text:#f2f3f5;--muted:#9aa0ae;--border:rgba(255,255,255,.08);}
+    body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC","Segoe UI",system-ui,sans-serif;background:radial-gradient(120% 90% at 0 0,rgba(52,224,161,.12),transparent 55%),radial-gradient(120% 90% at 100% 100%,rgba(166,123,255,.14),transparent 55%),var(--bg);}
+    .card,.meal-btn,.category-btn{background:rgba(13,15,21,.72);border-color:var(--border);}
+    .card{box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 24px 40px -30px rgba(0,0,0,.8);}
+    .meal-btn.active,.category-btn.active{background:var(--primary-light);border-color:var(--primary);}
+    .btn-generate{background:linear-gradient(135deg,#fcd34d,#f59e0b);color:#3a1d00;}
+
   </style>
 </head>
 <body>
@@ -219,7 +228,7 @@
       <h1>🌸 Olivia 今天吃什么？</h1>
       <p class="subtitle">亚甲炎康复期饮食灵感</p>
     </header>
-    
+
     <div class="card">
       <div class="card-title">🕐 选择餐次</div>
       <div class="meal-selector">
@@ -237,7 +246,7 @@
         </button>
       </div>
     </div>
-    
+
     <div class="card">
       <div class="card-title">💭 今天想吃什么类型？</div>
       <div class="category-grid">
@@ -260,21 +269,21 @@
           <span class="emoji">🎲</span>随便
         </button>
       </div>
-      
+
       <button class="btn-generate" onclick="generateIdeas()">✨ 给我灵感</button>
     </div>
-    
+
     <div class="card result-card hidden" id="resultCard">
       <div class="result-title">💡 今天可以试试...</div>
       <div id="resultList"></div>
       <button class="btn-refresh" onclick="generateIdeas()">🔄 换一批</button>
     </div>
-    
+
     <div class="card tips">
       <strong>💡 温馨提示</strong><br>
       少食多餐 · 温热为主 · 多喝温水 · 保持好心情 ❤️
     </div>
-    
+
     <div class="card">
       <div class="card-title">❌ 康复期避免</div>
       <div class="avoid-list">
@@ -287,7 +296,7 @@
         <span class="avoid-tag">冰冷食物</span>
       </div>
     </div>
-    
+
     <div class="footer">
       <svg class="footer-logo" viewBox="0 0 190 90" xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -307,11 +316,11 @@
       <p class="footer-text">Made with ❤️ for Olivia</p>
     </div>
   </div>
-  
+
   <script>
     let selectedMeal = 'breakfast';
     let selectedCategory = null;
-    
+
     const foods = {
       breakfast: {
         light: [
@@ -424,35 +433,35 @@
         ]
       }
     };
-    
+
     function selectMeal(meal) {
       selectedMeal = meal;
       document.querySelectorAll('.meal-btn').forEach(b => b.classList.remove('active'));
       event.currentTarget.classList.add('active');
     }
-    
+
     function selectCategory(cat) {
       selectedCategory = cat;
       document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
       event.currentTarget.classList.add('active');
     }
-    
+
     function generateIdeas() {
       const card = document.getElementById('resultCard');
       const list = document.getElementById('resultList');
-      
+
       let pool = [];
       const mealFoods = foods[selectedMeal];
-      
+
       if (selectedCategory && selectedCategory !== 'any') {
         pool = mealFoods[selectedCategory] || [];
       } else {
         Object.values(mealFoods).forEach(arr => pool.push(...arr));
       }
-      
+
       const shuffled = pool.sort(() => Math.random() - 0.5);
       const picks = shuffled.slice(0, 3);
-      
+
       list.innerHTML = picks.map(item => `
         <div class="result-item">
           <span class="result-emoji">${item.emoji}</span>
@@ -462,7 +471,7 @@
           </div>
         </div>
       `).join('');
-      
+
       card.classList.remove('hidden');
       card.scrollIntoView({ behavior: 'smooth' });
     }
