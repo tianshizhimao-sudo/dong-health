@@ -5,485 +5,497 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#07080c">
-  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2334e0a1'/%3E%3Cstop offset='100%25' style='stop-color:%23a67bff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='22' fill='%2307080c'/%3E%3Cpath d='M18 52 L34 52 L40 38 L48 66 L56 44 L62 52 L82 52' fill='none' stroke='url(%23g)' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
-  <title>冬哥训练中心 · Dong Health</title>
+  <meta name="theme-color" content="#0a0d14">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%2334d399'/%3E%3Cstop offset='100%25' stop-color='%23a78bfa'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='10' y='10' width='80' height='80' rx='24' fill='none' stroke='url(%23g)' stroke-width='6'/%3E%3Cpath d='M22 52 L36 52 L42 36 L54 68 L60 52 L78 52' fill='none' stroke='url(%23g)' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <title>Dong Health · 冬哥训练中心</title>
   <style>
     :root {
-      --bg: #0c1220;
-      --bg-elev: #151d2f;
-      --ink: #f5f7ff;
-      --ink-dim: #b6bfd4;
-      --ink-mute: #8f9ab2;
-      --hairline: rgba(255,255,255,0.12);
-      --hairline-strong: rgba(255,255,255,0.2);
-      --green: #34e0a1;
-      --green-deep: #1dbf83;
-      --purple: #a67bff;
-      --purple-deep: #7c4dff;
-      --c-training-a: #34e0a1;
-      --c-training-b: #1dbf83;
-      --c-tracking-a: #5eead4;
-      --c-tracking-b: #14b8a6;
-      --c-planning-a: #c4a8ff;
-      --c-planning-b: #8b5cf6;
-      --c-recovery-a: #7dd3fc;
-      --c-recovery-b: #0ea5e9;
-      --c-food-a: #fcd34d;
-      --c-food-b: #f59e0b;
-      --c-utility-a: #93c5fd;
-      --c-utility-b: #3b82f6;
-      --c-pink-a: #f9a8d4;
-      --c-pink-b: #ec4899;
-      --r-lg: 28px;
-      --r-md: 22px;
-      --r-sm: 16px;
-      --r-xs: 12px;
-      --shadow-card: 0 1px 0 rgba(255,255,255,0.04) inset, 0 20px 40px -20px rgba(0,0,0,0.6);
-      --shadow-feature: 0 1px 0 rgba(255,255,255,0.06) inset, 0 30px 60px -24px rgba(52,224,161,0.25);
+      /* Base surface */
+      --bg-0: #07090f;
+      --bg-1: #0b0f18;
+      --surface: rgba(20, 26, 40, 0.55);
+      --surface-strong: rgba(28, 36, 54, 0.72);
+      --border: rgba(255, 255, 255, 0.06);
+      --border-strong: rgba(255, 255, 255, 0.10);
+
+      /* Type */
+      --text: #f2f4f8;
+      --text-dim: #a4acbb;
+      --text-mute: #6b7386;
+
+      /* Brand tokens */
+      --training-a: #34d399;
+      --training-b: #059669;
+      --tracking-a: #10b981;
+      --tracking-b: #047857;
+      --planning-a: #a78bfa;
+      --planning-b: #7c3aed;
+      --recovery-a: #2dd4bf;
+      --recovery-b: #0d9488;
+      --food-a: #fbbf24;
+      --food-b: #d97706;
+      --util-blue-a: #60a5fa;
+      --util-blue-b: #2563eb;
+      --util-pink-a: #f472b6;
+      --util-pink-b: #db2777;
+
+      /* Motion */
+      --ease: cubic-bezier(.22,.61,.36,1);
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    html { scroll-behavior: smooth; }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Segoe UI", system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'PingFang SC', 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg-0);
+      color: var(--text);
       min-height: 100vh;
       min-height: 100dvh;
       -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
-      font-feature-settings: "ss01", "cv11";
-      overflow-x: hidden;
+      -moz-osx-font-smoothing: grayscale;
+      letter-spacing: 0.005em;
       position: relative;
+      overflow-x: hidden;
     }
+
+    /* Ambient dark background with green + purple glow */
     body::before,
     body::after {
-      content: "";
+      content: '';
       position: fixed;
       pointer-events: none;
       z-index: 0;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.5;
+      filter: blur(60px);
+      opacity: 0.55;
     }
     body::before {
-      top: -180px;
-      left: -120px;
-      width: 420px;
-      height: 420px;
-      background: radial-gradient(closest-side, rgba(52,224,161,0.45), rgba(52,224,161,0));
-    }
-    body::after {
-      bottom: -200px;
-      right: -140px;
+      top: -160px;
+      left: -140px;
       width: 460px;
       height: 460px;
-      background: radial-gradient(closest-side, rgba(166,123,255,0.38), rgba(166,123,255,0));
+      background: radial-gradient(circle at 30% 30%, rgba(52, 211, 153, 0.55), transparent 60%);
     }
-    .app {
+    body::after {
+      bottom: -180px;
+      right: -140px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle at 60% 60%, rgba(167, 139, 250, 0.45), transparent 60%);
+    }
+
+    /* App shell — stays phone-width even on desktop */
+    .shell {
       position: relative;
       z-index: 1;
       max-width: 440px;
       margin: 0 auto;
-      padding: calc(env(safe-area-inset-top, 0px) + 20px) 20px calc(env(safe-area-inset-bottom, 0px) + 40px);
+      padding: calc(env(safe-area-inset-top, 0px) + 22px) 20px calc(env(safe-area-inset-bottom, 0px) + 40px);
       display: flex;
       flex-direction: column;
       gap: 28px;
     }
+
+    /* ---------- HERO / IDENTITY ---------- */
     .hero {
       position: relative;
-      border-radius: var(--r-lg);
-      padding: 22px 22px 24px;
+      padding: 26px 24px 28px;
+      border-radius: 28px;
       background:
-        linear-gradient(180deg, rgba(52,224,161,0.08) 0%, rgba(166,123,255,0.05) 55%, rgba(13,15,21,0.9) 100%),
-        rgba(13,15,21,0.8);
-      border: 1px solid var(--hairline-strong);
+        linear-gradient(160deg, rgba(52,211,153,0.10), rgba(167,139,250,0.10) 60%, rgba(20,26,40,0.6)),
+        rgba(15, 20, 32, 0.55);
+      border: 1px solid var(--border-strong);
       backdrop-filter: blur(20px) saturate(140%);
       -webkit-backdrop-filter: blur(20px) saturate(140%);
       overflow: hidden;
-      animation: fadeUp 0.6s ease-out;
+      animation: fadeUp 0.5s var(--ease) both;
     }
     .hero::before {
-      content: "";
+      content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(120% 80% at 0% 0%, rgba(52,224,161,0.14), transparent 55%);
+      background: radial-gradient(120% 60% at 100% 0%, rgba(167,139,250,0.25), transparent 55%);
       pointer-events: none;
     }
     .hero-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 12px;
       margin-bottom: 22px;
       position: relative;
     }
-    .logo-lockup {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    .brand-mark { display: block; height: 30px; width: auto; }
+    .time-pill {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text);
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border-strong);
+      white-space: nowrap;
     }
-    .logo-mark {
-      width: 36px;
-      height: 36px;
-      flex-shrink: 0;
-    }
-    .logo-text {
-      display: flex;
-      flex-direction: column;
-      line-height: 1;
-    }
-    .logo-text .word {
-      font-size: 16px;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      color: var(--ink);
-    }
-    .logo-text .sub {
-      font-size: 9px;
-      font-weight: 600;
-      letter-spacing: 0.28em;
-      color: var(--ink-mute);
-      margin-top: 3px;
-      text-transform: uppercase;
-    }
-    .hero-date {
-      font-size: 11px;
-      color: var(--ink-mute);
-      font-variant-numeric: tabular-nums;
-      letter-spacing: 0.04em;
-    }
-    .greeting {
-      font-size: 13px;
-      color: var(--green);
-      font-weight: 600;
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+    .hero-title {
       position: relative;
-    }
-    .greeting-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--green);
-      box-shadow: 0 0 10px var(--green);
-      animation: pulse 2s ease-in-out infinite;
-    }
-    h1.hero-title {
       font-size: 30px;
       font-weight: 700;
       letter-spacing: -0.02em;
       line-height: 1.1;
-      margin-bottom: 10px;
-      position: relative;
+      margin-bottom: 8px;
+      background: linear-gradient(180deg, #ffffff 0%, #c8cfdc 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
     .hero-sub {
+      position: relative;
       font-size: 13px;
-      color: var(--ink-dim);
-      line-height: 1.55;
-      margin-bottom: 16px;
-      position: relative;
-    }
-    .motivation {
-      font-size: 12px;
-      color: var(--ink-mute);
-      font-style: italic;
+      color: var(--text-dim);
+      line-height: 1.5;
       margin-bottom: 18px;
-      position: relative;
-      min-height: 16px;
     }
-    .pills {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
+    .hero-pills {
       position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
     }
     .pill {
-      font-size: 11px;
+      font-size: 11.5px;
       font-weight: 600;
       padding: 6px 11px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--hairline-strong);
-      color: var(--ink-dim);
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      letter-spacing: 0.02em;
+      gap: 5px;
+      letter-spacing: 0.01em;
     }
-    .pill.green { color: var(--green); border-color: rgba(52,224,161,0.28); background: rgba(52,224,161,0.09); }
-    .pill.purple { color: var(--purple); border-color: rgba(166,123,255,0.28); background: rgba(166,123,255,0.09); }
-    .section {
+    .pill-train {
+      background: rgba(52,211,153,0.14);
+      color: #6ee7b7;
+      border: 1px solid rgba(52,211,153,0.28);
+    }
+    .pill-plan {
+      background: rgba(167,139,250,0.14);
+      color: #c4b5fd;
+      border: 1px solid rgba(167,139,250,0.28);
+    }
+    .pill-ghost {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-dim);
+      border: 1px solid var(--border-strong);
+    }
+    .hero-motivation {
+      position: relative;
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.5;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      min-height: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .hero-motivation::before {
+      content: '';
+      width: 3px;
+      height: 14px;
+      border-radius: 2px;
+      background: linear-gradient(180deg, var(--training-a), var(--planning-a));
+      flex-shrink: 0;
+    }
+
+    /* ---------- BLOCK / SECTION ---------- */
+    .block {
       display: flex;
       flex-direction: column;
       gap: 12px;
-      animation: fadeUp 0.6s ease-out backwards;
+      animation: fadeUp 0.55s var(--ease) both;
     }
-    .section:nth-of-type(2) { animation-delay: 0.05s; }
-    .section:nth-of-type(3) { animation-delay: 0.1s; }
-    .section:nth-of-type(4) { animation-delay: 0.15s; }
-    .section:nth-of-type(5) { animation-delay: 0.2s; }
-    .section-head {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      padding: 0 4px;
-      margin-bottom: -2px;
-    }
-    .section-title {
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      color: var(--ink-mute);
-      text-transform: uppercase;
-    }
-    .section-hint {
-      font-size: 11px;
-      color: var(--ink-mute);
-    }
-    .card {
+    .block:nth-of-type(2) { animation-delay: 0.05s; }
+    .block:nth-of-type(3) { animation-delay: 0.10s; }
+    .block:nth-of-type(4) { animation-delay: 0.15s; }
+    .block:nth-of-type(5) { animation-delay: 0.20s; }
+
+    .block-label {
       display: flex;
       align-items: center;
-      gap: 14px;
-      padding: 16px;
-      background: rgba(13,15,21,0.7);
-      border: 1px solid var(--hairline);
-      border-radius: var(--r-md);
-      text-decoration: none;
-      color: var(--ink);
-      position: relative;
-      overflow: hidden;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
-      box-shadow: var(--shadow-card);
+      justify-content: space-between;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-mute);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      padding: 0 4px;
     }
+    .block-label span:last-child {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-mute);
+      letter-spacing: 0.08em;
+      text-transform: none;
+    }
+
+    /* ---------- FEATURE CARD (今日训练) ---------- */
+    .feature {
+      position: relative;
+      display: block;
+      padding: 24px;
+      border-radius: 26px;
+      color: var(--text);
+      text-decoration: none;
+      background:
+        linear-gradient(140deg, rgba(52,211,153,0.22), rgba(5,150,105,0.10) 55%, rgba(15,20,32,0.6)),
+        rgba(15, 20, 32, 0.6);
+      border: 1px solid rgba(52,211,153,0.28);
+      backdrop-filter: blur(18px) saturate(140%);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+      overflow: hidden;
+      transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+      box-shadow: 0 12px 40px -18px rgba(16, 185, 129, 0.55);
+    }
+    .feature::after {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 26px;
+      background: radial-gradient(80% 60% at 100% 0%, rgba(52,211,153,0.35), transparent 60%);
+      pointer-events: none;
+      mix-blend-mode: screen;
+      opacity: 0.9;
+    }
+    .feature:hover { transform: translateY(-3px); box-shadow: 0 18px 50px -20px rgba(16, 185, 129, 0.75); }
+    .feature:active { transform: scale(0.985); }
+    @media (hover: none) {
+      .feature:hover { transform: none; box-shadow: 0 12px 40px -18px rgba(16, 185, 129, 0.55); }
+    }
+    .feature-row {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      z-index: 1;
+    }
+    .feature-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--training-a), var(--training-b));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      flex-shrink: 0;
+      box-shadow: 0 10px 24px -10px rgba(16,185,129,0.7), inset 0 1px 0 rgba(255,255,255,0.18);
+    }
+    .feature-body { flex: 1; min-width: 0; }
+    .feature-kicker {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #6ee7b7;
+      margin-bottom: 4px;
+    }
+    .feature-title {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 4px;
+    }
+    .feature-desc {
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.45;
+    }
+    .feature-cta {
+      position: relative;
+      z-index: 1;
+      margin-top: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .feature-meta {
+      display: flex;
+      gap: 18px;
+      font-size: 11px;
+      color: var(--text-mute);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+    .feature-meta strong {
+      display: block;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 3px;
+      letter-spacing: -0.005em;
+      text-transform: none;
+    }
+    .feature-arrow {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.14);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #6ee7b7;
+      font-size: 16px;
+      transition: transform 0.25s var(--ease), background 0.25s var(--ease);
+    }
+    .feature:hover .feature-arrow { transform: translateX(3px); background: rgba(52,211,153,0.18); }
+
+    /* ---------- GRID CARDS ---------- */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 16px 16px 18px;
+      border-radius: 22px;
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      color: var(--text);
+      text-decoration: none;
+      backdrop-filter: blur(14px) saturate(140%);
+      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      cursor: pointer;
+      transition: transform 0.22s var(--ease), background 0.22s var(--ease), border-color 0.22s var(--ease);
+      overflow: hidden;
+      text-align: left;
+      font-family: inherit;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(120% 60% at 100% 0%, var(--glow, transparent), transparent 65%);
+      opacity: 0.55;
+      pointer-events: none;
+    }
+    .card > * { position: relative; z-index: 1; }
     .card:hover {
       transform: translateY(-2px);
-      border-color: var(--hairline-strong);
-      background: rgba(17,20,28,0.85);
+      background: var(--surface-strong);
+      border-color: var(--card-border, var(--border-strong));
     }
-    .card:active {
-      transform: scale(0.985);
-    }
+    .card:active { transform: scale(0.97); }
     @media (hover: none) {
-      .card:hover { transform: none; border-color: var(--hairline); background: rgba(13,15,21,0.7); }
+      .card:hover { transform: none; background: var(--surface); border-color: var(--border-strong); }
     }
-    .icon {
-      width: 48px;
-      height: 48px;
+
+    .card-icon {
+      width: 42px;
+      height: 42px;
       border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
-      flex-shrink: 0;
-      position: relative;
+      font-size: 20px;
+      background: var(--icon-bg, linear-gradient(135deg, #94a3b8, #64748b));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.18);
     }
-    .icon::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      border: 1px solid rgba(255,255,255,0.12);
-      pointer-events: none;
-    }
-    .icon.training { background: linear-gradient(135deg, var(--c-training-a), var(--c-training-b)); color: #07241b; }
-    .icon.tracking { background: linear-gradient(135deg, var(--c-tracking-a), var(--c-tracking-b)); color: #042c2a; }
-    .icon.planning { background: linear-gradient(135deg, var(--c-planning-a), var(--c-planning-b)); color: #1e1140; }
-    .icon.recovery { background: linear-gradient(135deg, var(--c-recovery-a), var(--c-recovery-b)); color: #04283c; }
-    .icon.food { background: linear-gradient(135deg, var(--c-food-a), var(--c-food-b)); color: #3a1d00; }
-    .icon.utility { background: linear-gradient(135deg, var(--c-utility-a), var(--c-utility-b)); color: #0a1e3b; }
-    .icon.pink { background: linear-gradient(135deg, var(--c-pink-a), var(--c-pink-b)); color: #3a0a20; }
-    .body { flex: 1; min-width: 0; }
-    .title {
+    .card-title {
       font-size: 15px;
-      font-weight: 600;
+      font-weight: 700;
       letter-spacing: -0.005em;
-      margin-bottom: 3px;
-      color: var(--ink);
+      line-height: 1.25;
     }
-    .desc {
-      font-size: 12px;
-      color: var(--ink-dim);
+    .card-desc {
+      font-size: 11.5px;
+      color: var(--text-dim);
       line-height: 1.4;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      margin-top: -4px;
     }
-    .chev {
-      color: var(--ink-mute);
-      flex-shrink: 0;
-      opacity: 0.5;
-      transition: transform 0.18s ease, opacity 0.18s ease;
-    }
-    .card:hover .chev { opacity: 1; transform: translateX(2px); }
-    .feature {
-      display: block;
-      padding: 0;
-      border-radius: var(--r-lg);
-      text-decoration: none;
-      color: var(--ink);
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(52,224,161,0.25);
-      background:
-        radial-gradient(120% 80% at 100% 0%, rgba(166,123,255,0.22), transparent 50%),
-        radial-gradient(120% 100% at 0% 100%, rgba(52,224,161,0.28), transparent 55%),
-        linear-gradient(180deg, rgba(18,26,22,0.95), rgba(11,14,20,0.95));
-      box-shadow: var(--shadow-feature);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .feature:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 1px 0 rgba(255,255,255,0.08) inset, 0 34px 70px -24px rgba(52,224,161,0.35);
-    }
-    .feature:active { transform: scale(0.99); }
-    @media (hover: none) {
-      .feature:hover { transform: none; }
-    }
-    .feature-inner {
-      padding: 22px;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      grid-template-rows: auto auto auto;
-      gap: 6px 16px;
-      align-items: start;
-    }
-    .feature-tag {
-      grid-column: 1 / 2;
+    .card-tag {
+      display: inline-block;
+      align-self: flex-start;
       font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.24em;
-      color: var(--green);
-      text-transform: uppercase;
-      display: inline-flex;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      color: var(--text-dim);
+      letter-spacing: 0.04em;
+      margin-top: auto;
+    }
+
+    /* Category tokens (icon bg + subtle glow + border) */
+    .cat-training  { --icon-bg: linear-gradient(135deg, var(--training-a), var(--training-b));   --glow: rgba(52,211,153,0.20);  --card-border: rgba(52,211,153,0.32); }
+    .cat-tracking  { --icon-bg: linear-gradient(135deg, var(--tracking-a), var(--tracking-b));   --glow: rgba(16,185,129,0.18);  --card-border: rgba(16,185,129,0.28); }
+    .cat-planning  { --icon-bg: linear-gradient(135deg, var(--planning-a), var(--planning-b));   --glow: rgba(167,139,250,0.20); --card-border: rgba(167,139,250,0.30); }
+    .cat-recovery  { --icon-bg: linear-gradient(135deg, var(--recovery-a), var(--recovery-b));   --glow: rgba(45,212,191,0.20);  --card-border: rgba(45,212,191,0.30); }
+    .cat-food      { --icon-bg: linear-gradient(135deg, var(--food-a), var(--food-b));           --glow: rgba(251,191,36,0.18);  --card-border: rgba(251,191,36,0.28); }
+    .cat-util-blue { --icon-bg: linear-gradient(135deg, var(--util-blue-a), var(--util-blue-b)); --glow: rgba(96,165,250,0.18);  --card-border: rgba(96,165,250,0.28); }
+    .cat-util-pink { --icon-bg: linear-gradient(135deg, var(--util-pink-a), var(--util-pink-b)); --glow: rgba(244,114,182,0.18); --card-border: rgba(244,114,182,0.30); }
+
+    /* Wide card (spans 2 cols) — used sparingly as a section's hero row */
+    .card-wide {
+      grid-column: span 2;
+      flex-direction: row;
       align-items: center;
-      gap: 6px;
-      margin-bottom: 2px;
+      padding: 16px 18px;
     }
-    .feature-tag::before {
-      content: "";
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--green);
-      box-shadow: 0 0 8px var(--green);
-    }
-    .feature-title {
-      grid-column: 1 / 2;
-      font-size: 26px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      line-height: 1.15;
-    }
-    .feature-desc {
-      grid-column: 1 / 2;
-      font-size: 13px;
-      color: var(--ink-dim);
-      line-height: 1.5;
-      margin-top: 2px;
-    }
-    .feature-arrow {
-      grid-column: 2 / 3;
-      grid-row: 1 / 4;
-      align-self: center;
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--green), var(--green-deep));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #07241b;
-      box-shadow: 0 10px 24px -6px rgba(52,224,161,0.55);
-    }
-    .feature-stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      border-top: 1px solid var(--hairline);
-    }
-    .stat {
-      padding: 14px 12px;
-      text-align: center;
-      position: relative;
-    }
-    .stat + .stat::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 18%;
-      bottom: 18%;
-      width: 1px;
-      background: var(--hairline);
-    }
-    .stat-label {
-      font-size: 10px;
-      color: var(--ink-mute);
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      margin-bottom: 4px;
-    }
-    .stat-value {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--ink);
-      font-variant-numeric: tabular-nums;
-      letter-spacing: -0.01em;
-    }
-    .stat-value .unit {
-      font-size: 11px;
-      font-weight: 500;
-      color: var(--ink-mute);
-      margin-left: 2px;
-    }
+    .card-wide .card-icon { width: 46px; height: 46px; border-radius: 14px; }
+    .card-wide .card-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+    .card-wide .card-desc { margin-top: 0; }
+    .card-wide .card-tag { display: none; }
+
+    /* ---------- FOOTER ---------- */
     .footer {
       text-align: center;
-      padding: 8px 0 0;
-      font-size: 11px;
-      color: var(--ink-mute);
-      line-height: 1.8;
-      animation: fadeUp 0.6s ease-out 0.25s backwards;
+      padding: 16px 0 8px;
+      color: var(--text-mute);
+      font-size: 11.5px;
+      letter-spacing: 0.06em;
     }
-    .footer .brand-line {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--hairline);
-      margin-bottom: 8px;
-    }
-    .footer .brand-line::before {
-      content: "";
+    .footer .foot-dot {
+      display: inline-block;
       width: 4px;
       height: 4px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--green), var(--purple));
+      background: linear-gradient(135deg, var(--training-a), var(--planning-a));
+      margin: 0 8px;
+      vertical-align: middle;
     }
-    .version { opacity: 0.7; }
-    .modal-backdrop {
+    .footer .version { margin-top: 6px; font-size: 10.5px; color: #454b5c; letter-spacing: 0.1em; }
+
+    /* ---------- MODAL ---------- */
+    .modal {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(3,4,8,0.78);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
       z-index: 999;
+      background: rgba(5, 8, 14, 0.72);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       padding: 20px;
       overflow-y: auto;
-      animation: fadeIn 0.2s ease-out;
+      animation: fadeIn 0.2s ease both;
     }
-    .modal-backdrop.open { display: block; }
-    .modal {
-      max-width: 440px;
+    .modal.open { display: block; }
+    .modal-card {
+      max-width: 420px;
       margin: 40px auto;
-      background: linear-gradient(180deg, rgba(20,14,22,0.96), rgba(11,11,16,0.96));
-      border-radius: var(--r-lg);
+      background: rgba(20, 26, 40, 0.92);
+      border: 1px solid var(--border-strong);
+      border-radius: 24px;
       padding: 22px;
-      border: 1px solid var(--hairline-strong);
-      box-shadow: 0 40px 80px -20px rgba(236,72,153,0.25);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
     }
     .modal-head {
       display: flex;
@@ -491,292 +503,276 @@
       align-items: center;
       margin-bottom: 6px;
     }
-    .modal-title {
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-    }
+    .modal-title { font-size: 18px; font-weight: 700; }
     .modal-close {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--hairline-strong);
-      color: var(--ink-dim);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border-strong);
+      color: var(--text);
+      font-size: 14px;
       width: 32px;
       height: 32px;
       border-radius: 50%;
       cursor: pointer;
-      font-size: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background 0.15s;
+      line-height: 1;
     }
-    .modal-close:hover { background: rgba(255,255,255,0.1); color: var(--ink); }
-    .modal-sub {
-      font-size: 12px;
-      color: var(--ink-mute);
-      margin-bottom: 16px;
-    }
-    .meal {
-      background: rgba(255,255,255,0.03);
-      border-radius: var(--r-sm);
-      padding: 14px;
-      margin-bottom: 10px;
-      border: 1px solid var(--hairline);
-    }
-    .meal-name {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-    .meal-ingredients {
-      font-size: 12px;
-      color: var(--ink-dim);
-      margin-bottom: 8px;
-    }
-    .tag-row { display: flex; gap: 6px; flex-wrap: wrap; }
-    .tag {
-      font-size: 10px;
-      font-weight: 600;
-      padding: 3px 9px;
-      border-radius: 999px;
-      letter-spacing: 0.02em;
-    }
-    .tag-default {
-      background: rgba(52,224,161,0.12);
-      color: var(--green);
-      border: 1px solid rgba(52,224,161,0.2);
-    }
-    .tag-stock {
-      background: rgba(252,211,77,0.12);
-      color: var(--c-food-a);
-      border: 1px solid rgba(252,211,77,0.22);
-    }
-    .refresh-btn {
+    .modal-sub { font-size: 12px; color: var(--text-dim); margin: 4px 0 16px; }
+    .modal-refresh {
       width: 100%;
       margin-top: 14px;
       padding: 13px;
-      background: linear-gradient(135deg, var(--c-pink-a), var(--c-pink-b));
+      background: linear-gradient(135deg, var(--food-a), var(--food-b));
       border: none;
-      border-radius: var(--r-sm);
-      color: #3a0a20;
+      border-radius: 14px;
+      color: #1a1206;
       font-weight: 700;
       font-size: 14px;
       cursor: pointer;
       letter-spacing: 0.02em;
-      box-shadow: 0 10px 24px -8px rgba(236,72,153,0.5);
-      transition: transform 0.15s;
     }
-    .refresh-btn:active { transform: scale(0.98); }
+    .meal {
+      background: rgba(10, 14, 22, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 10px;
+    }
+    .meal-name { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .meal-ing { font-size: 12px; color: var(--text-dim); margin-bottom: 8px; }
+    .meal-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .meal-tag {
+      font-size: 10px;
+      background: rgba(52,211,153,0.14);
+      color: #6ee7b7;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+    .meal-tag.has {
+      background: rgba(251,191,36,0.15);
+      color: #fbbf24;
+    }
+
+    /* Animations */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
+      to   { opacity: 1; transform: translateY(0); }
     }
     @keyframes fadeIn {
       from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.85); }
+      to   { opacity: 1; }
     }
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation: none !important; transition: none !important; }
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
     }
   </style>
 </head>
 <body>
-  <div class="app">
-    <header class="hero">
+  <main class="shell">
+
+    <!-- ========== 1. HERO / IDENTITY ========== -->
+    <section class="hero">
       <div class="hero-top">
-        <div class="logo-lockup">
-          <svg class="logo-mark" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-label="Dong Health">
-            <defs>
-              <linearGradient id="dhGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#34e0a1"/>
-                <stop offset="100%" stop-color="#a67bff"/>
-              </linearGradient>
-            </defs>
-            <rect x="0.5" y="0.5" width="39" height="39" rx="11" fill="#0d0f15" stroke="url(#dhGrad)" stroke-width="1" stroke-opacity="0.4"/>
-            <path d="M6 21 L13 21 L16 14 L20 28 L24 17 L27 21 L34 21"
-              fill="none" stroke="url(#dhGrad)" stroke-width="2.4"
-              stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <div class="logo-text">
-            <span class="word">Dong</span>
-            <span class="sub">Health</span>
-          </div>
-        </div>
-        <div class="hero-date" id="heroDate"></div>
+        <!-- Dong Health lockup: rounded glyph with pulse mark + wordmark -->
+        <svg class="brand-mark" viewBox="0 0 172 32" xmlns="http://www.w3.org/2000/svg" aria-label="Dong Health">
+          <defs>
+            <linearGradient id="dhGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#34d399"/>
+              <stop offset="55%" stop-color="#2dd4bf"/>
+              <stop offset="100%" stop-color="#a78bfa"/>
+            </linearGradient>
+          </defs>
+          <!-- Glyph mark -->
+          <rect x="1" y="1" width="30" height="30" rx="9" fill="none" stroke="url(#dhGrad)" stroke-width="1.7"/>
+          <path d="M7 17 L12 17 L14.5 11 L18 22 L20.5 17 L25 17" fill="none" stroke="url(#dhGrad)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- Wordmark: dong (bold) · health (light) -->
+          <text x="40" y="22" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif" font-size="17" font-weight="700" fill="#f2f4f8" letter-spacing="-0.4">dong</text>
+          <circle cx="86" cy="16" r="1.6" fill="url(#dhGrad)"/>
+          <text x="92" y="22" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif" font-size="17" font-weight="300" fill="#f2f4f8" letter-spacing="0.4">health</text>
+        </svg>
+        <span class="time-pill" id="greeting">早上好</span>
       </div>
-      <p class="greeting" id="greeting">
-        <span class="greeting-dot"></span>
-        <span id="greetingText"></span>
-      </p>
+
       <h1 class="hero-title">冬哥训练中心</h1>
-      <p class="hero-sub">个人训练、恢复与生活节奏的中枢 · 2026 年 4–6 月体能重建期</p>
-      <p class="motivation" id="motivation"></p>
-      <div class="pills">
-        <span class="pill green">体能重建期 · Week 1</span>
-        <span class="pill purple">UTA22 · 5月15日</span>
-        <span class="pill">Virgin Active</span>
+      <p class="hero-sub">2026 年 2–3 月 · 增肌周期 · Virgin Active</p>
+
+      <div class="hero-pills">
+        <span class="pill pill-train">🏋️ 增肌 Phase 2</span>
+        <span class="pill pill-plan" id="raceCountdown">🏔️ UTA22 · D-—</span>
+        <span class="pill pill-ghost">⚡ TechnoGym + Eleiko</span>
       </div>
-    </header>
-    <section class="section">
-      <div class="section-head">
-        <span class="section-title">Today</span>
-        <span class="section-hint" id="todayHint"></span>
-      </div>
-      <a href="daily-workout.html" class="feature" aria-label="今日训练">
-        <div class="feature-inner">
-          <span class="feature-tag">Primary · 今日重点</span>
-          <h2 class="feature-title">今日训练</h2>
-          <p class="feature-desc">今天练什么 · 动作分解 · YouTube 示范视频一键直达</p>
-          <div class="feature-arrow" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+
+      <p class="hero-motivation" id="motivation">每一次训练都是对自己的投资</p>
+    </section>
+
+    <!-- ========== 2. TODAY ========== -->
+    <section class="block">
+      <div class="block-label"><span>Today · 今日</span><span id="todayDate"></span></div>
+
+      <a href="daily-workout.html" class="feature">
+        <div class="feature-row">
+          <div class="feature-icon">🔥</div>
+          <div class="feature-body">
+            <div class="feature-kicker">Primary session</div>
+            <div class="feature-title">今日训练</div>
+            <div class="feature-desc">今天练什么 · YouTube 视频指导 · 组次记录</div>
           </div>
         </div>
-        <div class="feature-stats">
-          <div class="stat">
-            <div class="stat-label">Week</div>
-            <div class="stat-value">3<span class="unit">/ 8</span></div>
+        <div class="feature-cta">
+          <div class="feature-meta">
+            <div>Focus<strong id="todayFocus">Push · 上肢推</strong></div>
+            <div>Time<strong>~60 min</strong></div>
           </div>
-          <div class="stat">
-            <div class="stat-label">Phase</div>
-            <div class="stat-value">重建</div>
-          </div>
-          <div class="stat">
-            <div class="stat-label">Race</div>
-            <div class="stat-value" id="raceCountdown">–<span class="unit">天</span></div>
-          </div>
+          <div class="feature-arrow" aria-hidden="true">→</div>
         </div>
       </a>
     </section>
-    <section class="section">
-      <div class="section-head">
-        <span class="section-title">Train</span>
-        <span class="section-hint">训练 · 打卡 · 参考</span>
+
+    <!-- ========== 3. TRAIN ========== -->
+    <section class="block">
+      <div class="block-label"><span>Train · 训练</span><span>Strength &amp; Trail</span></div>
+
+      <div class="grid">
+        <a href="fitness-tracker.html" class="card cat-tracking">
+          <div class="card-icon">✅</div>
+          <div class="card-title">健身打卡</div>
+          <div class="card-desc">记录每次训练，追踪进度</div>
+          <span class="card-tag">Tracking</span>
+        </a>
+
+        <a href="uta22-training.html" class="card cat-planning">
+          <div class="card-icon">🏔️</div>
+          <div class="card-title">UTA22 Training</div>
+          <div class="card-desc">越野跑备赛 · Blue Mountains</div>
+          <span class="card-tag">May 15</span>
+        </a>
+
+        <a href="exercise-library.html" class="card cat-training card-wide">
+          <div class="card-icon">📚</div>
+          <div class="card-body">
+            <div class="card-title">动作库</div>
+            <div class="card-desc">浏览动作详解 · 自定义训练</div>
+          </div>
+        </a>
       </div>
-      <a href="fitness-tracker.html" class="card">
-        <div class="icon tracking">✅</div>
-        <div class="body">
-          <div class="title">健身打卡</div>
-          <div class="desc">记录每次训练 · 追踪组数、重量与进度</div>
-        </div>
-        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-      </a>
-      <a href="uta22-training.html" class="card">
-        <div class="icon training">🏔️</div>
-        <div class="body">
-          <div class="title">UTA22 Training</div>
-          <div class="desc">越野跑备赛 · 22km · Blue Mountains · 8 周计划</div>
-        </div>
-        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-      </a>
-      <a href="exercise-library.html" class="card">
-        <div class="icon planning">📚</div>
-        <div class="body">
-          <div class="title">动作库</div>
-          <div class="desc">浏览动作详解 · 自定义训练模板</div>
-        </div>
-        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-      </a>
     </section>
-    <section class="section">
-      <div class="section-head">
-        <span class="section-title">Recover</span>
-        <span class="section-hint">拉伸 · 计划 · 补给</span>
+
+    <!-- ========== 4. RECOVER ========== -->
+    <section class="block">
+      <div class="block-label"><span>Recover · 恢复</span><span>Longevity</span></div>
+
+      <div class="grid">
+        <a href="stretching.html" class="card cat-recovery">
+          <div class="card-icon">🧘</div>
+          <div class="card-title">拉伸指南</div>
+          <div class="card-desc">跑后 &amp; 重训后 · 静态拉伸全套</div>
+          <span class="card-tag">Mobility</span>
+        </a>
+
+        <a href="fitness-plan-illustrated.html" class="card cat-planning">
+          <div class="card-icon">📖</div>
+          <div class="card-title">训练计划</div>
+          <div class="card-desc">完整周期计划 · 示范视频</div>
+          <span class="card-tag">Plan</span>
+        </a>
+
+        <a href="home-inventory.html#supplements" class="card cat-recovery card-wide">
+          <div class="card-icon">⚡</div>
+          <div class="card-body">
+            <div class="card-title">运动补给</div>
+            <div class="card-desc">能量胶 · 盐丸 · 电解质 · 蛋白粉</div>
+          </div>
+        </a>
       </div>
-      <a href="stretching.html" class="card">
-        <div class="icon recovery">🧘</div>
-        <div class="body">
-          <div class="title">拉伸指南</div>
-          <div class="desc">跑后 & 重训后 · 静态拉伸全套流程</div>
-        </div>
-        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-      </a>
-      <a href="fitness-plan-illustrated.html" class="card">
-        <div class="icon planning">📖</div>
-        <div class="body">
-          <div class="title">训练计划</div>
-          <div class="desc">完整周期计划 · 示范视频与结构说明</div>
-        </div>
-        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-      </a>
-      <a href="home-inventory.html#supplements" class="card">
-        <div class="icon training">⚡</div>
-        <div class="body">
-          <div class="title">运动补给</div>
-          <div class="desc">能量胶、盐丸、电解质、蛋白粉库存</div>
-        </div>
-        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-      </a>
     </section>
-    <section class="section">
-      <div class="section-head">
-        <span class="section-title">Life</span>
-        <span class="section-hint">家庭 · 饮食</span>
+
+    <!-- ========== 5. LIFE ========== -->
+    <section class="block">
+      <div class="block-label"><span>Life · 生活</span><span>Home</span></div>
+
+      <div class="grid">
+        <a href="home-inventory.html" class="card cat-util-blue card-wide">
+          <div class="card-icon">🏠</div>
+          <div class="card-body">
+            <div class="card-title">家庭库存中心</div>
+            <div class="card-desc">日用品 · 食材 · 衣物 · 电子产品</div>
+          </div>
+        </a>
+
+        <a href="olivia-food-picker/index.html" class="card cat-food">
+          <div class="card-icon">🎲</div>
+          <div class="card-title">Olivia 今天吃什么</div>
+          <div class="card-desc">随机选择今天的菜品</div>
+          <span class="card-tag">Random</span>
+        </a>
+
+        <button type="button" class="card cat-util-pink" onclick="showMealIdeas()">
+          <div class="card-icon">🍳</div>
+          <div class="card-title">Oli 今天吃什么？</div>
+          <div class="card-desc">按库存推荐 · 亚甲炎友好</div>
+          <span class="card-tag">Smart pick</span>
+        </button>
       </div>
-      <a href="home-inventory.html" class="card">
-        <div class="icon utility">🏠</div>
-        <div class="body">
-          <div class="title">家庭库存中心</div>
-          <div class="desc">日用品、食材、衣物、电子产品清单</div>
-        </div>
-        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-      </a>
-      <a href="olivia-food-picker/index.html" class="card">
-        <div class="icon food">🎲</div>
-        <div class="body">
-          <div class="title">Olivia 今天吃什么</div>
-          <div class="desc">随机选择今天的菜品 · 快速决定</div>
-        </div>
-        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-      </a>
-      <button type="button" class="card" onclick="showMealIdeas()" style="cursor:pointer; text-align:left; font: inherit; width: 100%;">
-        <div class="icon pink">🍳</div>
-        <div class="body">
-          <div class="title">Oli 今天吃什么？</div>
-          <div class="desc">根据库存食材推荐菜式 · 亚甲炎友好</div>
-        </div>
-        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-      </button>
     </section>
+
+    <!-- ========== 6. FOOTER ========== -->
     <footer class="footer">
-      <div class="brand-line">Virgin Active · TechnoGym + Eleiko</div>
-      <div class="version">Dong Health · v2.0 · 2026</div>
+      <div>Dong Health<span class="foot-dot"></span>Personal training hub</div>
+      <div class="version">v2.0 · 2026-02-12</div>
     </footer>
-  </div>
-  <div id="mealModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="mealModalTitle">
-    <div class="modal">
+
+  </main>
+
+  <!-- Meal Ideas Modal -->
+  <div id="mealModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="mealModalTitle">
+    <div class="modal-card">
       <div class="modal-head">
-        <h2 class="modal-title" id="mealModalTitle">🍳 今天吃什么？</h2>
-        <button class="modal-close" onclick="closeMealModal()" aria-label="关闭">✕</button>
+        <div class="modal-title" id="mealModalTitle">🍳 今天吃什么？</div>
+        <button class="modal-close" onclick="closeMealIdeas()" aria-label="关闭">✕</button>
       </div>
-      <p class="modal-sub">根据库存食材推荐 · 适合亚甲炎康复饮食</p>
+      <p class="modal-sub">根据库存食材 · 适合亚甲炎康复饮食</p>
       <div id="mealIdeas"></div>
-      <button class="refresh-btn" onclick="showMealIdeas()">🔄 换一批</button>
+      <button class="modal-refresh" onclick="showMealIdeas()">🔄 换一批</button>
     </div>
   </div>
+
   <script>
-    (function(){
-      const d = new Date();
-      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-      const weekdays = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-      document.getElementById('heroDate').textContent = `${weekdays[d.getDay()]} · ${d.getDate()} ${months[d.getMonth()]}`;
-    })();
-    (function(){
+    // ========== Time-based greeting ==========
+    (function() {
       const hour = new Date().getHours();
-      const el = document.getElementById('greetingText');
-      const hint = document.getElementById('todayHint');
-      let text, hintText;
-      if (hour < 6) { text = '夜猫子冬哥'; hintText = '夜深了，轻度恢复'; }
-      else if (hour < 12) { text = '早上好，冬哥'; hintText = '晨间激活窗口'; }
-      else if (hour < 18) { text = '下午好，冬哥'; hintText = '稳态输出窗口'; }
-      else { text = '晚上好，冬哥'; hintText = '恢复与睡眠优先'; }
+      const el = document.getElementById('greeting');
+      let text;
+      if (hour < 6)       text = '🌙 夜猫子冬哥';
+      else if (hour < 12) text = '☀️ 早上好，冬哥';
+      else if (hour < 18) text = '🌤️ 下午好，冬哥';
+      else                text = '🌙 晚上好，冬哥';
       el.textContent = text;
-      hint.textContent = hintText;
     })();
-    (function(){
+
+    // ========== Today's date label ==========
+    (function() {
+      const d = new Date();
+      const weekdays = ['周日','周一','周二','周三','周四','周五','周六'];
+      const label = `${d.getMonth()+1}月${d.getDate()}日 · ${weekdays[d.getDay()]}`;
+      document.getElementById('todayDate').textContent = label;
+    })();
+
+    // ========== UTA22 countdown (May 15, 2026) ==========
+    (function() {
+      const race = new Date('2026-05-15T00:00:00');
+      const today = new Date();
+      today.setHours(0,0,0,0);
+      const days = Math.max(-1, Math.round((race - today) / 86400000));
+      const el = document.getElementById('raceCountdown');
+      if (days > 0)       el.textContent = `🏔️ UTA22 · D-${days}`;
+      else if (days === 0) el.textContent = '🏔️ UTA22 · Race day';
+      else                 el.textContent = '🏔️ UTA22 · Done';
+    })();
+
+    // ========== Random motivation ==========
+    (function() {
       const motivations = [
         '每一次训练都是对自己的投资 💪',
         '坚持比完美更重要',
@@ -789,20 +785,26 @@
         '累了就休息，但别放弃',
         '每天进步一点点'
       ];
-      document.getElementById('motivation').textContent = motivations[Math.floor(Math.random() * motivations.length)];
+      document.getElementById('motivation').textContent =
+        motivations[Math.floor(Math.random() * motivations.length)];
     })();
-    (function(){
-      const race = new Date(2026, 4, 15);
-      const today = new Date();
-      today.setHours(0,0,0,0);
-      const diff = Math.ceil((race - today) / (1000 * 60 * 60 * 24));
-      const el = document.getElementById('raceCountdown');
-      if (diff > 0) el.innerHTML = diff + '<span class="unit">天</span>';
-      else if (diff === 0) el.innerHTML = '<span style="color:var(--green)">今天</span>';
-      else el.innerHTML = '已完赛';
+
+    // ========== Today's focus (light heuristic by weekday) ==========
+    (function() {
+      const focusByDay = {
+        0: '主动恢复',
+        1: 'Push · 上肢推',
+        2: 'Pull · 上肢拉',
+        3: 'Legs · 下肢',
+        4: 'Trail · 越野跑',
+        5: 'Full · 全身',
+        6: 'Long run · 长距离'
+      };
+      const el = document.getElementById('todayFocus');
+      if (el) el.textContent = focusByDay[new Date().getDay()];
     })();
-    function closeMealModal(){ document.getElementById('mealModal').classList.remove('open'); }
-    document.getElementById('mealModal').addEventListener('click', function(e){ if (e.target === this) closeMealModal(); });
+
+    // ========== Oli 今天吃什么 ==========
     const mealRecipes = [
       { name: '清蒸三文鱼配柠檬', ingredients: ['三文鱼','柠檬'], tags: ['抗炎','高蛋白'], emoji: '🐟' },
       { name: '蒜蓉西兰花炒鸡胸', ingredients: ['鸡胸肉','西兰花','蒜'], tags: ['高蛋白','抗炎'], emoji: '🥦' },
@@ -823,6 +825,7 @@
       { name: '小米粥 + 蒸蛋羹', ingredients: ['小米','鸡蛋'], tags: ['易消化','温和'], emoji: '🥣' },
       { name: '燕麦粥 + 蓝莓蜂蜜', ingredients: ['燕麦','蓝莓','蜂蜜'], tags: ['抗炎','早餐'], emoji: '🫐' },
     ];
+
     function showMealIdeas() {
       let inventoryFood = [];
       try {
@@ -830,25 +833,43 @@
         const foodItems = inv.food || [];
         inventoryFood = foodItems.filter(i => i.qty > 0).map(i => i.name.toLowerCase());
       } catch(e) {}
+
       const scored = mealRecipes.map(r => {
-        const matchCount = r.ingredients.filter(ing => inventoryFood.some(f => f.includes(ing) || ing.includes(f))).length;
+        const matchCount = r.ingredients.filter(ing =>
+          inventoryFood.some(f => f.includes(ing) || ing.includes(f))
+        ).length;
         return { ...r, score: matchCount, random: Math.random() };
       });
       scored.sort((a, b) => b.score - a.score || a.random - b.random);
       const picks = scored.slice(0, 5);
+
       const container = document.getElementById('mealIdeas');
       container.innerHTML = picks.map(r => `
         <div class="meal">
           <div class="meal-name">${r.emoji} ${r.name}</div>
-          <div class="meal-ingredients">食材: ${r.ingredients.join('、')}</div>
-          <div class="tag-row">
-            ${r.tags.map(t => `<span class="tag tag-default">${t}</span>`).join('')}
-            ${r.score > 0 ? `<span class="tag tag-stock">✅ 有库存</span>` : ''}
+          <div class="meal-ing">食材: ${r.ingredients.join('、')}</div>
+          <div class="meal-tags">
+            ${r.tags.map(t => `<span class="meal-tag">${t}</span>`).join('')}
+            ${r.score > 0 ? `<span class="meal-tag has">✅ 有库存</span>` : ''}
           </div>
         </div>
       `).join('');
+
       document.getElementById('mealModal').classList.add('open');
     }
+
+    function closeMealIdeas() {
+      document.getElementById('mealModal').classList.remove('open');
+    }
+
+    // Close modal on backdrop click
+    document.getElementById('mealModal').addEventListener('click', (e) => {
+      if (e.target.id === 'mealModal') closeMealIdeas();
+    });
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeMealIdeas();
+    });
   </script>
 </body>
 </html>
