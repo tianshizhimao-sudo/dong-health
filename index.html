@@ -5,57 +5,64 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#07080c">
-  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2334e0a1'/%3E%3Cstop offset='100%25' style='stop-color:%23a67bff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='22' fill='%2307080c'/%3E%3Cpath d='M18 52 L34 52 L40 38 L48 66 L56 44 L62 52 L82 52' fill='none' stroke='url(%23g)' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
-  <title>冬哥训练中心 · Dong Health</title>
+  <meta name="theme-color" content="#07090c">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2334e0a1'/%3E%3Cstop offset='100%25' style='stop-color:%23a78bfa'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='38' fill='none' stroke='url(%23g)' stroke-width='8' stroke-linecap='round' stroke-dasharray='210 30' transform='rotate(-90 50 50)'/%3E%3Ccircle cx='50' cy='50' r='6' fill='url(%23g)'/%3E%3C/svg%3E">
+  <title>Dong Health · 训练中心</title>
   <style>
     :root {
-      --bg: #0c1220;
-      --bg-elev: #151d2f;
-      --ink: #f5f7ff;
-      --ink-dim: #b6bfd4;
-      --ink-mute: #8f9ab2;
-      --hairline: rgba(255,255,255,0.12);
-      --hairline-strong: rgba(255,255,255,0.2);
-      --green: #34e0a1;
-      --green-deep: #1dbf83;
-      --purple: #a67bff;
-      --purple-deep: #7c4dff;
-      --c-training-a: #34e0a1;
-      --c-training-b: #1dbf83;
-      --c-tracking-a: #5eead4;
-      --c-tracking-b: #14b8a6;
-      --c-planning-a: #c4a8ff;
-      --c-planning-b: #8b5cf6;
-      --c-recovery-a: #7dd3fc;
-      --c-recovery-b: #0ea5e9;
-      --c-food-a: #fcd34d;
-      --c-food-b: #f59e0b;
-      --c-utility-a: #93c5fd;
-      --c-utility-b: #3b82f6;
-      --c-pink-a: #f9a8d4;
-      --c-pink-b: #ec4899;
-      --r-lg: 28px;
-      --r-md: 22px;
-      --r-sm: 16px;
-      --r-xs: 12px;
-      --shadow-card: 0 1px 0 rgba(255,255,255,0.04) inset, 0 20px 40px -20px rgba(0,0,0,0.6);
-      --shadow-feature: 0 1px 0 rgba(255,255,255,0.06) inset, 0 30px 60px -24px rgba(52,224,161,0.25);
+      --bg-0: #05070a;
+      --bg-1: #0a0d12;
+      --surface: rgba(20, 24, 32, 0.72);
+      --surface-hi: rgba(28, 34, 44, 0.82);
+      --border: rgba(255, 255, 255, 0.08);
+      --border-hi: rgba(255, 255, 255, 0.14);
+
+      --text: #eef1f4;
+      --text-dim: #b6bcc6;
+      --muted: #7a828e;
+
+      --brand-green: #34e0a1;
+      --brand-green-deep: #17a678;
+      --brand-purple: #a78bfa;
+      --brand-purple-deep: #7c5cf0;
+
+      --c-training: #34e0a1;
+      --c-training-2: #14b872;
+      --c-tracking: #10b981;
+      --c-tracking-2: #059669;
+      --c-planning: #a78bfa;
+      --c-planning-2: #7c5cf0;
+      --c-recovery: #2dd4bf;
+      --c-recovery-2: #14b8a6;
+      --c-food: #fbbf24;
+      --c-food-2: #f59e0b;
+      --c-util-blue: #60a5fa;
+      --c-util-blue-2: #3b82f6;
+      --c-util-pink: #f472b6;
+      --c-util-pink-2: #ec4899;
+
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Segoe UI", system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'PingFang SC', 'Segoe UI', sans-serif;
+      background: var(--bg-0);
+      color: var(--text);
       min-height: 100vh;
       min-height: 100dvh;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
-      font-feature-settings: "ss01", "cv11";
       overflow-x: hidden;
       position: relative;
+      line-height: 1.45;
     }
+
     body::before,
     body::after {
       content: "";
@@ -63,720 +70,774 @@
       pointer-events: none;
       z-index: 0;
       border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.5;
+      filter: blur(90px);
+      opacity: 0.55;
     }
     body::before {
-      top: -180px;
-      left: -120px;
+      top: -160px;
+      right: -120px;
       width: 420px;
       height: 420px;
-      background: radial-gradient(closest-side, rgba(52,224,161,0.45), rgba(52,224,161,0));
+      background: radial-gradient(circle, rgba(52, 224, 161, 0.55), transparent 60%);
     }
     body::after {
-      bottom: -200px;
-      right: -140px;
+      bottom: -180px;
+      left: -140px;
       width: 460px;
       height: 460px;
-      background: radial-gradient(closest-side, rgba(166,123,255,0.38), rgba(166,123,255,0));
+      background: radial-gradient(circle, rgba(124, 92, 240, 0.45), transparent 65%);
     }
-    .app {
+
+    .shell {
       position: relative;
       z-index: 1;
       max-width: 440px;
       margin: 0 auto;
-      padding: calc(env(safe-area-inset-top, 0px) + 20px) 20px calc(env(safe-area-inset-bottom, 0px) + 40px);
+      padding: max(env(safe-area-inset-top), 20px) 18px calc(env(safe-area-inset-bottom, 0px) + 36px);
       display: flex;
       flex-direction: column;
-      gap: 28px;
+      gap: 22px;
     }
+
+    /* ============ HERO ============ */
     .hero {
       position: relative;
-      border-radius: var(--r-lg);
-      padding: 22px 22px 24px;
+      padding: 22px 22px 26px;
+      border-radius: var(--radius-xl);
       background:
-        linear-gradient(180deg, rgba(52,224,161,0.08) 0%, rgba(166,123,255,0.05) 55%, rgba(13,15,21,0.9) 100%),
-        rgba(13,15,21,0.8);
-      border: 1px solid var(--hairline-strong);
-      backdrop-filter: blur(20px) saturate(140%);
-      -webkit-backdrop-filter: blur(20px) saturate(140%);
+        radial-gradient(120% 100% at 100% 0%, rgba(52, 224, 161, 0.18), transparent 55%),
+        radial-gradient(120% 100% at 0% 100%, rgba(167, 139, 250, 0.18), transparent 55%),
+        linear-gradient(180deg, rgba(24, 28, 36, 0.9), rgba(14, 17, 22, 0.9));
+      border: 1px solid var(--border-hi);
       overflow: hidden;
-      animation: fadeUp 0.6s ease-out;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      animation: fadeUp .5s ease both;
     }
-    .hero::before {
+    .hero::after {
       content: "";
       position: absolute;
       inset: 0;
-      background: radial-gradient(120% 80% at 0% 0%, rgba(52,224,161,0.14), transparent 55%);
+      background: radial-gradient(80% 60% at 90% 10%, rgba(52, 224, 161, 0.12), transparent 70%);
       pointer-events: none;
     }
+
     .hero-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 22px;
-      position: relative;
+      margin-bottom: 20px;
     }
-    .logo-lockup {
-      display: flex;
+
+    .brand {
+      display: inline-flex;
       align-items: center;
       gap: 10px;
     }
-    .logo-mark {
-      width: 36px;
-      height: 36px;
-      flex-shrink: 0;
-    }
-    .logo-text {
-      display: flex;
-      flex-direction: column;
-      line-height: 1;
-    }
-    .logo-text .word {
-      font-size: 16px;
-      font-weight: 700;
+    .brand svg { display: block; }
+    .brand-name {
+      font-size: 15px;
       letter-spacing: 0.02em;
-      color: var(--ink);
-    }
-    .logo-text .sub {
-      font-size: 9px;
       font-weight: 600;
-      letter-spacing: 0.28em;
-      color: var(--ink-mute);
-      margin-top: 3px;
-      text-transform: uppercase;
+      color: var(--text);
     }
+    .brand-name .slash {
+      opacity: 0.35;
+      margin: 0 6px;
+      font-weight: 300;
+    }
+    .brand-name .sub {
+      font-weight: 400;
+      color: var(--text-dim);
+    }
+
     .hero-date {
       font-size: 11px;
-      color: var(--ink-mute);
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
       font-variant-numeric: tabular-nums;
-      letter-spacing: 0.04em;
     }
+
     .greeting {
-      font-size: 13px;
-      color: var(--green);
-      font-weight: 600;
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      position: relative;
-    }
-    .greeting-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--green);
-      box-shadow: 0 0 10px var(--green);
-      animation: pulse 2s ease-in-out infinite;
-    }
-    h1.hero-title {
-      font-size: 30px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      line-height: 1.1;
-      margin-bottom: 10px;
-      position: relative;
-    }
-    .hero-sub {
-      font-size: 13px;
-      color: var(--ink-dim);
-      line-height: 1.55;
-      margin-bottom: 16px;
-      position: relative;
-    }
-    .motivation {
-      font-size: 12px;
-      color: var(--ink-mute);
-      font-style: italic;
-      margin-bottom: 18px;
-      position: relative;
-      min-height: 16px;
-    }
-    .pills {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      position: relative;
-    }
-    .pill {
-      font-size: 11px;
-      font-weight: 600;
-      padding: 6px 11px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--hairline-strong);
-      color: var(--ink-dim);
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      letter-spacing: 0.02em;
+      font-size: 13px;
+      color: var(--brand-green);
+      font-weight: 500;
+      margin-bottom: 10px;
+      letter-spacing: 0.01em;
     }
-    .pill.green { color: var(--green); border-color: rgba(52,224,161,0.28); background: rgba(52,224,161,0.09); }
-    .pill.purple { color: var(--purple); border-color: rgba(166,123,255,0.28); background: rgba(166,123,255,0.09); }
+
+    .hero h1 {
+      font-size: 30px;
+      line-height: 1.15;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 10px;
+      background: linear-gradient(180deg, #ffffff, #b6bcc6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero .lede {
+      font-size: 14px;
+      color: var(--text-dim);
+      margin-bottom: 18px;
+      max-width: 32ch;
+    }
+    .hero .motivation {
+      display: block;
+      font-size: 12.5px;
+      color: var(--muted);
+      font-style: italic;
+      margin-bottom: 18px;
+      min-height: 16px;
+    }
+
+    .pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 11px;
+      font-size: 11.5px;
+      font-weight: 500;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      letter-spacing: 0.01em;
+    }
+    .pill .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--brand-green);
+      box-shadow: 0 0 8px var(--brand-green);
+    }
+    .pill.purple .dot { background: var(--brand-purple); box-shadow: 0 0 8px var(--brand-purple); }
+    .pill.amber .dot { background: var(--c-food); box-shadow: 0 0 8px var(--c-food); }
+
+    /* ============ Sections ============ */
     .section {
       display: flex;
       flex-direction: column;
       gap: 12px;
-      animation: fadeUp 0.6s ease-out backwards;
+      animation: fadeUp .55s ease both;
     }
-    .section:nth-of-type(2) { animation-delay: 0.05s; }
-    .section:nth-of-type(3) { animation-delay: 0.1s; }
-    .section:nth-of-type(4) { animation-delay: 0.15s; }
-    .section:nth-of-type(5) { animation-delay: 0.2s; }
+    .section:nth-of-type(2) { animation-delay: .05s; }
+    .section:nth-of-type(3) { animation-delay: .1s; }
+    .section:nth-of-type(4) { animation-delay: .15s; }
+    .section:nth-of-type(5) { animation-delay: .2s; }
+
     .section-head {
       display: flex;
-      align-items: baseline;
+      align-items: center;
       justify-content: space-between;
       padding: 0 4px;
-      margin-bottom: -2px;
     }
     .section-title {
-      font-size: 12px;
-      font-weight: 700;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
       letter-spacing: 0.18em;
-      color: var(--ink-mute);
       text-transform: uppercase;
     }
-    .section-hint {
+    .section-meta {
       font-size: 11px;
-      color: var(--ink-mute);
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
     }
-    .card {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 16px;
-      background: rgba(13,15,21,0.7);
-      border: 1px solid var(--hairline);
-      border-radius: var(--r-md);
+
+    /* ============ Feature card (今日训练) ============ */
+    .feature {
+      position: relative;
+      display: block;
+      padding: 22px;
+      border-radius: var(--radius-lg);
       text-decoration: none;
-      color: var(--ink);
-      position: relative;
+      color: var(--text);
+      background:
+        radial-gradient(120% 140% at 100% 0%, rgba(52, 224, 161, 0.22), transparent 55%),
+        linear-gradient(160deg, rgba(23, 46, 38, 0.85), rgba(14, 17, 22, 0.9));
+      border: 1px solid rgba(52, 224, 161, 0.25);
       overflow: hidden;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
-      box-shadow: var(--shadow-card);
+      transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
     }
-    .card:hover {
-      transform: translateY(-2px);
-      border-color: var(--hairline-strong);
-      background: rgba(17,20,28,0.85);
-    }
-    .card:active {
-      transform: scale(0.985);
-    }
-    @media (hover: none) {
-      .card:hover { transform: none; border-color: var(--hairline); background: rgba(13,15,21,0.7); }
-    }
-    .icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      flex-shrink: 0;
-      position: relative;
-    }
-    .icon::after {
+    .feature::after {
       content: "";
       position: absolute;
-      inset: 0;
+      inset: -1px;
       border-radius: inherit;
-      border: 1px solid rgba(255,255,255,0.12);
       pointer-events: none;
-    }
-    .icon.training { background: linear-gradient(135deg, var(--c-training-a), var(--c-training-b)); color: #07241b; }
-    .icon.tracking { background: linear-gradient(135deg, var(--c-tracking-a), var(--c-tracking-b)); color: #042c2a; }
-    .icon.planning { background: linear-gradient(135deg, var(--c-planning-a), var(--c-planning-b)); color: #1e1140; }
-    .icon.recovery { background: linear-gradient(135deg, var(--c-recovery-a), var(--c-recovery-b)); color: #04283c; }
-    .icon.food { background: linear-gradient(135deg, var(--c-food-a), var(--c-food-b)); color: #3a1d00; }
-    .icon.utility { background: linear-gradient(135deg, var(--c-utility-a), var(--c-utility-b)); color: #0a1e3b; }
-    .icon.pink { background: linear-gradient(135deg, var(--c-pink-a), var(--c-pink-b)); color: #3a0a20; }
-    .body { flex: 1; min-width: 0; }
-    .title {
-      font-size: 15px;
-      font-weight: 600;
-      letter-spacing: -0.005em;
-      margin-bottom: 3px;
-      color: var(--ink);
-    }
-    .desc {
-      font-size: 12px;
-      color: var(--ink-dim);
-      line-height: 1.4;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .chev {
-      color: var(--ink-mute);
-      flex-shrink: 0;
-      opacity: 0.5;
-      transition: transform 0.18s ease, opacity 0.18s ease;
-    }
-    .card:hover .chev { opacity: 1; transform: translateX(2px); }
-    .feature {
-      display: block;
-      padding: 0;
-      border-radius: var(--r-lg);
-      text-decoration: none;
-      color: var(--ink);
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(52,224,161,0.25);
-      background:
-        radial-gradient(120% 80% at 100% 0%, rgba(166,123,255,0.22), transparent 50%),
-        radial-gradient(120% 100% at 0% 100%, rgba(52,224,161,0.28), transparent 55%),
-        linear-gradient(180deg, rgba(18,26,22,0.95), rgba(11,14,20,0.95));
-      box-shadow: var(--shadow-feature);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      background: linear-gradient(135deg, rgba(52, 224, 161, 0.3), transparent 40%);
+      mix-blend-mode: overlay;
+      opacity: 0.6;
     }
     .feature:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 1px 0 rgba(255,255,255,0.08) inset, 0 34px 70px -24px rgba(52,224,161,0.35);
+      transform: translateY(-2px);
+      border-color: rgba(52, 224, 161, 0.5);
+      box-shadow: 0 20px 40px -20px rgba(52, 224, 161, 0.3);
     }
-    .feature:active { transform: scale(0.99); }
-    @media (hover: none) {
-      .feature:hover { transform: none; }
-    }
-    .feature-inner {
-      padding: 22px;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      grid-template-rows: auto auto auto;
-      gap: 6px 16px;
-      align-items: start;
-    }
-    .feature-tag {
-      grid-column: 1 / 2;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.24em;
-      color: var(--green);
-      text-transform: uppercase;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 2px;
-    }
-    .feature-tag::before {
-      content: "";
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--green);
-      box-shadow: 0 0 8px var(--green);
-    }
-    .feature-title {
-      grid-column: 1 / 2;
-      font-size: 26px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      line-height: 1.15;
-    }
-    .feature-desc {
-      grid-column: 1 / 2;
-      font-size: 13px;
-      color: var(--ink-dim);
-      line-height: 1.5;
-      margin-top: 2px;
-    }
-    .feature-arrow {
-      grid-column: 2 / 3;
-      grid-row: 1 / 4;
-      align-self: center;
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--green), var(--green-deep));
+    .feature:active { transform: scale(0.985); }
+
+    .feature-top {
       display: flex;
       align-items: center;
-      justify-content: center;
-      color: #07241b;
-      box-shadow: 0 10px 24px -6px rgba(52,224,161,0.55);
+      justify-content: space-between;
+      margin-bottom: 18px;
     }
-    .feature-stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      border-top: 1px solid var(--hairline);
-    }
-    .stat {
-      padding: 14px 12px;
-      text-align: center;
-      position: relative;
-    }
-    .stat + .stat::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 18%;
-      bottom: 18%;
-      width: 1px;
-      background: var(--hairline);
-    }
-    .stat-label {
-      font-size: 10px;
-      color: var(--ink-mute);
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      margin-bottom: 4px;
-    }
-    .stat-value {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--ink);
-      font-variant-numeric: tabular-nums;
-      letter-spacing: -0.01em;
-    }
-    .stat-value .unit {
-      font-size: 11px;
-      font-weight: 500;
-      color: var(--ink-mute);
-      margin-left: 2px;
-    }
-    .footer {
-      text-align: center;
-      padding: 8px 0 0;
-      font-size: 11px;
-      color: var(--ink-mute);
-      line-height: 1.8;
-      animation: fadeUp 0.6s ease-out 0.25s backwards;
-    }
-    .footer .brand-line {
+    .feature-kicker {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--hairline);
-      margin-bottom: 8px;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--brand-green);
+      font-weight: 600;
     }
-    .footer .brand-line::before {
-      content: "";
-      width: 4px;
-      height: 4px;
+    .feature-kicker .kdot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--brand-green);
+      box-shadow: 0 0 10px var(--brand-green);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    .feature-arrow {
+      width: 36px; height: 36px;
+      display: grid; place-items: center;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--green), var(--purple));
+      background: linear-gradient(135deg, var(--brand-green), var(--brand-green-deep));
+      color: #062018;
+      font-size: 18px;
+      font-weight: 700;
+      transition: transform .25s ease;
     }
-    .version { opacity: 0.7; }
-    .modal-backdrop {
-      display: none;
+    .feature:hover .feature-arrow { transform: translateX(3px); }
+
+    .feature-title {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 6px;
+      color: #ffffff;
+    }
+    .feature-desc {
+      font-size: 13.5px;
+      color: var(--text-dim);
+      margin-bottom: 16px;
+    }
+
+    .feature-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .stat {
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+    }
+    .stat-label {
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+    .stat-value {
+      font-size: 14px;
+      color: var(--text);
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ============ Grid cards ============ */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .grid.stack { grid-template-columns: 1fr; }
+
+    .card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px;
+      min-height: 138px;
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      text-decoration: none;
+      color: var(--text);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      overflow: hidden;
+      transition: transform .22s ease, border-color .22s ease, background .22s ease;
+      cursor: pointer;
+      text-align: left;
+      font-family: inherit;
+    }
+    button.card { width: 100%; }
+    .card:hover {
+      transform: translateY(-2px);
+      background: var(--surface-hi);
+      border-color: var(--border-hi);
+    }
+    .card:active { transform: scale(0.985); }
+    @media (hover: none) {
+      .card:hover, .feature:hover {
+        transform: none;
+        box-shadow: none;
+      }
+    }
+
+    .card.wide {
+      grid-column: 1 / -1;
+      flex-direction: row;
+      align-items: center;
+      min-height: auto;
+      padding: 16px 18px;
+    }
+    .card.wide .card-body { flex: 1; }
+
+    .card-glyph {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      color: #04120d;
+      background: linear-gradient(135deg, var(--g1, var(--brand-green)), var(--g2, var(--brand-green-deep)));
+      box-shadow: 0 8px 24px -12px var(--g1, var(--brand-green));
+      flex-shrink: 0;
+      font-weight: 700;
+    }
+    .card-body { display: flex; flex-direction: column; gap: 4px; }
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: 0;
+      line-height: 1.25;
+    }
+    .card-desc {
+      font-size: 11.5px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    .card-tag {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .card[data-cat="training"]  { background: radial-gradient(120% 120% at 100% 0%, rgba(52,224,161,0.10), transparent 55%), var(--surface); }
+    .card[data-cat="tracking"]  { background: radial-gradient(120% 120% at 100% 0%, rgba(16,185,129,0.10), transparent 55%), var(--surface); }
+    .card[data-cat="planning"]  { background: radial-gradient(120% 120% at 100% 0%, rgba(167,139,250,0.10), transparent 55%), var(--surface); }
+    .card[data-cat="recovery"]  { background: radial-gradient(120% 120% at 100% 0%, rgba(45,212,191,0.10), transparent 55%), var(--surface); }
+    .card[data-cat="food"]      { background: radial-gradient(120% 120% at 100% 0%, rgba(251,191,36,0.10), transparent 55%), var(--surface); }
+    .card[data-cat="util-blue"] { background: radial-gradient(120% 120% at 100% 0%, rgba(96,165,250,0.10), transparent 55%), var(--surface); }
+    .card[data-cat="util-pink"] { background: radial-gradient(120% 120% at 100% 0%, rgba(244,114,182,0.10), transparent 55%), var(--surface); }
+
+    /* ============ Footer ============ */
+    .foot {
+      text-align: center;
+      padding: 8px 6px 4px;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+    }
+    .foot .divider {
+      display: block;
+      width: 40px;
+      height: 1px;
+      margin: 0 auto 12px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    }
+    .foot .brand-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: var(--text-dim);
+    }
+    .foot .venue { color: var(--text-dim); }
+    .foot .version { display: block; margin-top: 6px; font-size: 10px; color: rgba(255,255,255,0.2); font-variant-numeric: tabular-nums; }
+
+    /* ============ Modal ============ */
+    .modal {
       position: fixed;
       inset: 0;
-      background: rgba(3,4,8,0.78);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      background: rgba(3, 5, 8, 0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       z-index: 999;
-      padding: 20px;
+      padding: max(env(safe-area-inset-top), 20px) 18px max(env(safe-area-inset-bottom), 20px);
       overflow-y: auto;
-      animation: fadeIn 0.2s ease-out;
+      display: none;
+      animation: fadeIn .2s ease;
     }
-    .modal-backdrop.open { display: block; }
-    .modal {
+    .modal.open { display: block; }
+    .modal-panel {
       max-width: 440px;
-      margin: 40px auto;
-      background: linear-gradient(180deg, rgba(20,14,22,0.96), rgba(11,11,16,0.96));
-      border-radius: var(--r-lg);
+      margin: 20px auto;
+      background: linear-gradient(180deg, rgba(24,28,36,0.95), rgba(14,17,22,0.95));
+      border-radius: var(--radius-lg);
       padding: 22px;
-      border: 1px solid var(--hairline-strong);
-      box-shadow: 0 40px 80px -20px rgba(236,72,153,0.25);
+      border: 1px solid var(--border-hi);
+      animation: fadeUp .3s ease;
     }
     .modal-head {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       margin-bottom: 6px;
     }
-    .modal-title {
+    .modal-head h2 {
       font-size: 18px;
       font-weight: 700;
       letter-spacing: -0.01em;
     }
     .modal-close {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--hairline-strong);
-      color: var(--ink-dim);
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      cursor: pointer;
+      width: 32px; height: 32px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      color: var(--text);
       font-size: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.15s;
+      cursor: pointer;
+      display: grid; place-items: center;
+      transition: background .2s;
     }
-    .modal-close:hover { background: rgba(255,255,255,0.1); color: var(--ink); }
+    .modal-close:hover { background: rgba(255,255,255,0.1); }
     .modal-sub {
       font-size: 12px;
-      color: var(--ink-mute);
+      color: var(--muted);
       margin-bottom: 16px;
     }
-    .meal {
+    .meal-card {
       background: rgba(255,255,255,0.03);
-      border-radius: var(--r-sm);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
       padding: 14px;
       margin-bottom: 10px;
-      border: 1px solid var(--hairline);
     }
     .meal-name {
       font-size: 15px;
       font-weight: 600;
       margin-bottom: 6px;
+      color: var(--text);
     }
-    .meal-ingredients {
+    .meal-ingr {
       font-size: 12px;
-      color: var(--ink-dim);
+      color: var(--muted);
       margin-bottom: 8px;
     }
-    .tag-row { display: flex; gap: 6px; flex-wrap: wrap; }
-    .tag {
+    .meal-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .meal-tag {
       font-size: 10px;
-      font-weight: 600;
       padding: 3px 9px;
       border-radius: 999px;
+      background: rgba(52,224,161,0.12);
+      color: var(--brand-green);
+      border: 1px solid rgba(52,224,161,0.2);
       letter-spacing: 0.02em;
     }
-    .tag-default {
-      background: rgba(52,224,161,0.12);
-      color: var(--green);
-      border: 1px solid rgba(52,224,161,0.2);
+    .meal-tag.in-stock {
+      background: rgba(251,191,36,0.12);
+      color: var(--c-food);
+      border-color: rgba(251,191,36,0.2);
     }
-    .tag-stock {
-      background: rgba(252,211,77,0.12);
-      color: var(--c-food-a);
-      border: 1px solid rgba(252,211,77,0.22);
-    }
-    .refresh-btn {
+    .modal-cta {
       width: 100%;
       margin-top: 14px;
       padding: 13px;
-      background: linear-gradient(135deg, var(--c-pink-a), var(--c-pink-b));
-      border: none;
-      border-radius: var(--r-sm);
-      color: #3a0a20;
+      border: 0;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--brand-green), var(--brand-green-deep));
+      color: #062018;
       font-weight: 700;
       font-size: 14px;
-      cursor: pointer;
       letter-spacing: 0.02em;
-      box-shadow: 0 10px 24px -8px rgba(236,72,153,0.5);
-      transition: transform 0.15s;
+      cursor: pointer;
+      transition: filter .2s;
     }
-    .refresh-btn:active { transform: scale(0.98); }
+    .modal-cta:hover { filter: brightness(1.05); }
+    .modal-cta:active { transform: scale(0.98); }
+
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
     @keyframes fadeIn {
       from { opacity: 0; }
-      to { opacity: 1; }
+      to   { opacity: 1; }
     }
     @keyframes pulse {
       0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.85); }
+      50% { opacity: 0.55; transform: scale(0.85); }
     }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation: none !important; transition: none !important; }
+
+    @media (max-width: 360px) {
+      .hero h1 { font-size: 26px; }
+      .feature-title { font-size: 21px; }
+      .card { min-height: 130px; padding: 14px; }
     }
   </style>
 </head>
 <body>
-  <div class="app">
+  <div class="shell">
+
+    <!-- =========== 1. HERO / IDENTITY =========== -->
     <header class="hero">
       <div class="hero-top">
-        <div class="logo-lockup">
-          <svg class="logo-mark" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-label="Dong Health">
+        <a class="brand" href="./index.html" aria-label="Dong Health">
+          <!-- Dong Health mark: green->purple pulsing ring + dot -->
+          <svg width="32" height="32" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <defs>
-              <linearGradient id="dhGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stop-color="#34e0a1"/>
-                <stop offset="100%" stop-color="#a67bff"/>
+                <stop offset="55%" stop-color="#5bd6c1"/>
+                <stop offset="100%" stop-color="#a78bfa"/>
               </linearGradient>
             </defs>
-            <rect x="0.5" y="0.5" width="39" height="39" rx="11" fill="#0d0f15" stroke="url(#dhGrad)" stroke-width="1" stroke-opacity="0.4"/>
-            <path d="M6 21 L13 21 L16 14 L20 28 L24 17 L27 21 L34 21"
-              fill="none" stroke="url(#dhGrad)" stroke-width="2.4"
-              stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="20" cy="20" r="15" fill="none" stroke="url(#ringGrad)" stroke-width="3.2" stroke-linecap="round" stroke-dasharray="82 12" transform="rotate(-90 20 20)"/>
+            <circle cx="20" cy="20" r="3.4" fill="url(#ringGrad)"/>
           </svg>
-          <div class="logo-text">
-            <span class="word">Dong</span>
-            <span class="sub">Health</span>
-          </div>
-        </div>
+          <span class="brand-name">dong<span class="slash">/</span><span class="sub">health</span></span>
+        </a>
         <div class="hero-date" id="heroDate"></div>
       </div>
-      <p class="greeting" id="greeting">
-        <span class="greeting-dot"></span>
-        <span id="greetingText"></span>
-      </p>
-      <h1 class="hero-title">冬哥训练中心</h1>
-      <p class="hero-sub">个人训练、恢复与生活节奏的中枢 · 2026 年 4–6 月体能重建期</p>
+
+      <p class="greeting" id="greeting"></p>
+      <h1>冬哥训练中心</h1>
+      <p class="lede">你的个人训练、恢复与生活枢纽。今天，练一点就是赢一点。</p>
       <p class="motivation" id="motivation"></p>
+
       <div class="pills">
-        <span class="pill green">体能重建期 · Week 1</span>
-        <span class="pill purple">UTA22 · 5月15日</span>
-        <span class="pill">Virgin Active</span>
+        <span class="pill"><span class="dot"></span>增肌期 · Week 3/8</span>
+        <span class="pill purple"><span class="dot"></span>UTA22 · 15 May</span>
+        <span class="pill amber"><span class="dot"></span>Virgin Active</span>
       </div>
     </header>
+
+    <!-- =========== 2. TODAY =========== -->
     <section class="section">
       <div class="section-head">
-        <span class="section-title">Today</span>
-        <span class="section-hint" id="todayHint"></span>
+        <span class="section-title">Today · 今日</span>
+        <span class="section-meta" id="todayMeta"></span>
       </div>
-      <a href="daily-workout.html" class="feature" aria-label="今日训练">
-        <div class="feature-inner">
-          <span class="feature-tag">Primary · 今日重点</span>
-          <h2 class="feature-title">今日训练</h2>
-          <p class="feature-desc">今天练什么 · 动作分解 · YouTube 示范视频一键直达</p>
-          <div class="feature-arrow" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </div>
+
+      <a href="daily-workout.html" class="feature">
+        <div class="feature-top">
+          <span class="feature-kicker"><span class="kdot"></span>Primary · 今日主项</span>
+          <span class="feature-arrow" aria-hidden="true">→</span>
         </div>
+        <div class="feature-title">今日训练</div>
+        <div class="feature-desc">按计划推荐动作组合，附 YouTube 示范与目标次数。</div>
         <div class="feature-stats">
           <div class="stat">
-            <div class="stat-label">Week</div>
-            <div class="stat-value">3<span class="unit">/ 8</span></div>
+            <div class="stat-label">Focus</div>
+            <div class="stat-value">力量</div>
           </div>
           <div class="stat">
-            <div class="stat-label">Phase</div>
-            <div class="stat-value">重建</div>
+            <div class="stat-label">Duration</div>
+            <div class="stat-value">60 min</div>
           </div>
           <div class="stat">
-            <div class="stat-label">Race</div>
-            <div class="stat-value" id="raceCountdown">–<span class="unit">天</span></div>
+            <div class="stat-label">Volume</div>
+            <div class="stat-value">6 组</div>
           </div>
         </div>
       </a>
     </section>
+
+    <!-- =========== 3. TRAIN =========== -->
     <section class="section">
       <div class="section-head">
-        <span class="section-title">Train</span>
-        <span class="section-hint">训练 · 打卡 · 参考</span>
+        <span class="section-title">Train · 训练</span>
+        <span class="section-meta">3 modules</span>
       </div>
-      <a href="fitness-tracker.html" class="card">
-        <div class="icon tracking">✅</div>
-        <div class="body">
-          <div class="title">健身打卡</div>
-          <div class="desc">记录每次训练 · 追踪组数、重量与进度</div>
-        </div>
-        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-      </a>
-      <a href="uta22-training.html" class="card">
-        <div class="icon training">🏔️</div>
-        <div class="body">
-          <div class="title">UTA22 Training</div>
-          <div class="desc">越野跑备赛 · 22km · Blue Mountains · 8 周计划</div>
-        </div>
-        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-      </a>
-      <a href="exercise-library.html" class="card">
-        <div class="icon planning">📚</div>
-        <div class="body">
-          <div class="title">动作库</div>
-          <div class="desc">浏览动作详解 · 自定义训练模板</div>
-        </div>
-        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-      </a>
+
+      <div class="grid">
+        <a href="fitness-tracker.html" class="card" data-cat="tracking">
+          <div class="card-glyph" style="--g1:#10b981;--g2:#059669;">✓</div>
+          <div class="card-body">
+            <div class="card-title">健身打卡</div>
+            <div class="card-desc">记录每组训练 · 追踪长期进度</div>
+          </div>
+        </a>
+
+        <a href="uta22-training.html" class="card" data-cat="training">
+          <div class="card-glyph" style="--g1:#34e0a1;--g2:#14b872;">▲</div>
+          <div class="card-body">
+            <div class="card-title">UTA22 越野</div>
+            <div class="card-desc">Blue Mountains · 8周备赛</div>
+          </div>
+        </a>
+
+        <a href="exercise-library.html" class="card wide" data-cat="training">
+          <div class="card-glyph" style="--g1:#34e0a1;--g2:#14b872;">☰</div>
+          <div class="card-body">
+            <div class="card-title">动作库</div>
+            <div class="card-desc">浏览动作详解 · 自定义训练组合</div>
+          </div>
+          <span class="card-tag">Library</span>
+        </a>
+      </div>
     </section>
+
+    <!-- =========== 4. RECOVER =========== -->
     <section class="section">
       <div class="section-head">
-        <span class="section-title">Recover</span>
-        <span class="section-hint">拉伸 · 计划 · 补给</span>
+        <span class="section-title">Recover · 恢复 & 计划</span>
+        <span class="section-meta">3 modules</span>
       </div>
-      <a href="stretching.html" class="card">
-        <div class="icon recovery">🧘</div>
-        <div class="body">
-          <div class="title">拉伸指南</div>
-          <div class="desc">跑后 & 重训后 · 静态拉伸全套流程</div>
-        </div>
-        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-      </a>
-      <a href="fitness-plan-illustrated.html" class="card">
-        <div class="icon planning">📖</div>
-        <div class="body">
-          <div class="title">训练计划</div>
-          <div class="desc">完整周期计划 · 示范视频与结构说明</div>
-        </div>
-        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-      </a>
-      <a href="home-inventory.html#supplements" class="card">
-        <div class="icon training">⚡</div>
-        <div class="body">
-          <div class="title">运动补给</div>
-          <div class="desc">能量胶、盐丸、电解质、蛋白粉库存</div>
-        </div>
-        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-      </a>
+
+      <div class="grid">
+        <a href="stretching.html" class="card" data-cat="recovery">
+          <div class="card-glyph" style="--g1:#2dd4bf;--g2:#14b8a6;">≋</div>
+          <div class="card-body">
+            <div class="card-title">拉伸指南</div>
+            <div class="card-desc">跑后 & 重训后 · 静态拉伸全套</div>
+          </div>
+        </a>
+
+        <a href="fitness-plan-illustrated.html" class="card" data-cat="planning">
+          <div class="card-glyph" style="--g1:#a78bfa;--g2:#7c5cf0;">◇</div>
+          <div class="card-body">
+            <div class="card-title">训练计划</div>
+            <div class="card-desc">完整周计划 · 示范视频</div>
+          </div>
+        </a>
+
+        <a href="home-inventory.html#supplements" class="card wide" data-cat="recovery">
+          <div class="card-glyph" style="--g1:#2dd4bf;--g2:#14b8a6;">⚡</div>
+          <div class="card-body">
+            <div class="card-title">运动补给</div>
+            <div class="card-desc">能量胶、盐丸、电解质、蛋白粉库存</div>
+          </div>
+          <span class="card-tag">Fuel</span>
+        </a>
+      </div>
     </section>
+
+    <!-- =========== 5. LIFE =========== -->
     <section class="section">
       <div class="section-head">
-        <span class="section-title">Life</span>
-        <span class="section-hint">家庭 · 饮食</span>
+        <span class="section-title">Life · 生活</span>
+        <span class="section-meta">3 modules</span>
       </div>
-      <a href="home-inventory.html" class="card">
-        <div class="icon utility">🏠</div>
-        <div class="body">
-          <div class="title">家庭库存中心</div>
-          <div class="desc">日用品、食材、衣物、电子产品清单</div>
-        </div>
-        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-      </a>
-      <a href="olivia-food-picker/index.html" class="card">
-        <div class="icon food">🎲</div>
-        <div class="body">
-          <div class="title">Olivia 今天吃什么</div>
-          <div class="desc">随机选择今天的菜品 · 快速决定</div>
-        </div>
-        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-      </a>
-      <button type="button" class="card" onclick="showMealIdeas()" style="cursor:pointer; text-align:left; font: inherit; width: 100%;">
-        <div class="icon pink">🍳</div>
-        <div class="body">
-          <div class="title">Oli 今天吃什么？</div>
-          <div class="desc">根据库存食材推荐菜式 · 亚甲炎友好</div>
-        </div>
-        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-      </button>
+
+      <div class="grid">
+        <a href="home-inventory.html" class="card wide" data-cat="util-blue">
+          <div class="card-glyph" style="--g1:#60a5fa;--g2:#3b82f6;">◱</div>
+          <div class="card-body">
+            <div class="card-title">家庭库存中心</div>
+            <div class="card-desc">日用品、食材、衣物、电子产品统一管理</div>
+          </div>
+          <span class="card-tag">Home</span>
+        </a>
+
+        <a href="olivia-food-picker/index.html" class="card" data-cat="food">
+          <div class="card-glyph" style="--g1:#fbbf24;--g2:#f59e0b;">◐</div>
+          <div class="card-body">
+            <div class="card-title">Olivia<br>今天吃什么</div>
+            <div class="card-desc">随机选菜 · 灵感来一份</div>
+          </div>
+        </a>
+
+        <button type="button" class="card" data-cat="util-pink" id="openMeal">
+          <div class="card-glyph" style="--g1:#f472b6;--g2:#ec4899;">◈</div>
+          <div class="card-body">
+            <div class="card-title">Oli<br>今天吃什么？</div>
+            <div class="card-desc">按库存智能推荐 · 亚甲炎友好</div>
+          </div>
+        </button>
+      </div>
     </section>
-    <footer class="footer">
-      <div class="brand-line">Virgin Active · TechnoGym + Eleiko</div>
-      <div class="version">Dong Health · v2.0 · 2026</div>
+
+    <!-- =========== 6. FOOTER =========== -->
+    <footer class="foot">
+      <span class="divider"></span>
+      <div class="brand-mark">
+        <svg width="14" height="14" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="ringGradFoot" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#34e0a1"/>
+              <stop offset="55%" stop-color="#5bd6c1"/>
+              <stop offset="100%" stop-color="#a78bfa"/>
+            </linearGradient>
+          </defs>
+          <circle cx="20" cy="20" r="15" fill="none" stroke="url(#ringGradFoot)" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="82 12" transform="rotate(-90 20 20)"/>
+          <circle cx="20" cy="20" r="3.4" fill="url(#ringGradFoot)"/>
+        </svg>
+        dong health
+      </div>
+      <p class="venue">Virgin Active · TechnoGym + Eleiko</p>
+      <span class="version">v2.0 · 2026-08-13</span>
     </footer>
+
   </div>
-  <div id="mealModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="mealModalTitle">
-    <div class="modal">
+
+  <!-- =========== Meal Ideas Modal =========== -->
+  <div id="mealModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="mealTitle">
+    <div class="modal-panel">
       <div class="modal-head">
-        <h2 class="modal-title" id="mealModalTitle">🍳 今天吃什么？</h2>
-        <button class="modal-close" onclick="closeMealModal()" aria-label="关闭">✕</button>
+        <h2 id="mealTitle">🍳 今天吃什么？</h2>
+        <button class="modal-close" id="closeMeal" aria-label="关闭">✕</button>
       </div>
-      <p class="modal-sub">根据库存食材推荐 · 适合亚甲炎康复饮食</p>
+      <p class="modal-sub">根据库存食材智能推荐 · 亚甲炎康复饮食友好</p>
       <div id="mealIdeas"></div>
-      <button class="refresh-btn" onclick="showMealIdeas()">🔄 换一批</button>
+      <button class="modal-cta" id="rerollMeal">🔄 换一批</button>
     </div>
   </div>
+
   <script>
-    (function(){
-      const d = new Date();
-      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-      const weekdays = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-      document.getElementById('heroDate').textContent = `${weekdays[d.getDay()]} · ${d.getDate()} ${months[d.getMonth()]}`;
+    // ---------- Time-based greeting + date ----------
+    (function () {
+      const now = new Date();
+      const hour = now.getHours();
+      let text;
+      if (hour < 6) text = '🌙 夜猫子冬哥';
+      else if (hour < 12) text = '☀️ 早上好，冬哥';
+      else if (hour < 18) text = '🌤️ 下午好，冬哥';
+      else text = '🌙 晚上好，冬哥';
+      document.getElementById('greeting').textContent = text;
+
+      const opts = { month: 'short', day: 'numeric' };
+      document.getElementById('heroDate').textContent =
+        now.toLocaleDateString('en-US', opts).toUpperCase();
+
+      const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+      document.getElementById('todayMeta').textContent =
+        `${now.getMonth() + 1}月${now.getDate()}日 · ${weekdays[now.getDay()]}`;
     })();
-    (function(){
-      const hour = new Date().getHours();
-      const el = document.getElementById('greetingText');
-      const hint = document.getElementById('todayHint');
-      let text, hintText;
-      if (hour < 6) { text = '夜猫子冬哥'; hintText = '夜深了，轻度恢复'; }
-      else if (hour < 12) { text = '早上好，冬哥'; hintText = '晨间激活窗口'; }
-      else if (hour < 18) { text = '下午好，冬哥'; hintText = '稳态输出窗口'; }
-      else { text = '晚上好，冬哥'; hintText = '恢复与睡眠优先'; }
-      el.textContent = text;
-      hint.textContent = hintText;
-    })();
-    (function(){
+
+    // ---------- Motivation ----------
+    (function () {
       const motivations = [
         '每一次训练都是对自己的投资 💪',
         '坚持比完美更重要',
@@ -789,20 +850,11 @@
         '累了就休息，但别放弃',
         '每天进步一点点'
       ];
-      document.getElementById('motivation').textContent = motivations[Math.floor(Math.random() * motivations.length)];
+      document.getElementById('motivation').textContent =
+        motivations[Math.floor(Math.random() * motivations.length)];
     })();
-    (function(){
-      const race = new Date(2026, 4, 15);
-      const today = new Date();
-      today.setHours(0,0,0,0);
-      const diff = Math.ceil((race - today) / (1000 * 60 * 60 * 24));
-      const el = document.getElementById('raceCountdown');
-      if (diff > 0) el.innerHTML = diff + '<span class="unit">天</span>';
-      else if (diff === 0) el.innerHTML = '<span style="color:var(--green)">今天</span>';
-      else el.innerHTML = '已完赛';
-    })();
-    function closeMealModal(){ document.getElementById('mealModal').classList.remove('open'); }
-    document.getElementById('mealModal').addEventListener('click', function(e){ if (e.target === this) closeMealModal(); });
+
+    // ---------- Oli 今天吃什么 ----------
     const mealRecipes = [
       { name: '清蒸三文鱼配柠檬', ingredients: ['三文鱼','柠檬'], tags: ['抗炎','高蛋白'], emoji: '🐟' },
       { name: '蒜蓉西兰花炒鸡胸', ingredients: ['鸡胸肉','西兰花','蒜'], tags: ['高蛋白','抗炎'], emoji: '🥦' },
@@ -821,34 +873,59 @@
       { name: '南瓜浓汤 + 全麦面包', ingredients: ['南瓜','面包'], tags: ['易消化'], emoji: '🎃' },
       { name: '清炒芦笋 + 糙米饭', ingredients: ['芦笋','糙米'], tags: ['抗炎'], emoji: '🌿' },
       { name: '小米粥 + 蒸蛋羹', ingredients: ['小米','鸡蛋'], tags: ['易消化','温和'], emoji: '🥣' },
-      { name: '燕麦粥 + 蓝莓蜂蜜', ingredients: ['燕麦','蓝莓','蜂蜜'], tags: ['抗炎','早餐'], emoji: '🫐' },
+      { name: '燕麦粥 + 蓝莓蜂蜜', ingredients: ['燕麦','蓝莓','蜂蜜'], tags: ['抗炎','早餐'], emoji: '🫐' }
     ];
-    function showMealIdeas() {
+
+    function renderMealIdeas() {
       let inventoryFood = [];
       try {
         const inv = JSON.parse(localStorage.getItem('home_inventory') || '{}');
         const foodItems = inv.food || [];
         inventoryFood = foodItems.filter(i => i.qty > 0).map(i => i.name.toLowerCase());
-      } catch(e) {}
+      } catch (e) {}
+
       const scored = mealRecipes.map(r => {
-        const matchCount = r.ingredients.filter(ing => inventoryFood.some(f => f.includes(ing) || ing.includes(f))).length;
+        const matchCount = r.ingredients.filter(ing =>
+          inventoryFood.some(f => f.includes(ing) || ing.includes(f))
+        ).length;
         return { ...r, score: matchCount, random: Math.random() };
       });
+
       scored.sort((a, b) => b.score - a.score || a.random - b.random);
       const picks = scored.slice(0, 5);
-      const container = document.getElementById('mealIdeas');
-      container.innerHTML = picks.map(r => `
-        <div class="meal">
+
+      document.getElementById('mealIdeas').innerHTML = picks.map(r => `
+        <div class="meal-card">
           <div class="meal-name">${r.emoji} ${r.name}</div>
-          <div class="meal-ingredients">食材: ${r.ingredients.join('、')}</div>
-          <div class="tag-row">
-            ${r.tags.map(t => `<span class="tag tag-default">${t}</span>`).join('')}
-            ${r.score > 0 ? `<span class="tag tag-stock">✅ 有库存</span>` : ''}
+          <div class="meal-ingr">食材 · ${r.ingredients.join('、')}</div>
+          <div class="meal-tags">
+            ${r.tags.map(t => `<span class="meal-tag">${t}</span>`).join('')}
+            ${r.score > 0 ? `<span class="meal-tag in-stock">✅ 有库存</span>` : ''}
           </div>
         </div>
       `).join('');
+    }
+
+    function openMealModal() {
+      renderMealIdeas();
       document.getElementById('mealModal').classList.add('open');
     }
+    function closeMealModal() {
+      document.getElementById('mealModal').classList.remove('open');
+    }
+
+    document.getElementById('openMeal').addEventListener('click', openMealModal);
+    document.getElementById('closeMeal').addEventListener('click', closeMealModal);
+    document.getElementById('rerollMeal').addEventListener('click', renderMealIdeas);
+    document.getElementById('mealModal').addEventListener('click', (e) => {
+      if (e.target.id === 'mealModal') closeMealModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeMealModal();
+    });
+
+    // Compatibility: keep the original global name
+    window.showMealIdeas = openMealModal;
   </script>
 </body>
 </html>
